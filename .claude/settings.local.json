@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"d:/back_0900_kyj/project/reactapp/src/pages/templates2\")",
+      "Bash(mv \"d:/back_0900_kyj/project/reactapp/src/pages/auth\" \"d:/back_0900_kyj/project/reactapp/src/pages/templates2/\")",
+      "Bash(mv \"d:/back_0900_kyj/project/reactapp/src/pages/case\" \"d:/back_0900_kyj/project/reactapp/src/pages/templates2/\")",
+      "Bash(mv \"d:/back_0900_kyj/project/reactapp/src/pages/chat\" \"d:/back_0900_kyj/project/reactapp/src/pages/templates2/\")",
+      "Bash(mv \"d:/back_0900_kyj/project/reactapp/src/pages/common\" \"d:/back_0900_kyj/project/reactapp/src/pages/templates2/\")",
+      "Bash(cp -r \"d:/back_0900_kyj/project/reactapp/src/pages/growth\" \"d:/back_0900_kyj/project/reactapp/src/pages/templates2/\")",
+      "Bash(cp -r \"d:/back_0900_kyj/project/reactapp/src/pages/log\" \"d:/back_0900_kyj/project/reactapp/src/pages/templates2/\")",
+      "Bash(cp -r \"d:/back_0900_kyj/project/reactapp/src/pages/plan\" \"d:/back_0900_kyj/project/reactapp/src/pages/templates2/\")",
+      "Bash(cp -r \"d:/back_0900_kyj/project/reactapp/src/pages/user\" \"d:/back_0900_kyj/project/reactapp/src/pages/templates2/\")",
+      "Bash(cp \"d:/back_0900_kyj/project/reactapp/src/pages/IntroPage.jsx\" \"d:/back_0900_kyj/project/reactapp/src/pages/templates2/\")",
+      "Bash(npx react-scripts *)"
+    ]
+  }
+}

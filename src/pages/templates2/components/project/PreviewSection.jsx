@@ -1,6 +1,6 @@
 import React from 'react';
-import PreviewTabs from '../../components/project/PreviewTabs';
-import CaseCardList from '../../components/project/CaseCardList';
+import PreviewTabs from './PreviewTabs';
+import CaseCardList from './CaseCardList';
 
 const PreviewSection = ({ activeTab, onTabChange, cases, onCaseClick }) => {
     return (

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-import MainHeader from '../components/main/MainHeader';
-import IntroHeroSection from '../components/intro/IntroHeroSection';
-import IntroPreviewContainer from '../components/intro/IntroPreviewContainer';
-import IntroFooter from '../components/intro/IntroFooter';
+import MainHeader from './components/main/MainHeader';
+import IntroHeroSection from './components/intro/IntroHeroSection';
+import IntroPreviewContainer from './components/intro/IntroPreviewContainer';
+import IntroFooter from './components/intro/IntroFooter';
 
 const IntroPage = () => {
     const navigate = useNavigate();
