@@ -3,7 +3,21 @@ import { flexBetweenColumn, flexBetweenRow, flexCenterRow } from "../../styles/c
 
 const S = {}
 
-const sizeCSS = {
+export const sizeCSS = {
+
+  "h7-regular": css`
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: -0.03em;
+  `,
+
+  "h8-regular": css`
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: -0.03em;
+  `,
 
   "h9-regular": css`
     font-size: 14px;
@@ -68,6 +82,13 @@ const sizeCSS = {
     letter-spacing: -0.03em;
   `,
 
+  "h7-exBold1" : css`
+    font-size: 80px;
+    font-weight: 800;
+    line-height: 98px;
+    letter-spacing: -0.03em;
+  `,
+
   "h7-exBold7" : css`
     font-size: 20px;
     font-weight: 800;
@@ -94,7 +115,11 @@ export const colorCSS = {
   "faillog_light_purple" : "#F3E8FF",
 
   "faillog_gray1" : "#F2F2F2",
-  "faillog_gray9" : "#8D8D8D"
+  "faillog_gray4" : "#CCCCCC",
+  "faillog_gray9" : "#8D8D8D",
+  "faillog_gray10" : "#555555",
+
+  "faillog-sector-gray" : "#F8F9FA"
 }
 
 export const boxShadow = {
@@ -119,7 +144,7 @@ S.Span2 = styled.span`
   color: ${({color}) => colorCSS[color] ? colorCSS[color] : "#333333"};
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: ${({lineClamp}) => lineClamp ? lineClamp : 2};
+  -webkit-line-clamp: ${({lineclamp}) => lineclamp ? lineclamp : 2};
   overflow: hidden;
   text-overflow: ellipsis;
 `

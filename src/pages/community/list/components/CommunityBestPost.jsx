@@ -24,11 +24,11 @@ const CommunityBestPost = () => {
                           <S.Span size={"h9-regular"} color={"faillog_gray9"}>2026년 3월 1일</S.Span>
                         </myStyle.BestPostMainHeader>
                         <myStyle.BestPostMainTitle>
-                          <S.Span2 size={"h4-bold"} color={"faillog-black"} lineClamp={2}>기출만 파다가 실전에서 백지 된 썰.<br/>
+                          <S.Span2 size={"h4-bold"} color={"faillog-black"} lineclamp={2}>기출만 파다가 실전에서 백지 된 썰.<br/>
                       공부 환경부터 바꾸고 나서니 변화가생긴 썰</S.Span2>
                         </myStyle.BestPostMainTitle>
                         <myStyle.BestPostMainContent>
-                          <S.Span2 size={"h7-bold"} color={"faillog_gray9"} lineClamp={2}>익숙한 환경에만 매달린 공부 방식이 문제였습니다. 장소, 시간, 복습 <br/>
+                          <S.Span2 size={"h7-bold"} color={"faillog_gray9"} lineclamp={2}>익숙한 환경에만 매달린 공부 방식이 문제였습니다. 장소, 시간, 복습 <br/>
                       방법을 바꾸면서 점점 실전 감각을 회복헀던 과정을 정리했습니다.</S.Span2>
                         </myStyle.BestPostMainContent>
                         <myStyle.BestPostMainHr></myStyle.BestPostMainHr>

@@ -46,13 +46,14 @@ S.Track = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
-  flex-shrink: 0;
+  /* flex-shrink: 0; */
 `
 
-/* 기본 크기: 일반 카드 사이즈. 포커스 크기/트랜지션은 JS DOM 조작으로 제어 */
+/* scale 애니메이션 기준 크기 — 포커스 transform은 JS DOM 조작으로 제어 */
 S.CardOuter = styled.div`
   flex: 0 0 ${CARD_W}px;
   height: ${CARD_H}px;
+  position: relative;
 `
 
 S.Card = styled.div`
@@ -172,9 +173,7 @@ S.PaginationWrap = styled.div`
 S.PageLine = styled.div`
   width: 396px;
   height: 2px;
-  /* border-radius: 2px; */
-  /* background-color: ${colorCSS["faillog-black"]}; */
-  background: linear-gradient(to right, ${colorCSS["faillog-black"]} ${({rate}) => rate}, #E6E6E6 ${({rate}) => rate});
+  background: linear-gradient(to right, ${colorCSS["faillog-black"]} var(--rate), #E6E6E6 var(--rate));
 `
 
 S.PageNav = styled.div`

@@ -20,6 +20,8 @@ CommunityBestPostStyle.BestPost = styled.div`
   overflow: hidden;
   ${flexBetweenRow}
   ${boxShadow["boxBasic"]}
+
+  transform: scale(1);
 `
 
 CommunityBestPostStyle.BestPostLeftLine = styled.div`

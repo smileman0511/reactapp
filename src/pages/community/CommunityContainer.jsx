@@ -1,11 +1,11 @@
 import React from 'react';
-import CommunitySearch from './CommunitySearch';
+//import CommunitySearch from './CommunityPostListContainer';
 import { Link, Outlet } from 'react-router-dom';
 
 const CommunityContainer = () => {
     return (
         <div>
-            <CommunitySearch />
+            {/* <CommunitySearch /> */}
             커뮤니티 컨테이너
             <Link to={"/community/new"}>새글 작성하기</Link>
             <Outlet />

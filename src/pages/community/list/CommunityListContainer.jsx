@@ -4,6 +4,7 @@ import S from '../style';
 import CommunityMainHeader from './components/CommunityMainHeader';
 import CommunityBestPost from './components/CommunityBestPost';
 import CommunityPopularPostContainer from './components/CommunityPopularPostContainer';
+import CommunityPostSearchContainer from './components/CommunityPostSearchContainer';
 
 const CommunityListContainer = () => {
 
@@ -22,6 +23,7 @@ const CommunityListContainer = () => {
             <CommunityMainHeader />
             <CommunityBestPost />
             <CommunityPopularPostContainer></CommunityPopularPostContainer>
+            <CommunityPostSearchContainer />
         </div>
     );
 

@@ -124,8 +124,10 @@ const CommunityPopularPostContainer = () => {
       );
 
       animatingRef.current = false;
+
     }, SLIDE_DUR);
   }, []);
+
 
   const handleNav = (dir) => {
     clearInterval(timerRef.current);
@@ -173,12 +175,12 @@ const CommunityPopularPostContainer = () => {
                       <S.Span size="h10-regular" color="faillog_gray9">{post.date}</S.Span>
                     </myStyle.CardMeta>
                     <myStyle.CardTitle>
-                      <S.Span2 size="h6-bold" color="faillog-black" lineClamp={2}>
+                      <S.Span2 size="h6-bold" color="faillog-black" lineclamp={2}>
                         {post.title}
                       </S.Span2>
                     </myStyle.CardTitle>
                     <myStyle.CardContent>
-                      <S.Span2 size="h9-bold" color="faillog_gray9" lineClamp={3}>
+                      <S.Span2 size="h9-bold" color="faillog_gray9" lineclamp={3}>
                         {post.content}
                       </S.Span2>
                     </myStyle.CardContent>
@@ -203,7 +205,7 @@ const CommunityPopularPostContainer = () => {
       </myStyle.CarouselWrapper>
 
       <myStyle.PaginationWrap>
-        <myStyle.PageLine rate={`${((activeIdx + 1) / TOTAL) * 100}%`} />
+        <myStyle.PageLine style={{ '--rate': `${((activeIdx + 1) / TOTAL) * 100}%` }} />
         <myStyle.PageNav>
           <myStyle.NavBtn onClick={() => handleNav('prev')}>‹</myStyle.NavBtn>
           <S.Span size="h9-regular" color="faillog_gray9">
