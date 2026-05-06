@@ -154,5 +154,11 @@ S.Img = styled.img`
   height: ${({height}) => height ? height : "50px"};
 `
 
+S.Wrapper = styled.div`
+  ${flexCenterRow}
+
+  margin-top: ${({margintop}) => margintop};
+`
+
 
 export default S;

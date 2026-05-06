@@ -5,6 +5,9 @@ import CommunitySearchOrderComponent from './CommunitySearchOrderComponent';
 
 const CommunitySearchComponent = () => {
   
+  const select = 0;
+  const search = "";
+
   const handleSubmit = (data) => {
     console.log("값 : " + data);
   }

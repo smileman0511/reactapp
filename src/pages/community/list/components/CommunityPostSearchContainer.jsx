@@ -4,6 +4,7 @@ import S from '../../style';
 import dogImage from '../../resources/community_header.png'
 import CommunitySearchComponent from './CommunitySearchComponent';
 import CommunityCategoryContainer from './CommunityCategoryContainer';
+import CommunitySearchOrder2Container from './CommunitySearchOrder2Container';
 
 //커뮤니티 게시글보기 (상단영역)
 const CommunityPostSearchContainer = () => {
@@ -22,14 +23,17 @@ const CommunityPostSearchContainer = () => {
             </myStyle.headerSub>
           </myStyle.header>
         </myStyle.headerWrap>
-          
+
+          {/* 커뮤니티 검색 */}
         <myStyle.searchWrap>
           <CommunitySearchComponent></CommunitySearchComponent>
         </myStyle.searchWrap>
 
+          {/* 커뮤니티 카테고리 선택 및 정렬 */}
         <myStyle.categoryAndPostOrderWrap>
           <myStyle.categoryAndPostOrder>
             <CommunityCategoryContainer></CommunityCategoryContainer>
+            <CommunitySearchOrder2Container></CommunitySearchOrder2Container>
           </myStyle.categoryAndPostOrder>
         </myStyle.categoryAndPostOrderWrap>
         

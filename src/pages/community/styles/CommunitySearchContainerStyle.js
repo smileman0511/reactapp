@@ -6,7 +6,7 @@ const communityStyle = {}
 
 communityStyle.wrap = styled.div`
   width: 100dvw;
-  background-color: ${colorCSS["faillog-sector-gray"]};
+  /* background-color: ${colorCSS["faillog-sector-gray"]}; */
 `
 
 communityStyle.headerWrap = styled.div`
