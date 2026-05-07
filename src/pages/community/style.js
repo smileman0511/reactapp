@@ -1,9 +1,45 @@
 import styled, { css } from "styled-components"
-import { flexBetweenColumn, flexBetweenRow, flexCenterRow } from "../../styles/common"
+import { flexBetweenColumn, flexBetweenRow, flexCenterRow, h10Bold, h10Extrabold, h10Regular, h11Bold, h11Extrabold, h11Regular, h1Bold, h1Extrabold, h1Regular, h2Bold, h2Extrabold, h2Regular, h3Bold, h3Extrabold, h3Regular, h4Bold, h4Extrabold, h4Regular, h5Bold, h5Extrabold, h5Regular, h6Bold, h6Extrabold, h6Regular, h7Bold, h7Extrabold, h7Regular, h8Bold, h8Extrabold, h8Regular, h9Bold, h9Extrabold, h9Regular } from "../../styles/common"
 
 const S = {}
 
 export const sizeCSS = {
+
+  "h1Regular": h1Regular,
+  "h2Regular": h2Regular,
+  "h3Regular": h3Regular,
+  "h4Regular": h4Regular,
+  "h5Regular": h5Regular,
+  "h6Regular": h6Regular,
+  "h7Regular": h7Regular,
+  "h8Regular": h8Regular,
+  "h9Regular": h9Regular,
+  "h10Regular": h10Regular,
+  "h11Regular": h11Regular,
+
+  "h1Bold" : h1Bold,
+  "h2Bold" : h2Bold,
+  "h3Bold" : h3Bold,
+  "h4Bold" : h4Bold,
+  "h5Bold" : h5Bold,
+  "h6Bold" : h6Bold,
+  "h7Bold" : h7Bold,
+  "h8Bold" : h8Bold,
+  "h9Bold" : h9Bold,
+  "h10Bold" : h10Bold,
+  "h11Bold" : h11Bold,
+
+  "h1Extrabold" : h1Extrabold,
+  "h2Extrabold" : h2Extrabold,
+  "h3Extrabold" : h3Extrabold,
+  "h4Extrabold" : h4Extrabold,
+  "h5Extrabold" : h5Extrabold,
+  "h6Extrabold" : h6Extrabold,
+  "h7Extrabold" : h7Extrabold,
+  "h8Extrabold" : h8Extrabold,
+  "h9Extrabold" : h9Extrabold,
+  "h10Extrabold" : h10Extrabold,
+  "h11Extrabold" : h11Extrabold,
 
   "h7-regular": css`
     font-size: 20px;

@@ -14,12 +14,12 @@ const CommunityPostSearchContainer = () => {
         <myStyle.headerWrap>
           <myStyle.header>
             <myStyle.headerTitle>
-              <S.Span size={"h7-exBold1"} color={"faillog-black"}>FIND</S.Span>
+              <S.Span size={"h1Extrabold"} color={"faillog-black"}>FIND</S.Span>
               <img src={dogImage} width={"216px"} height={"144px"}></img>
-              <S.Span size={"h7-exBold1"} color={"faillog-black"}>POST YOU WANT</S.Span>
+              <S.Span size={"h1Extrabold"} color={"faillog-black"}>POST YOU WANT</S.Span>
             </myStyle.headerTitle>
             <myStyle.headerSub>
-              <S.Span size={"h7-regular"} color={"faillog_gray9"}>다른 사람들의 실패와 경험 속에서 원하는 게시글을 쉽고 빠르게 찾아보세요.</S.Span>
+              <S.Span size={"h7Regular"} color={"faillog_gray9"}>다른 사람들의 실패와 경험 속에서 원하는 게시글을 쉽고 빠르게 찾아보세요.</S.Span>
             </myStyle.headerSub>
           </myStyle.header>
         </myStyle.headerWrap>

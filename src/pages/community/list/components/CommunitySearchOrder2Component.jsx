@@ -30,7 +30,7 @@ const CommunitySearchOrder2Component = ({ defaultValue = "최신순", onChange }
   return (
     <myStyle.Wrapper ref={wrapperRef}>
       <myStyle.Trigger onClick={() => setIsOpen((prev) => !prev)}>
-        <S.Span size="h8-regular" color="faillog-black">{selected}</S.Span>
+        <S.Span size="h8Regular" color="faillog-black">{selected}</S.Span>
         <myStyle.ChevronImg isOpen={isOpen} src={downImage}></myStyle.ChevronImg>
       </myStyle.Trigger>
 
@@ -44,7 +44,7 @@ const CommunitySearchOrder2Component = ({ defaultValue = "최신순", onChange }
               $selected={option === selected}
               onClick={() => handleSelect(option)}
             >
-              <S.Span size="h8-regular" color=
+              <S.Span size="h8Regular" color=
               {option === selected ? "faillog_purple" : "faillog-black"}>{option}</S.Span>
             </myStyle.OptionItem>
           ))}

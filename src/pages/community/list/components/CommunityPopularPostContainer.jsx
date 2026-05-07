@@ -170,17 +170,17 @@ const CommunityPopularPostContainer = () => {
                     <myStyle.CardMeta>
                       {/* <myStyle.CategoryBadge>{post.category}</myStyle.CategoryBadge> */}
                       <myStyle.CategoryWrap bgColor={"faillog_light_purple"}>
-                        <S.Span color={"faillog_purple"} size={"h11-bold"}>{post.category}</S.Span>
+                        <S.Span color={"faillog_purple"} size={"h11Bold"}>{post.category}</S.Span>
                       </myStyle.CategoryWrap>
-                      <S.Span size="h10-regular" color="faillog_gray9">{post.date}</S.Span>
+                      <S.Span size="h10Regular" color="faillog_gray9">{post.date}</S.Span>
                     </myStyle.CardMeta>
                     <myStyle.CardTitle>
-                      <S.Span2 size="h6-bold" color="faillog-black" lineclamp={2}>
+                      <S.Span2 size="h6Bold" color="faillog-black" lineclamp={2}>
                         {post.title}
                       </S.Span2>
                     </myStyle.CardTitle>
                     <myStyle.CardContent>
-                      <S.Span2 size="h9-bold" color="faillog_gray9" lineclamp={3}>
+                      <S.Span2 size="h9Bold" color="faillog_gray9" lineclamp={3}>
                         {post.content}
                       </S.Span2>
                     </myStyle.CardContent>
@@ -188,12 +188,12 @@ const CommunityPopularPostContainer = () => {
                     <myStyle.CardFooter>
                       <myStyle.AuthorInfo>
                         <myStyle.AuthorAvatar src={icon04} />
-                        <S.Span size="h10-regular" color="faillog_gray9">{post.author}</S.Span>
+                        <S.Span size="h10Regular" color="faillog_gray9">{post.author}</S.Span>
                       </myStyle.AuthorInfo>
                       <myStyle.Stats>
-                        <S.Span size="h10-regular" color="faillog-black">👁 {post.views}</S.Span>
-                        <S.Span size="h10-regular" color="faillog-black">♡ {post.likes}</S.Span>
-                        <S.Span size="h10-regular" color="faillog-black">💬 {post.comments}</S.Span>
+                        <S.Span size="h10Regular" color="faillog-black">👁 {post.views}</S.Span>
+                        <S.Span size="h10Regular" color="faillog-black">♡ {post.likes}</S.Span>
+                        <S.Span size="h10Regular" color="faillog-black">💬 {post.comments}</S.Span>
                       </myStyle.Stats>
                     </myStyle.CardFooter>
                   </myStyle.CardBody>
@@ -208,7 +208,7 @@ const CommunityPopularPostContainer = () => {
         <myStyle.PageLine style={{ '--rate': `${((activeIdx + 1) / TOTAL) * 100}%` }} />
         <myStyle.PageNav>
           <myStyle.NavBtn onClick={() => handleNav('prev')}>‹</myStyle.NavBtn>
-          <S.Span size="h9-regular" color="faillog_gray9">
+          <S.Span size="h9Regular" color="faillog_gray9">
             {activeIdx + 1} / {TOTAL}
           </S.Span>
           <myStyle.NavBtn onClick={() => handleNav('next')}>›</myStyle.NavBtn>
