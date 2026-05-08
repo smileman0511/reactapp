@@ -33,12 +33,15 @@ const CommunityListContainer = () => {
     //     </div>
     // );
 
+    const handleChange = (page) => {
+        console.log(page);
+    }
+
     return (
         <myStyle.wrapper>
             <Posts />
             <myStyle.pageWrapper>
-                <span>테스트</span>
-                {/* <Page /> */}
+                <Page minPage={1} maxPage={12} onPageChange={handleChange}/>
             </myStyle.pageWrapper>
         </myStyle.wrapper>
     );

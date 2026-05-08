@@ -8,17 +8,19 @@ const Post = ({
   title,
   content,
   date,
-  authorImage,
+  thumbnail,
+  profile,
   author,
   views,
   likes,
   comments,
+  isHrHidden
 }) => {
   return (
     <div>
       <Wrapper>
         <Card>
-          <Thumbnail src={authorImage} alt={title} />
+          <Thumbnail src={thumbnail} alt={title} />
           <Info>
             <TopRow>
               <CategoryBadge>
@@ -32,25 +34,25 @@ const Post = ({
             <S.Span size={"h9Regular"} color={"faillog_black"}>{content}</S.Span>
             <BottomRow>
               <AuthorWrap>
-                <AuthorImg src={authorImage} alt={author} />
+                <AuthorImg src={profile} alt={author} />
                 <AuthorName>{author}</AuthorName>
               </AuthorWrap>
               <Stats>
                 <StatItem>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" color={colorCSS["faillog-black"]}>
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                     <circle cx="12" cy="12" r="3"/>
                   </svg>
                   {views}
                 </StatItem>
                 <StatItem>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" color={colorCSS["faillog-red"]}>
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                   </svg>
                   {likes}
                 </StatItem>
                 <StatItem>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" color={colorCSS["faillog-black"]}>
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                   </svg>
                   {comments}
@@ -60,7 +62,7 @@ const Post = ({
           </Info>
         </Card>
       </Wrapper>
-    <Divider />
+      { isHrHidden || <Divider />}
     </div>
   );
 };
@@ -80,7 +82,8 @@ const Thumbnail = styled.img`
   width: 324px;
   height: 184px;
   /* object-fit: cover; */
-  border-radius: 8px;
+  border-radius: 15px 0px 15px 0px
+
   /* flex-shrink: 0; */
 `;
 
@@ -173,11 +176,12 @@ const StatItem = styled.span`
   display: flex;
   align-items: center;
   gap: 4px;
-  color: ${({ theme }) => theme.GRAYSCALE?.[8] || '#999999'};
+  color: ${colorCSS["faillog-black"]}
 `;
 
 const Divider = styled.hr`
   /* padding-bottom: 27px; */
+  margin: 0px;
   border: none;
   border-top: 1px solid ${({ theme }) => theme.GRAYSCALE?.[2] || '#E6E6E6'};
 `;
