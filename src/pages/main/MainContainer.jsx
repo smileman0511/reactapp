@@ -8,7 +8,7 @@ const MainContainer = () => {
 
     return (
         <>
-            {true  ? <MainMenuContainer /> : <IntroContainer />}
+            {false  ? <MainMenuContainer /> : <IntroContainer />}
         </>
     );
 };

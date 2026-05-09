@@ -13,14 +13,14 @@ const CARDS = [
     {
         label: '페일로그',
         desc: '모두의 기록들을\n한눈에 모아보기',
-        path: '/log/result',
+        path: '/fail-logs',
         icon: iconFaillog,
         iconBg: 'linear-gradient(135deg, #F53102, #FF34C5)',
     },
     {
         label: '프로젝트',
         desc: '새로운 실패 경험을\n구조화하여 기록하세요',
-        path: '/log/write/1',
+        path: '/projects',
         icon: iconProject,
         iconBg: 'linear-gradient(135deg, #FF34C5, #F5EE03)',
     },
