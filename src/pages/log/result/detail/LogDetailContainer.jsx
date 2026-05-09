@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
 
 // Hardcoded mock data (In real app, this would come from an API or props)
@@ -24,6 +25,7 @@ const LOG_DATA = {
 };
 
 const LogDetailContainer = () => {
+  const { isMyLog } = useOutletContext();
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(LOG_DATA.likes);
 
@@ -49,26 +51,34 @@ const LogDetailContainer = () => {
         <S.Date>{LOG_DATA.date}</S.Date>
       </S.TitleRow>
 
-      {/* Author & Like */}
+      {/* Author & Actions (Like or Edit/Delete) */}
       <S.MetaRow>
         <S.AuthorInfo>
           <S.Avatar src={LOG_DATA.author.avatar} alt="avatar" />
           <S.AuthorName>{LOG_DATA.author.name}</S.AuthorName>
         </S.AuthorInfo>
-        <S.LikeButton onClick={handleLike} $liked={liked}>
-          <S.HeartIcon $liked={liked}>
-            <svg width="25" height="22" viewBox="0 0 25 22" fill={liked ? "#FF4B4B" : "none"} xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7.19401 0.777345C3.65026 0.777345 0.777344 3.65026 0.777344 7.19401C0.777344 13.6107 8.36068 19.444 12.444 20.8008C16.5273 19.444 24.1107 13.6107 24.1107 7.19401C24.1107 3.65026 21.2378 0.777345 17.694 0.777345C15.524 0.777345 13.6048 1.85476 12.444 3.50384C11.8522 2.66115 11.0661 1.97342 10.1523 1.49883C9.23846 1.02424 8.22374 0.776763 7.19401 0.777345Z"
-                stroke={liked ? "#FF4B4B" : "#333333"}
-                strokeWidth="1.55556"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </S.HeartIcon>
-          <span>좋아요 {likeCount}</span>
-        </S.LikeButton>
+
+        {isMyLog ? (
+          <S.ActionGroup>
+            <S.ActionButton onClick={() => alert('수정 페이지로 이동')}>수정하기</S.ActionButton>
+            <S.ActionButton className="delete" onClick={() => alert('정말 삭제하시겠습니까?')}>삭제하기</S.ActionButton>
+          </S.ActionGroup>
+        ) : (
+          <S.LikeButton onClick={handleLike} $liked={liked}>
+            <S.HeartIcon $liked={liked}>
+              <svg width="25" height="22" viewBox="0 0 25 22" fill={liked ? "#FF4B4B" : "none"} xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7.19401 0.777345C3.65026 0.777345 0.777344 3.65026 0.777344 7.19401C0.777344 13.6107 8.36068 19.444 12.444 20.8008C16.5273 19.444 24.1107 13.6107 24.1107 7.19401C24.1107 3.65026 21.2378 0.777345 17.694 0.777345C15.524 0.777345 13.6048 1.85476 12.444 3.50384C11.8522 2.66115 11.0661 1.97342 10.1523 1.49883C9.23846 1.02424 8.22374 0.776763 7.19401 0.777345Z"
+                  stroke={liked ? "#FF4B4B" : "#333333"}
+                  strokeWidth="1.55556"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </S.HeartIcon>
+            <span>{likeCount}</span>
+          </S.LikeButton>
+        )}
       </S.MetaRow>
 
       {/* Vision */}
@@ -221,6 +231,38 @@ S.ContentText = styled.p`
   line-height: 2;
   white-space: pre-line;
   letter-spacing: -0.2px;
+`;
+
+S.ActionGroup = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+S.ActionButton = styled.button`
+  padding: 10px 20px;
+  border: 1px solid ${({ theme }) => theme.GRAYSCALE[3]};
+  border-radius: 12px;
+  background: ${({ theme }) => theme.PALETTE.white};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: ${({ theme }) => theme.GRAYSCALE[1]};
+    border-color: ${({ theme }) => theme.GRAYSCALE[4]};
+  }
+
+  &.delete {
+    color: #FF4B4B;
+    border-color: #FF4B4B1A;
+    background: #FF4B4B05;
+
+    &:hover {
+      background: #FF4B4B10;
+    }
+  }
 `;
 
 export default LogDetailContainer;
