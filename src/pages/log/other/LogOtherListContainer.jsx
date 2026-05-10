@@ -8,11 +8,25 @@ import LogOtherSearch from './LogOtherSearch';
 import viewIcon from './otherLog_icon/hugeicons--view.svg';
 import heartIcon from './otherLog_icon/ph--heart-light.svg';
 
-import ProfileImg1 from './otherLog_profile/IMAGE.png';
-import ProfileImg2 from './otherLog_profile/image 338.png';
+import ProfileImg1 from './otherLog_profile/image 347.png';  // 친구가필요한나
+import ProfileImg2 from './otherLog_profile/IMAGE.png';        // 필기마스터
+import ProfileImg3 from './otherLog_profile/image 309.png';    // 유럽탐합가
+import ProfileImg4 from './otherLog_profile/image 338.png';    // 하워드슐츠
+import ProfileImg5 from './otherLog_profile/image 346.png';    // 비전공의희망
+import ProfileImg6 from './otherLog_profile/image 347.png';    // 대화가필요해
+import ProfileImg7 from './otherLog_profile/image 337.png';    // 바디짱짱맨
+import ProfileImg8 from './otherLog_profile/image 349.png';    // 백엔드로취업하기
+import ProfileImg9 from './otherLog_profile/image 337.png';    // 담배에서살아남기
 
-import Thumb1 from './otherLog_thumbNail/image 277.png';
-import Thumb2 from './otherLog_thumbNail/image 340.png';
+import Thumb1 from './otherLog_thumbNail/image 277.png';       // 작은 실수
+import Thumb2 from './otherLog_thumbNail/image 340.png';       // 정보처리기사
+import Thumb3 from './otherLog_thumbNail/image 343.png';       // 유럽 배낭여행
+import Thumb4 from './otherLog_thumbNail/image 352.png';       // 카페 창업
+import Thumb5 from './otherLog_thumbNail/image 342.png';       // 파이썬 독학
+import Thumb6 from './otherLog_thumbNail/image 351.png';       // 모임 나가면
+import Thumb7 from './otherLog_thumbNail/image 350.png';       // 헬스장 3개월
+import Thumb8 from './otherLog_thumbNail/image 348.png';      // 네이버 백엔드
+import Thumb9 from './otherLog_thumbNail/Group 2956.png';       // 금연 30일
 
 const LOGS = [
     {
@@ -43,16 +57,94 @@ const LOGS = [
     },
     {
         id: 3,
+        category: '기타',
+        categoryVariant: 'gray',
+        date: '2026.03.03',
+        title: '유럽 배낭여행 혼자 도전기',
+        vision: '유럽에서 혼자 1년 살기 성공하기',
+        nickname: '유럽탐합가',
+        profileImg: ProfileImg3,
+        views: 45,
+        likes: 35,
+        thumbnail: Thumb3,
+    },
+    {
+        id: 4,
+        category: '사업/창업',
+        categoryVariant: 'purple',
+        date: '2026.03.03',
+        title: '카페 창업 준비하다가 돈이 먼저 바닥났다.',
+        vision: '단골손님이 생기는 내 개인카페 하나 차리기',
+        nickname: '하워드슐츠',
+        profileImg: ProfileImg4,
+        views: 45,
+        likes: 35,
+        thumbnail: Thumb4,
+    },
+    {
+        id: 5,
         category: '공부/취업',
         categoryVariant: 'blue',
         date: '2026.03.03',
-        title: '정보처리기사 실기, 필기 붙고 나서 방심했다가 또 떨어졌다.',
-        vision: '올해 안에 정보처리기사 최종 합격하기',
-        nickname: '필기마스터',
-        profileImg: ProfileImg2,
+        title: '파이썬 독학하다가 크롤링에서 막혔다.',
+        vision: '비전공자지만 직접 뭔가 만들어보기',
+        nickname: '비전공의희망',
+        profileImg: ProfileImg5,
         views: 45,
         likes: 35,
-        thumbnail: Thumb2,
+        thumbnail: Thumb5,
+    },
+    {
+        id: 6,
+        category: '인간관계',
+        categoryVariant: 'pink',
+        date: '2026.03.03',
+        title: '모임 나가면 구석에만 있다가 오는 나',
+        vision: '사람들과 대화를 편하게 할 수 있는 내가 되기',
+        nickname: '대화가필요해',
+        profileImg: ProfileImg6,
+        views: 45,
+        likes: 35,
+        thumbnail: Thumb6,
+    },
+    {
+        id: 7,
+        category: '건강/루틴',
+        categoryVariant: 'green',
+        date: '2026.03.03',
+        title: '헬스장 3개월 끊었는데 열 번 밖에 안갔다.',
+        vision: '꾸준히 운동해서 미래에도 건강한 몸 유지하기',
+        nickname: '바디짱짱맨',
+        profileImg: ProfileImg7,
+        views: 45,
+        likes: 35,
+        thumbnail: Thumb7,
+    },
+    {
+        id: 8,
+        category: '공부/취업',
+        categoryVariant: 'blue',
+        date: '2026.03.03',
+        title: '네이버 백엔드 개발자 취업 도전',
+        vision: '국내 대형 IT 기업 개발자로 입사하기',
+        nickname: '백엔드로취업하기',
+        profileImg: ProfileImg8,
+        views: 45,
+        likes: 35,
+        thumbnail: Thumb8,
+    },
+    {
+        id: 9,
+        category: '건강/루틴',
+        categoryVariant: 'green',
+        date: '2026.03.03',
+        title: '금연 30일, 금단현상 극복하기',
+        vision: '금연 성공해서 폐 건강 회복하기',
+        nickname: '담배에서살아남기',
+        profileImg: ProfileImg9,
+        views: 45,
+        likes: 35,
+        thumbnail: Thumb9,
     },
 ];
 
@@ -61,6 +153,7 @@ const CATEGORY_STYLE = {
     blue:   { bg: theme.PALETTE.primary.light, color: theme.PALETTE.primary.main },
     green:  { bg: theme.PALETTE.secondary.light, color: theme.PALETTE.secondary.main },
     purple: { bg: theme.PALETTE.third.light, color: theme.PALETTE.third.main },
+    gray:   { bg: theme.GRAYSCALE[2], color: theme.GRAYSCALE[10] },
 };
 
 const LogOtherListContainer = () => {
@@ -73,7 +166,6 @@ const LogOtherListContainer = () => {
                     {LOGS.map((log) => (
                         <Link to={`/logs/result/${log.id}/detail`} key={log.id} style={{ textDecoration: 'none' }}>
                             <S.Card>
-                                {/* 상단 텍스트 영역 */}
                                 <S.CardBody>
                                     <S.CardTop>
                                         <S.Category $variant={log.categoryVariant}>
@@ -105,7 +197,6 @@ const LogOtherListContainer = () => {
                                     </S.CardBottom>
                                 </S.CardBody>
 
-                                {/* 썸네일 */}
                                 <S.Thumbnail src={log.thumbnail} alt={log.title} />
                             </S.Card>
                         </Link>
@@ -124,7 +215,7 @@ const S = {};
 S.ListWrapper = styled.div`
     width: 100%;
     background-color: #f8f9fa;
-    padding: 0 0 100px ;
+    padding: 0 0 100px;
 `;
 
 S.CardGrid = styled.div`
