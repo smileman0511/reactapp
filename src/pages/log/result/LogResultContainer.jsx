@@ -1,10 +1,11 @@
 import React from 'react';
-import { NavLink, Outlet, useParams, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useParams, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const LogResultContainer = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const location = useLocation();
   const isMyLog = id === "my";
 
   // Mock data for the carousel
@@ -20,7 +21,7 @@ const LogResultContainer = () => {
         <S.Title>{isMyLog ? "My Fail Log" : "View Fail Log"}</S.Title>
         <S.SubTitle>
           {isMyLog
-            ? "내가 작성한 페일로그를 확인하고 회고해보세요."
+            ? "내가 작성한 페일로그를 확인해보세요."
             : "다른 사람의 페일로그를 경험해보세요."}
         </S.SubTitle>
       </S.Header>
@@ -28,7 +29,12 @@ const LogResultContainer = () => {
       <S.ContentWrapper>
         <S.TabBar>
           <S.Tab to={`/logs/result/${id}/detail`}>작성 내용</S.Tab>
-          <S.Tab to={`/logs/result/${id}/report/patterns`}>분석 결과</S.Tab>
+          <S.Tab 
+            to={`/logs/result/${id}/report/patterns`}
+            className={location.pathname.includes('/report') ? 'active' : ''}
+          >
+            분석 결과
+          </S.Tab>
         </S.TabBar>
 
         <S.CardWrapper>
@@ -87,19 +93,20 @@ S.Header = styled.div`
   text-align: left;
   width: 100%;
   width: 1298px;
-  margin-bottom: 40px;
+  margin-bottom: 100px;
 `;
 
 S.Title = styled.h1`
   font-size: ${({ theme }) => theme.FONT_SIZE.h2};
-  font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
   color: ${({ theme }) => theme.TEXT_COLOR.basic};
   margin-bottom: 12px;
 `;
 
 S.SubTitle = styled.p`
-  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
-  color: ${({ theme }) => theme.GRAYSCALE[6]};
+  font-size: ${({ theme }) => theme.FONT_SIZE.h8};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
 `;
 
 S.ContentWrapper = styled.div`
@@ -109,17 +116,25 @@ S.ContentWrapper = styled.div`
 
 S.TabBar = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 24px;
   margin-bottom: 0;
-  margin-left: 40px; /* Shifted to the right */
+  width: 1320px;
+  margin: 0 auto;
+  padding-left: 101px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 `;
 
 S.Tab = styled(NavLink)`
-  padding: 12px 32px;
-  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  width: 200px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h6};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
   text-decoration: none;
-  color: ${({ theme }) => theme.GRAYSCALE[5]};
+  color: ${({ theme }) => theme.PALETTE.third.main};
   border: 1px solid ${({ theme }) => theme.GRAYSCALE[3]};
   border-bottom: 1px solid ${({ theme }) => theme.PALETTE.third.main}; /* Default bottom border to match card */
   border-radius: 12px 12px 0 0;
@@ -165,7 +180,7 @@ S.Card = styled.div`
   background: ${({ theme }) => theme.PALETTE.white};
   border: 1px solid ${({ theme }) => theme.PALETTE.third.main};
   border-radius: 12px;
-  padding: 60px 80px;
+  padding: 83px 80px 80px;
   position: relative;
   z-index: 1;
   width: 1298px;

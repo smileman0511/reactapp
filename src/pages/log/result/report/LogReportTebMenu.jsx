@@ -22,13 +22,19 @@ const S = {};
 S.MenuWrapper = styled.div`
     display: flex;
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
+    margin-left: 21px;
 `;
 
 S.TabLink = styled(NavLink)`
-    padding: 8px 24px;
-    border-radius: 50px;
-    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+    width: 131px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 10px;
+    font-size: ${({ theme }) => theme.FONT_SIZE.h7};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     text-decoration: none;
     transition: all 0.2s ease-in-out;
