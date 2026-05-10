@@ -3,6 +3,12 @@ import styled from 'styled-components';
 import { h11Bold, h8Extrabold, h9Regular, h10Regular, h11Regular, flexCenterRow } from '../../../../styles/common';
 import S, { colorCSS } from '../../style';
 
+import eye from '../../resources/eye.svg'
+import heart from '../../resources/like.svg'
+import comment from '../../resources/post.svg'
+import likeFill from '../../resources/like-fill.svg'
+import getCategoryInfo from '../../GetCategoryInfo';
+
 const Wrapper = styled.div`
   width: 984px;
   padding: 27px
@@ -40,7 +46,7 @@ const TopRow = styled.div`
 const CategoryBadge = styled.div`
   /* ${h11Bold}
   color: #ffffff; */
-  background-color: ${colorCSS["faillog_light_blue"]};
+  background-color: ${({bgcolor}) => colorCSS[bgcolor]};
   width: 52px;
   height: 20px;
   padding-top: 1px;
@@ -105,15 +111,13 @@ const AuthorName = styled.span`
 const Stats = styled.div`
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 `;
 
 const StatItem = styled.span`
-  ${h11Regular}
   display: flex;
   align-items: center;
-  gap: 4px;
-  color: ${colorCSS["faillog-black"]}
+  gap: 5px;
 `;
 
 const Divider = styled.hr`
@@ -136,6 +140,9 @@ const Post = ({
   comments,
   isHrHidden
 }) => {
+
+  const {name, textColor ,bgColor} = getCategoryInfo(category)
+
   return (
     <div>
       <Wrapper>
@@ -143,9 +150,9 @@ const Post = ({
           <Thumbnail src={thumbnail} alt={title} />
           <Info>
             <TopRow>
-              <CategoryBadge>
-                <S.Span size={"h11Bold"} color={"faillog_blue"}>
-                  {category}
+              <CategoryBadge bgcolor={bgColor}>
+                <S.Span size={"h11Bold"} color={textColor}>
+                  {name}
                 </S.Span> 
               </CategoryBadge>
               <S.Span size={"h10Regular"} color={"faillog_gray9"}>{date}</S.Span>
@@ -159,23 +166,16 @@ const Post = ({
               </AuthorWrap>
               <Stats>
                 <StatItem>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" color={colorCSS["faillog-black"]}>
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                    <circle cx="12" cy="12" r="3"/>
-                  </svg>
-                  {views}
+                  <img src={eye} width={12} height={8}></img>
+                  <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{views}</S.Span>
                 </StatItem>
                 <StatItem>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" color={colorCSS["faillog-red"]}>
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                  </svg>
-                  {likes}
+                  <img src={heart} width={14} height={14}></img>
+                  <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{likes}</S.Span>
                 </StatItem>
                 <StatItem>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" color={colorCSS["faillog-black"]}>
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                  </svg>
-                  {comments}
+                  <img src={comment} width={14} height={14}></img>
+                  <S.Span size="h10Regular" color="faillog-black" isvisible={true}>{comments}</S.Span>
                 </StatItem>
               </Stats>
             </BottomRow>

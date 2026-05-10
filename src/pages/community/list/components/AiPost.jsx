@@ -2,14 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import S, { colorCSS, boxShadow } from '../../style';
 import { flexCenterRow } from '../../../../styles/common';
+import getCategoryInfo from '../../GetCategoryInfo';
+
+import eye from '../../resources/eye.svg'
+import heart from '../../resources/like.svg'
+import comment from '../../resources/post.svg'
+import likeFill from '../../resources/like-fill.svg'
 
 const AiPost = ({ date, category, title, profile, author, views, likes, comments }) => {
+  
+  const {name, textColor ,bgColor} = getCategoryInfo(category)
+  
   return (
     <Card>
       <TopRow>
         <S.Span size="h11Bold" color="faillog_gray8">{date}</S.Span>
-        <CategoryBadge>
-          <S.Span size="h11Extrabold" color="faillog_blue">{category}</S.Span>
+        <CategoryBadge bgcolor={bgColor}>
+          <S.Span size="h11Extrabold" color={textColor}>{name}</S.Span>
         </CategoryBadge>
       </TopRow>
 
@@ -24,22 +33,15 @@ const AiPost = ({ date, category, title, profile, author, views, likes, comments
         </AuthorWrap>
         <Stats>
           <StatItem>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={colorCSS["faillog-black"]} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
+            <img src={eye} width={12} height={8}></img>
             <S.Span size="h11Regular" color="faillog-black">{views}</S.Span>
           </StatItem>
           <StatItem>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={colorCSS["faillog-red"]} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-            </svg>
+            <img src={heart} width={12} height={12}></img>
             <S.Span size="h11Regular" color="faillog-black">{likes}</S.Span>
           </StatItem>
           <StatItem>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={colorCSS["faillog-black"]} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
+            <img src={comment} width={12} height={12}></img>
             <S.Span size="h11Regular" color="faillog-black">{comments}</S.Span>
           </StatItem>
         </Stats>
@@ -54,7 +56,6 @@ const Card = styled.div`
   border-radius: 15px;
   border: 1px solid ${colorCSS["faillog_gray2"]};
   background-color: #ffffff;
-  /* ${boxShadow["boxBasic"]} */
   padding: 16px 12px;
   display: flex;
   flex-direction: column;
@@ -69,7 +70,7 @@ const TopRow = styled.div`
 `;
 
 const CategoryBadge = styled.div`
-  background-color: ${colorCSS["faillog_light_blue"]};
+  background-color: ${({bgcolor}) => colorCSS[bgcolor]};
   padding-top: 1px;
   width: 60px;
   height: 20px;

@@ -6,7 +6,7 @@ import downImage from '../../resources/down.svg'
 
 const OPTIONS = ['제목', '제목+내용', '내용', '작성자', '댓글'];
 
-const CommunitySearchOrderComponent = ({ defaultValue = '제목+내용', onChange }) => {
+const CommunitySearchOrderComponent = ({ defaultValue = '제목', onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(defaultValue);
   const wrapperRef = useRef(null);

@@ -12,6 +12,7 @@ const CommunitySearchOrder2Component = ({ defaultValue = "최신순", onChange }
   const wrapperRef = useRef(null);
 
   const handleSelect = (option) => {
+    if (option === selected) { setIsOpen(false); return; }
     setSelected(option);
     setIsOpen(false);
     onChange?.(option);
@@ -42,7 +43,7 @@ const CommunitySearchOrder2Component = ({ defaultValue = "최신순", onChange }
               key={option}
               $isfirst={option === "제목"}
               $selected={option === selected}
-              onClick={() => handleSelect(option)}
+              onClick={() => {handleSelect(option)}}
             >
               <S.Span size="h8Regular" color=
               {option === selected ? "faillog_purple" : "faillog-black"}>{option}</S.Span>

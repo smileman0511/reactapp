@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import S, { colorCSS } from '../../style';
 import { flexCenterRow } from '../../../../styles/common';
 
-const Page = ({ minPage, maxPage, onPageChange }) => {
-  const [currentPage, setCurrentPage] = useState(minPage);
+const Page = ({ minPage, maxPage, onPageChange, page }) => {
+  const [currentPage, setCurrentPage] = useState(page ?? minPage);
+
+  useEffect(() => {
+    if (page !== undefined) setCurrentPage(page);
+  }, [page]);
 
   const groupStart = Math.floor((currentPage - minPage) / 5) * 5 + minPage;
 

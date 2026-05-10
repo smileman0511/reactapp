@@ -145,11 +145,14 @@ export const colorCSS = {
   "faillog-red" : "#F53102",
   "faillog-black" : "#333333",
   "faillog_blue" : "#027DF0",
+  "faillog_green" : "#00B53F",
   "faillog_purple" : "#AB47FF",
   "faillog_white" : "#FFFFFF",
 
   "faillog_light_blue" : "#DBEAFE",
+  "faillog_light_green" : "#D1FFE1",
   "faillog_light_purple" : "#F3E8FF",
+  "faillog_light_red" : "#FFE4E6",
 
   "faillog_gray1" : "#F2F2F2",
   "faillog_gray2" : "#E6E6E6",
@@ -171,7 +174,7 @@ S.Span = styled.span`
   ${({size}) => sizeCSS[size]}
   color: ${({color}) => colorCSS[color] ? colorCSS[color] : "#333333"};
   display: ${({display}) => display ? display : "inline"};
-  overflow: hidden;
+  overflow: ${({isvisible}) => isvisible ? "visible" : "hidden"};
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
   /* margin-top: ${({marginTop}) => marginTop}; */
@@ -184,7 +187,7 @@ S.Span2 = styled.span`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: ${({lineclamp}) => lineclamp ? lineclamp : 2};
-  overflow: hidden;
+  overflow: ${({isvisible}) => isvisible ? "visible" : "hidden"};
   text-overflow: ellipsis;
 `
 
