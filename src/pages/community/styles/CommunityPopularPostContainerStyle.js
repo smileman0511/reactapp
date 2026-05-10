@@ -27,6 +27,12 @@ S.header = styled.div`
   width: 1320px;
 `
 
+S.headerTestOneDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+`
+
 S.headerTextTwoDiv = styled.div`
   margin-top: 13px;
 `

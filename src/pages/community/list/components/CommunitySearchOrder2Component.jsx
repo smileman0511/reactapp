@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import S from '../../style';
 import myStyle from '../../styles/CommunitySearchOrder2ComponentStyle'
 
-import downImage from '../../resources/down.png'
+import downImage from '../../resources/down.svg'
 
 const OPTIONS = ["최신순", "좋아요 순", "조회 순"];
 

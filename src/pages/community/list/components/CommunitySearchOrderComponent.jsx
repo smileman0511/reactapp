@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import myStyle from '../../styles/CommunitySearchOrderStyle';
 import S from '../../style';
 
-import downImage from '../../resources/down.png'
+import downImage from '../../resources/down.svg'
 
 const OPTIONS = ['제목', '제목+내용', '내용', '작성자', '댓글'];
 

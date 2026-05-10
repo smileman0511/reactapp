@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { colorCSS } from '../../style';
 import Post from './Post';
+import PostListEmptyContainer from './PostListEmptyContainer';
 
 const myStyle = {}
 
@@ -93,10 +94,12 @@ const postData = [
 ];
 
 const Posts = () => {
+
   return (
     <div>
       <myStyle.wrapper>
-        {postData.map((post, i) => (
+        { postData.length !== 0 ? 
+        postData.map((post, i) => (
           <Post
             key={post.id}
             category={post.category}
@@ -111,7 +114,9 @@ const Posts = () => {
             thumbnail={post.thumbnail}
             isHrHidden={(postData.length-1) === i}
           />
-        ))}
+        )) 
+        : <PostListEmptyContainer></PostListEmptyContainer>
+      }
       </myStyle.wrapper>
     </div>
   );

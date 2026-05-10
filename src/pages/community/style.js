@@ -152,7 +152,9 @@ export const colorCSS = {
   "faillog_light_purple" : "#F3E8FF",
 
   "faillog_gray1" : "#F2F2F2",
+  "faillog_gray2" : "#E6E6E6",
   "faillog_gray4" : "#CCCCCC",
+  "faillog_gray8" : "#999999",
   "faillog_gray9" : "#8D8D8D",
   "faillog_gray10" : "#555555",
 

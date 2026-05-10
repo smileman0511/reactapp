@@ -4,6 +4,7 @@ import S from '../../style';
 
 import study from '../../resources/study.jpg';
 import icon04 from '../../resources/icon04.png'
+import trumpet from '../../resources/trumpet.svg'
 
 const CARD_W = 420;
 const FOCUS_W = 480;
@@ -144,7 +145,10 @@ const CommunityPopularPostContainer = () => {
     <myStyle.containerWrap>
       <myStyle.headerWrap>
         <myStyle.header>
-          <S.Span size="h2-bold" color="faillog-black">실시간 인기글</S.Span>
+          <myStyle.headerTestOneDiv>
+            <img src={trumpet} width={80} height={80}></img>
+            <S.Span size="h2-bold" color="faillog-black">실시간 인기글</S.Span>
+          </myStyle.headerTestOneDiv>
           <myStyle.headerTextTwoDiv>
             <S.Span size="h8-bold" color="faillog_gray9">
               많이 공감받은 복기 글을 한눈에 확인해보세요.

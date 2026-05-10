@@ -5,6 +5,9 @@ import S from '../../style';
 
 import icon04 from '../../resources/icon04.png'
 import study from '../../resources/study.jpg'
+import eye from '../../resources/eye.svg'
+import heart from '../../resources/like.svg'
+import post from '../../resources/post.svg'
 
 const CommunityBestPost = () => {
 
@@ -37,12 +40,18 @@ const CommunityBestPost = () => {
                             <myStyle.UserImg src={icon04}></myStyle.UserImg>
                             <S.Span size={"h9Regular"} color={"faillog_black"}>필기마스터</S.Span>
                             <myStyle.PostInfo>
-                              <S.Span size={"h9Regular"} color={"faillog_black"}>★</S.Span>
-                              <S.Span size={"h9Regular"} color={"faillog_black"}>99</S.Span>
-                              <S.Span size={"h9Regular"} color={"faillog_black"}>★</S.Span>
-                              <S.Span size={"h9Regular"} color={"faillog_black"}>6</S.Span>
-                              <S.Span size={"h9Regular"} color={"faillog_black"}>★</S.Span>
-                              <S.Span size={"h9Regular"} color={"faillog_black"}>999+</S.Span>
+                              <myStyle.infoElement>
+                                <img src={eye} width={16} height={12} />
+                                <S.Span size={"h9Regular"} color={"faillog_black"}>99</S.Span>
+                              </myStyle.infoElement>
+                              <myStyle.infoElement>
+                                <img src={heart} width={16} height={16} />
+                                <S.Span size={"h9Regular"} color={"faillog_black"}>777</S.Span>
+                              </myStyle.infoElement>
+                              <myStyle.infoElement>
+                                <img src={post} width={16} height={16} />                              
+                                <S.Span size={"h9Regular"} color={"faillog_black"}>999+</S.Span>
+                              </myStyle.infoElement>
                             </myStyle.PostInfo>
                           </myStyle.UserInfo>
                         </myStyle.BestPostMainInfo>

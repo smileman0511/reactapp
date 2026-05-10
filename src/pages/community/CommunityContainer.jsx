@@ -9,6 +9,7 @@ import myStyle from './styles/CommunityContainerStyle'
 import CommunityListContainer from './list/CommunityListContainer'
 
 import S from './style'
+import AiPostListContainer from './list/components/AiPostListContainer';
 
 const CommunityContainer = () => {
     return (
@@ -28,6 +29,7 @@ const CommunityContainer = () => {
                 <S.Wrapper margintop={"55px"}>
                     <myStyle.PostListAndAiRecommandPostWrapper>
                         <CommunityListContainer></CommunityListContainer>
+                        <AiPostListContainer></AiPostListContainer>
                     </myStyle.PostListAndAiRecommandPostWrapper>
                 </S.Wrapper>
             </myStyle.ListBgWrap>
