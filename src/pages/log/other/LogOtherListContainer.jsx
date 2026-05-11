@@ -8,25 +8,25 @@ import LogOtherSearch from './LogOtherSearch';
 import viewIcon from './otherLog_icon/hugeicons--view.svg';
 import heartIcon from './otherLog_icon/ph--heart-light.svg';
 
-import ProfileImg1 from './otherLog_profile/image 347.png';  // 친구가필요한나
-import ProfileImg2 from './otherLog_profile/IMAGE.png';        // 필기마스터
-import ProfileImg3 from './otherLog_profile/image 309.png';    // 유럽탐합가
-import ProfileImg4 from './otherLog_profile/image 338.png';    // 하워드슐츠
-import ProfileImg5 from './otherLog_profile/image 346.png';    // 비전공의희망
-import ProfileImg6 from './otherLog_profile/image 347.png';    // 대화가필요해
-import ProfileImg7 from './otherLog_profile/image 337.png';    // 바디짱짱맨
-import ProfileImg8 from './otherLog_profile/image 349.png';    // 백엔드로취업하기
-import ProfileImg9 from './otherLog_profile/image 337.png';    // 담배에서살아남기
+import ProfileImg1 from './otherLog_profile/image 347.png';
+import ProfileImg2 from './otherLog_profile/IMAGE.png';
+import ProfileImg3 from './otherLog_profile/image 309.png';
+import ProfileImg4 from './otherLog_profile/image 338.png';
+import ProfileImg5 from './otherLog_profile/image 346.png';
+import ProfileImg6 from './otherLog_profile/image 347.png';
+import ProfileImg7 from './otherLog_profile/image 337.png';
+import ProfileImg8 from './otherLog_profile/image 349.png';
+import ProfileImg9 from './otherLog_profile/image 337.png';
 
-import Thumb1 from './otherLog_thumbNail/image 277.png';       // 작은 실수
-import Thumb2 from './otherLog_thumbNail/image 340.png';       // 정보처리기사
-import Thumb3 from './otherLog_thumbNail/image 343.png';       // 유럽 배낭여행
-import Thumb4 from './otherLog_thumbNail/image 352.png';       // 카페 창업
-import Thumb5 from './otherLog_thumbNail/image 342.png';       // 파이썬 독학
-import Thumb6 from './otherLog_thumbNail/image 351.png';       // 모임 나가면
-import Thumb7 from './otherLog_thumbNail/image 350.png';       // 헬스장 3개월
-import Thumb8 from './otherLog_thumbNail/image 348.png';      // 네이버 백엔드
-import Thumb9 from './otherLog_thumbNail/Group 2956.png';       // 금연 30일
+import Thumb1 from './otherLog_thumbNail/image 277.png';
+import Thumb2 from './otherLog_thumbNail/image 340.png';
+import Thumb3 from './otherLog_thumbNail/image 343.png';
+import Thumb4 from './otherLog_thumbNail/image 352.png';
+import Thumb5 from './otherLog_thumbNail/image 342.png';
+import Thumb6 from './otherLog_thumbNail/image 351.png';
+import Thumb7 from './otherLog_thumbNail/image 350.png';
+import Thumb8 from './otherLog_thumbNail/image 348.png';
+import Thumb9 from './otherLog_thumbNail/Group 2956.png';
 
 const LOGS = [
     {
@@ -219,18 +219,18 @@ S.ListWrapper = styled.div`
 `;
 
 S.CardGrid = styled.div`
-    max-width: 1200px;
+    max-width: 1320px;
     margin: 0 auto;
-    padding: 0 60px;
-    display: flex;
-    flex-wrap: wrap;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
 `;
 
 S.Card = styled.div`
-    width: 344px;
-    min-width: 344px;
-    max-width: 344px;
+    width: 100%;
+    min-width: unset;
+    max-width: unset;
     height: 406px;
     border-radius: 20px;
     background: ${theme.PALETTE.white};
@@ -242,7 +242,6 @@ S.Card = styled.div`
     border: 1px solid transparent;
     box-sizing: border-box;
     cursor: pointer;
-    flex-shrink: 0;
 
     &:hover {
         transform: translateY(-8px);
@@ -358,7 +357,7 @@ S.Stat = styled.span`
 `;
 
 S.Thumbnail = styled.img`
-    width: 344px;
+    width: 100%;
     height: 162px;
     object-fit: cover;
     flex-shrink: 0;

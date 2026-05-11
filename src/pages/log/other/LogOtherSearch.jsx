@@ -97,9 +97,9 @@ S.Wrapper = styled.div`
 `;
 
 S.Inner = styled.div`
-    max-width: 1200px;
+    max-width: 1320px;  /* 1200px → 1320px */
     margin: 0 auto;
-    padding: 0 60px;
+    padding: 0 20px;    /* 0 60px → 0 20px */
     display: flex;
     flex-direction: column;
     gap: 100px;

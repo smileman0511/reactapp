@@ -115,9 +115,9 @@ S.Wrapper = styled.section`
 `;
 
 S.Inner = styled.div`
-    max-width: 1200px;
+    max-width: 1320px;
     margin: 0 auto;
-    padding: 0 60px;
+    padding: 0 20px;
 
     .solutions-title {
         font-size: ${theme.FONT_SIZE.h3};
