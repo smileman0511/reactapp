@@ -43,6 +43,12 @@ S.HeroBanner = styled.div`
     h2 { font-size: 45px; font-weight: 800; color: #2D3494; line-height: 60px; letter-spacing: -0.02em; }
     p { font-size: 24px; font-weight: 400; color: #4B5563; line-height: 34px; }
   }
+    transition: all 0.3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-8px); /* 위로 8px 이동 */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1); /* 더 진한 그림자 */
+  }
 `;
 
 S.MainGraphic = styled.div`
@@ -53,7 +59,8 @@ S.MainGraphic = styled.div`
   height: 600px;
   z-index: 1;
   img { width: 100%; height: 100%; object-fit: contain; }
-`;
+  
+  `;
 
 S.QuickMenuGroup = styled.div`
   display: flex;
@@ -72,6 +79,13 @@ const BaseCard = styled.div`
   flex-direction: column;
   overflow: visible; 
   padding: 40px;
+
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-8px); /* 위로 8px 이동 */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1); /* 더 진한 그림자 */
+  }
   
   .CardText {
     position: relative;
@@ -88,7 +102,7 @@ S.MyLogCard = styled(BaseCard)`
   background-color: #F0F3FF;
 `;
 
-// 2. 좋아요 한 페일로그 카드 (독립적인 배치)
+// 2. 좋아요 한 페일로그 카드
 S.LikesCard = styled(BaseCard)`
   background-color: #EBF8FF;
   padding-top: 50px;
