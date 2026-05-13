@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 
 const LogActionPlanContainer = () => {
     const theme = useTheme();
     const navigate = useNavigate();
+    const { liked, likeCount, handleLike } = useOutletContext();
     const [openPlanItems, setOpenPlanItems] = useState([]);
     const [openTransformItems, setOpenTransformItems] = useState([]);
 
@@ -125,16 +126,16 @@ const LogActionPlanContainer = () => {
                 <S.AuthorInfo>
                     <S.AuthorName>필기마스터</S.AuthorName>
                 </S.AuthorInfo>
-                <S.LikeButton>
-                    <S.HeartIcon>
-                        <svg width="18" height="16" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <S.LikeButton onClick={handleLike}>
+                    <S.HeartIcon $liked={liked}>
+                        <svg width="18" height="16" viewBox="0 0 25 22" fill={liked ? theme.PALETTE.fourth.main : "none"} xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M7.19401 0.777345C3.65026 0.777345 0.777344 3.65026 0.777344 7.19401C0.777344 13.6107 8.36068 19.444 12.444 20.8008C16.5273 19.444 24.1107 13.6107 24.1107 7.19401C24.1107 3.65026 21.2378 0.777345 17.694 0.777345C15.524 0.777345 13.6048 1.85476 12.444 3.50384C11.8522 2.66115 11.0661 1.97342 10.1523 1.49883C9.23846 1.02424 8.22374 0.776763 7.19401 0.777345Z"
                                 stroke={theme.PALETTE.fourth.main} strokeWidth="1.55556" strokeLinecap="round" strokeLinejoin="round"
                             />
                         </svg>
                     </S.HeartIcon>
-                    <span>24</span>
+                    <span>{likeCount}</span>
                 </S.LikeButton>
             </S.MetaRow>
 
@@ -265,6 +266,16 @@ S.LikeButton = styled.div`
     padding: 0;
     border: none;
     background: transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
 
     span {
         font-size: ${({ theme }) => theme.FONT_SIZE.h8};
@@ -470,15 +481,13 @@ S.TransformWrapper = styled.div`
 S.PatternBox = styled.div`
     display: flex;
     flex-direction: column;
-    padding-left: 20px;
-    border-left: 3px solid ${props => props.color};
     text-align: left;
     width: 100%;
     max-width: 400px;
 `;
 
 S.PatternLabel = styled.span`
-    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h7};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     color: ${props => props.color};
     margin-bottom: 12px;
