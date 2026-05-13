@@ -3,22 +3,28 @@ import styled from 'styled-components';
 
 import S, { colorCSS } from '../../style.js';
 import ReplySubmit from './ReplySubmit.jsx';
-import Rereply from './Rereply.jsx';
+import Reply from './Reply.jsx';
 
-// replyCount: 댓글 수, onSubmit: 댓글 등록 이벤트
-const ReplyContainer = ({ replyCount = 0, onSubmit }) => {
+// replyList: Reply.jsx EXAMPLE 형식의 댓글 배열, onSubmit: 댓글 등록 이벤트
+const ReplyContainer = ({ replyList = [], onSubmit }) => {
   return (
     <Wrapper>
       <TitleRow>
         <S.Span size="h7Bold">댓글</S.Span>
-        <S.Span size="h7Bold" color="faillog_purple">{replyCount}</S.Span>
+        <S.Span size="h7Bold" color="faillog_purple">{replyList.length}</S.Span>
       </TitleRow>
 
       <ReplySubmitBox>
         <ReplySubmit onSubmit={onSubmit} />
       </ReplySubmitBox>
 
-      {/* <Rereply></Rereply> */}
+      {replyList.length > 0 && (
+        <ReplyListArea>
+          {replyList.map((item, i) => (
+            <Reply key={i} {...item} />
+          ))}
+        </ReplyListArea>
+      )}
     </Wrapper>
   );
 };
@@ -40,6 +46,13 @@ const ReplySubmitBox = styled.div`
   padding: 17px;
   border: 1px solid ${colorCSS["faillog_gray3"]};
   border-radius: 15px;
+`
+
+const ReplyListArea = styled.div`
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
 `
 
 export default ReplyContainer;

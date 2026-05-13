@@ -5,6 +5,7 @@ import menuIcon from '../../resources/menuIcon.svg';
 import S, { colorCSS, sizeCSS } from '../../style.js';
 import { flexCenterRow } from '../../../../styles/common.js';
 
+//삭제예정
 const EXAMPLE = {
   isOwner: false,
   profileImg: "https://i.pravatar.cc/150?img=5",
@@ -33,7 +34,7 @@ const Rereply = ({
       <TopRow>
         <ProfileGroup>
           {profileImg && <ProfileImg src={profileImg} alt="프로필" />}
-          <S.Span size="h10Bold">{author}</S.Span>
+          <S.Span size="h8Bold">{author}</S.Span>
           <S.Span size="h11Regular" color="faillog_gray9">{createdAt}</S.Span>
         </ProfileGroup>
 
@@ -118,7 +119,7 @@ const MenuBtn = styled.button`
 const Dropdown = styled.div`
   position: absolute;
   right: 0;
-  top: calc(100% + 16px);
+  top: calc(100% + 8px);
   width: 80px;
   background: ${colorCSS["faillog_white"]};
   border: 1px solid ${colorCSS["faillog_gray4"]};
@@ -145,13 +146,14 @@ const ContentArea = styled.div`
 
 const ContentText = styled.p`
   margin: 0;
-  ${sizeCSS["h10Regular"]}
+  padding-right: 160px;
+  ${sizeCSS["h9Regular"]}
   color: ${colorCSS["faillog-black"]};
   word-break: break-all;
 `
 
 const InlineToggle = styled.span`
-  ${sizeCSS["h10Regular"]}
+  ${sizeCSS["h9Regular"]}
   color: ${colorCSS["faillog_purple"]};
   cursor: pointer;
 `
