@@ -53,6 +53,7 @@ const LogActionPlanContainer = () => {
                     id: 3, 
                     title: "파트너 구하기", 
                     color: "transparent", 
+                    content: "혼자서 목표를 달성하기 어렵다면, 비슷한 목표를 가진 파트너나 멘토를 찾아보세요. 서로 진행 상황을 공유하고 피드백을 주고받으면, 외부 환경에 흔들리지 않고 지속적인 동기를 부여받을 수 있습니다.",
                     icon: (
                         <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect width="36" height="36" rx="10" fill="#FF34C5"/>
@@ -64,6 +65,7 @@ const LogActionPlanContainer = () => {
                     id: 4, 
                     title: "체크리스트 설정 및 관리하기", 
                     color: "transparent", 
+                    content: "매일 해야 할 일들을 명확하게 체크리스트로 작성하고 관리해보세요. 해야 할 일이 시각적으로 확인되면 막연한 부담감이 줄어들고, 하나씩 완료해 나가는 과정에서 확실한 성취감을 느낄 수 있습니다.",
                     icon: (
                         <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect width="36" height="36" rx="10" fill="#AB47FF"/>
@@ -158,11 +160,11 @@ const LogActionPlanContainer = () => {
                 <S.SectionTitle>{actionPlanData.transformations.title}</S.SectionTitle>
                 <S.SectionDesc>{actionPlanData.transformations.description}</S.SectionDesc>
                 
-                <S.Grid>
+                <S.TransformGrid>
                     {actionPlanData.transformations.items.map(item => {
                         const isOpen = openTransformItems.includes(item.id);
                         return (
-                            <S.ActionCard key={item.id} $isOpen={isOpen}>
+                            <S.TransformCard key={item.id} $isOpen={isOpen}>
                                 <S.CardHeader onClick={() => toggleTransform(item.id)}>
                                     <S.NumberIcon color={item.color}>{item.id}</S.NumberIcon>
                                     <S.CardTitle>{item.title}</S.CardTitle>
@@ -174,10 +176,10 @@ const LogActionPlanContainer = () => {
                                         <S.CardContent>{item.content}</S.CardContent>
                                     </>
                                 )}
-                            </S.ActionCard>
+                            </S.TransformCard>
                         );
                     })}
-                </S.Grid>
+                </S.TransformGrid>
             </S.Section>
 
             <S.BottomLinkWrapper>
@@ -305,6 +307,12 @@ S.Grid = styled.div`
     align-items: start;
 `;
 
+S.TransformGrid = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+`;
+
 S.ActionCard = styled.div`
     display: flex;
     flex-direction: column;
@@ -320,6 +328,10 @@ S.ActionCard = styled.div`
     &:hover {
         border-color: ${({ theme }) => theme.PALETTE.third.main};
     }
+`;
+
+S.TransformCard = styled(S.ActionCard)`
+    width: 100%;
 `;
 
 S.CardHeader = styled.div`
@@ -339,8 +351,9 @@ S.Divider = styled.div`
 S.CardContent = styled.div`
     padding: 20px;
     padding-left: 70px;
-    font-size: ${({ theme }) => theme.FONT_SIZE.h8};
-    color: ${({ theme }) => theme.GRAYSCALE[9]};
+    font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
+    color: ${({ theme }) => theme.PALETTE.black};
     line-height: 1.6;
     word-break: keep-all;
 `;
