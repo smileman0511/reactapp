@@ -11,7 +11,9 @@ import {
 	flexStartRow,
 	flexCenterRow,
 	flexCenter,
+	h2Bold,
 	h3Bold,
+	h3_2Bold,
 	h4Bold,
 	h5Regular,
 	h5Bold,
@@ -22,6 +24,7 @@ import {
 	h8Regular,
 	h9Bold,
 	h9Regular,
+	h10Bold,
 } from '../../styles/common';
 import theme from '../../styles/theme';
 
@@ -61,11 +64,11 @@ const PRIORITY_CONFIG = {
 // ─────────────────────────────────────────
 const AiBadge = () => (
 	<S.AiBadge>
-		<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-			<circle cx="7" cy="7" r="7" fill="url(#ai_grad)" />
-			<text x="7" y="10.5" textAnchor="middle" fontSize="7" fill="white" fontWeight="bold">AI</text>
+		<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+			<circle cx="14" cy="14" r="14" fill="url(#ai_grad)" />
+			<text x="14" y="19" textAnchor="middle" fontSize="13" fill="white" fontWeight="bold">AI</text>
 			<defs>
-				<linearGradient id="ai_grad" x1="0" y1="0" x2="14" y2="14" gradientUnits="userSpaceOnUse">
+				<linearGradient id="ai_grad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
 					<stop stopColor={theme.PALETTE.primary.main} />
 					<stop offset="1" stopColor={theme.PALETTE.third.main} />
 				</linearGradient>
@@ -251,11 +254,11 @@ const ProjectMain = () => {
 					<S.ProjectCardInner>
 						<S.ProjectCardMeta>
 							<S.AiRecommendLabel><AiBadge /> AI 추천 프로젝트</S.AiRecommendLabel>
-							<S.ProjectDateRange>
-								{activeProject?.startDate || '2026.03.01'} ~ {activeProject?.endDate || '2027.03.14'}
-							</S.ProjectDateRange>
 						</S.ProjectCardMeta>
 						<S.ProjectName>{activeProject?.name || '20일 아침루틴 만들기'}</S.ProjectName>
+						<S.ProjectDateRange>
+							{activeProject?.startDate || '2026.03.01'} ~ {activeProject?.endDate || '2027.03.14'}
+						</S.ProjectDateRange>
 						<S.ProjectGoal>{activeProject?.goal || '목표를 위해 달린다'}</S.ProjectGoal>
 						<S.ProgressRow>
 							<S.ProgressBar>
@@ -374,14 +377,13 @@ S.Inner = styled.div`
 
 S.PageTop = styled.div`
 	${flexBetweenRow}
-	padding-top: 80px;
-	padding-bottom: 20px;
+	padding-top: 120px;
+	padding-bottom: 0;
+	margin-bottom: 50px;
 `;
 
 S.PageTitle = styled.h1`
-	${h3Bold}
-	font-size: 40px;
-	letter-spacing: -0.02em;
+	${h2Bold}
 	color: ${theme.PALETTE.black};
 `;
 
@@ -405,14 +407,14 @@ S.OutlineBtn = styled.button`
 `;
 
 S.Section = styled.div`
-	margin-top: ${({ $mt }) => $mt || '40px'};
+	margin-top: ${({ $mt }) => $mt || '0'};
 	margin-bottom: ${({ $mb }) => $mb || '0'};
 `;
 
 S.SectionLabel = styled.p`
-	${h4Bold}
+	${h3_2Bold}
 	color: ${theme.PALETTE.black};
-	margin-bottom: 8px;
+	margin-bottom: 10px;
 `;
 
 S.SectionTitle = styled.h2`
@@ -426,13 +428,13 @@ S.SectionTitle = styled.h2`
 
 S.SectionTitleRow = styled.div`
 	${flexBetweenRow}
-	margin-bottom: 20px;
+	margin-bottom: 24px;
 `;
 
 S.VisionText = styled.p`
-	${h6Bold}
+	${h7Bold}
 	color: ${theme.PALETTE.primary.main};
-	margin-bottom: 28px;
+	margin-bottom: 50px;
 `;
 
 S.AiBadge = styled.span`
@@ -449,41 +451,44 @@ S.ProjectCard = styled.div`
 	position: relative;
 	border: 1px solid ${theme.GRAYSCALE[3]};
 	border-radius: 16px;
-	padding: 28px 32px;
+	padding: 28px 40px 28px 32px;
 	background: ${theme.PALETTE.white};
 	box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+	display: flex;
+	flex-direction: column;
 `;
 
 S.ProjectCardInner = styled.div``;
 
 S.ProjectCardMeta = styled.div`
 	${flexBetweenRow}
-	margin-bottom: 12px;
+	margin-bottom: 16px;
 `;
 
 S.AiRecommendLabel = styled.span`
 	${flexStartRow}
 	gap: 6px;
-	font-size: 13px;
-	font-weight: 600;
-	color: ${theme.GRAYSCALE[7]};
+	${h7Bold}
+	color: ${theme.PALETTE.black};
 `;
 
 S.ProjectDateRange = styled.span`
-	font-size: 13px;
-	color: ${theme.GRAYSCALE[6]};
+	${h10Bold}
+	color: ${theme.GRAYSCALE[10]};
+	display: block;
+	margin-bottom: 20px;
 `;
 
 S.ProjectName = styled.h3`
-	${h4Bold}
+	${h5Bold}
 	color: ${theme.PALETTE.black};
-	margin-bottom: 6px;
+	margin-bottom: 20px;
 `;
 
 S.ProjectGoal = styled.p`
 	${h8Regular}
-	color: ${theme.GRAYSCALE[6]};
-	margin-bottom: 20px;
+	color: ${theme.GRAYSCALE[10]};
+	margin-bottom: 16px;
 `;
 
 S.ProgressRow = styled.div`
@@ -493,9 +498,9 @@ S.ProgressRow = styled.div`
 
 S.ProgressBar = styled.div`
 	flex: 1;
-	height: 6px;
+	height: 10px;
 	background: ${theme.GRAYSCALE[2]};
-	border-radius: 3px;
+	border-radius: 5px;
 	overflow: hidden;
 `;
 
@@ -503,7 +508,7 @@ S.ProgressFill = styled.div`
 	height: 100%;
 	width: ${({ $percent }) => $percent}%;
 	background: linear-gradient(90deg, ${theme.PALETTE.primary.main}, ${theme.PALETTE.third.main});
-	border-radius: 3px;
+	border-radius: 5px;
 `;
 
 S.DDay = styled.span`
@@ -530,40 +535,45 @@ S.ProjectEditBtn = styled.button`
 S.ActionGrid = styled.div`
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	gap: 16px;
+	gap: 16px 40px;
 `;
 
 S.ActionCard = styled.div`
 	${flexStartRow}
+	align-items: flex-start;
 	gap: 12px;
-	padding: 20px 24px;
+	padding: 24px;
 	border: 1px solid ${theme.GRAYSCALE[3]};
 	border-radius: 12px;
+	background: ${theme.PALETTE.white};
 	cursor: pointer;
 	transition: all 0.15s;
 	&:hover { border-color: ${theme.PALETTE.third.main}; background: #faf5ff; }
 `;
 
 S.ActionDot = styled.div`
-	width: 8px;
-	height: 8px;
+	width: 16px;
+	height: 16px;
 	border-radius: 50%;
 	background: ${theme.PALETTE.third.main};
 	flex-shrink: 0;
 	margin-top: 4px;
 `;
 
-S.ActionContent = styled.div``;
+S.ActionContent = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+`;
 
 S.ActionTitle = styled.p`
-	${h8Bold}
+	${h7Bold}
 	color: ${theme.PALETTE.black};
-	margin-bottom: 4px;
 `;
 
 S.ActionDesc = styled.p`
-	${h9Regular}
-	color: ${theme.GRAYSCALE[6]};
+	${h8Regular}
+	color: ${theme.GRAYSCALE[10]};
 `;
 
 /* ── Checklist ── */
