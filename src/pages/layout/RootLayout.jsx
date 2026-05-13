@@ -12,7 +12,7 @@ const RootLayout = () => {
         {/* 로고 */}
         <div className="root-header-logo">
           <Link to="/">
-            <img src="/logo.png" alt="FailLog" />
+            <img src="/assets\picture\logo.png" alt="FailLog" />
           </Link>
         </div>
 

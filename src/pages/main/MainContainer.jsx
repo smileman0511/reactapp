@@ -8,7 +8,7 @@ const MainContainer = () => {
 
     return (
         <>
-            <MainMenuContainer />
+            {isAuthenticated ? <MainMenuContainer /> : <IntroContainer />}
         </>
     );
 };

@@ -7,7 +7,11 @@ const IntroHeroSection = ({ onLoginClick, onChatbotClick }) => {
     const { isAuthenticated } = useAuthStore();
 
     const handleStartClick = () => {
-        navigate('/log/write/step1');
+        if (isAuthenticated) {
+            navigate('/log/write/step1');
+        } else {
+            navigate('/login');
+        }
     };
 
     return (
