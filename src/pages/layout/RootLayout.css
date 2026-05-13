@@ -24,6 +24,7 @@
 .root-header-logo img {
   height: 100px;
   width: auto;
+  margin-bottom: 1px;
 }
 
 /* 네비게이션 */
