@@ -3,9 +3,7 @@ import useAuthStore from '../../store/authStore';
 import './RootLayout.css';
 
 const RootLayout = () => {
-  // const { isAuthenticated, setIsAuthenticated, setUser } = useAuthStore();
-
-  const isAuthenticated = false;
+  const { isAuthenticated } = useAuthStore();
 
   return (
     <div>
