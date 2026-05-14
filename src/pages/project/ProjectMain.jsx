@@ -54,9 +54,9 @@ const MOCK_SUGGESTIONS = [
 // PRIORITY CONFIG
 // ─────────────────────────────────────────
 const PRIORITY_CONFIG = {
-	높음: { label: '우선순위 높음', bg: '#FFE8E8', color: '#FF4D4D' },
-	중간: { label: '우선순위 중간', bg: '#E8F5E9', color: '#4CAF50' },
-	낮음: { label: '우선순위 낮음', bg: '#E8F0FF', color: '#4B7BFF' },
+	높음: { label: '우선순위 높음', bg: theme.PALETTE.fourth.light, color: theme.PALETTE.fourth.main },
+	중간: { label: '우선순위 중간', bg: theme.PALETTE.primary.light, color: theme.PALETTE.primary.main },
+	낮음: { label: '우선순위 낮음', bg: theme.PALETTE.secondary.light, color: theme.PALETTE.secondary.main },
 };
 
 // ─────────────────────────────────────────
@@ -107,7 +107,7 @@ const ChecklistItem = ({ item, onToggle, onStatusChange }) => {
 					</S.PriorityBadge>
 					<S.ChevronIcon $expanded={expanded}>
 						<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-							<path d="M3 5L7 9L11 5" stroke={theme.GRAYSCALE[7]} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+							<path d="M3 5L7 9L11 5" stroke={theme.PALETTE.black} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 						</svg>
 					</S.ChevronIcon>
 				</S.CheckRight>
@@ -154,6 +154,8 @@ const ProjectMain = () => {
 	const [suggestion, setSuggestion] = useState('');
 	const [addedToMyProject, setAddedToMyProject] = useState(false);
 	const [showAddedPopup, setShowAddedPopup] = useState(false);
+	const [showAddModal, setShowAddModal] = useState(false);
+	const [newItem, setNewItem] = useState({ title: '', memo: '', priority: null });
 
 	const activeProject = projects.find((p) => p.isActive) || projects[0];
 
@@ -179,6 +181,20 @@ const ProjectMain = () => {
 	};
 	const handleStatusChange = (id, status) => {
 		setChecklist(prev => prev.map(item => item.id === id ? { ...item, status } : item));
+	};
+
+	// 새 항목 추가
+	const handleAddItem = () => {
+		if (!newItem.title.trim()) return;
+		setChecklist(prev => [...prev, {
+			id: Date.now(),
+			title: newItem.title,
+			memo: newItem.memo,
+			priority: newItem.priority || '낮음',
+			status: null,
+		}]);
+		setNewItem({ title: '', memo: '', priority: null });
+		setShowAddModal(false);
 	};
 
 	// 내 프로젝트 추가 팝업
@@ -306,12 +322,60 @@ const ProjectMain = () => {
 							/>
 						))}
 					</S.ChecklistList>
-					<S.AddItemBtn>
+					<S.AddItemBtn onClick={() => setShowAddModal(true)}>
 						<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
 							<path d="M7 1V13M1 7H13" stroke={theme.GRAYSCALE[7]} strokeWidth="1.5" strokeLinecap="round" />
 						</svg>
 						새 항목 추가
 					</S.AddItemBtn>
+
+					{/* ── 새 항목 추가 모달 ── */}
+					{showAddModal && (
+						<S.ModalOverlay onClick={() => setShowAddModal(false)}>
+							<S.AddModal onClick={(e) => e.stopPropagation()}>
+								<S.AddModalHeader>
+									<S.AddModalTitle>새 항목 추가</S.AddModalTitle>
+									<S.AddModalClose onClick={() => setShowAddModal(false)}>✕</S.AddModalClose>
+								</S.AddModalHeader>
+
+								<S.AddModalField>
+									<S.AddModalLabel>항목 이름</S.AddModalLabel>
+									<S.AddModalInput
+										placeholder="예) 자기 전 30분 독서하기"
+										value={newItem.title}
+										onChange={(e) => setNewItem(prev => ({ ...prev, title: e.target.value }))}
+									/>
+								</S.AddModalField>
+
+								<S.AddModalField>
+									<S.AddModalLabel>한 줄 메모</S.AddModalLabel>
+									<S.AddModalTextarea
+										placeholder="아직 작성되지 않았습니다."
+										value={newItem.memo}
+										onChange={(e) => setNewItem(prev => ({ ...prev, memo: e.target.value }))}
+									/>
+								</S.AddModalField>
+
+								<S.AddModalBottom>
+									<S.AddModalPriorityRow>
+										<S.AddModalPriorityBtns>
+											{['높음', '중간', '낮음'].map((p) => (
+												<S.PrioritySelectBtn
+													key={p}
+													$selected={newItem.priority === p}
+													$priority={p}
+													onClick={() => setNewItem(prev => ({ ...prev, priority: p }))}
+												>
+													우선순위 {p}
+												</S.PrioritySelectBtn>
+											))}
+										</S.AddModalPriorityBtns>
+									</S.AddModalPriorityRow>
+									<S.AddModalSubmitBtn onClick={handleAddItem}>추가하기</S.AddModalSubmitBtn>
+								</S.AddModalBottom>
+							</S.AddModal>
+						</S.ModalOverlay>
+					)}
 				</S.Section>
 
 				{/* ── Suggestion ── */}
@@ -578,8 +642,8 @@ S.ActionDesc = styled.p`
 
 /* ── Checklist ── */
 S.ChecklistSubtitle = styled.p`
-	${h9Regular}
-	color: ${theme.GRAYSCALE[6]};
+	${h8Regular}
+	color: ${theme.GRAYSCALE[10]};
 	margin-bottom: 20px;
 `;
 
@@ -591,13 +655,13 @@ S.ChecklistList = styled.div`
 
 S.CheckItem = styled.div`
 	border: 1px solid ${({ $status }) =>
-		$status === 'success' ? '#4CAF50' :
-		$status === 'fail' ? '#FF4D4D' :
+		$status === 'success' ? theme.PALETTE.secondary.main :
+		$status === 'fail' ? theme.PALETTE.fourth.main :
 		theme.GRAYSCALE[3]};
 	border-radius: 12px;
 	background: ${({ $status }) =>
-		$status === 'success' ? '#F0FFF0' :
-		$status === 'fail' ? '#FFF0F0' :
+		$status === 'success' ? theme.PALETTE.secondary.light :
+		$status === 'fail' ? theme.PALETTE.fourth.light :
 		theme.PALETTE.white};
 	overflow: hidden;
 	transition: all 0.2s;
@@ -606,12 +670,13 @@ S.CheckItem = styled.div`
 S.CheckItemTop = styled.div`
 	${flexBetweenRow}
 	padding: 18px 20px;
+	min-height: 100px;
 	cursor: pointer;
 `;
 
 S.CheckLeft = styled.div`
 	${flexStartRow}
-	gap: 12px;
+	gap: 30px;
 	flex: 1;
 `;
 
@@ -625,12 +690,12 @@ S.CheckCircle = styled.div`
 	height: 24px;
 	border-radius: 50%;
 	border: 2px solid ${({ $status }) =>
-		$status === 'success' ? '#4CAF50' :
-		$status === 'fail' ? '#FF4D4D' :
+		$status === 'success' ? theme.PALETTE.secondary.main :
+		$status === 'fail' ? theme.PALETTE.fourth.main :
 		theme.GRAYSCALE[4]};
 	background: ${({ $status }) =>
-		$status === 'success' ? '#4CAF50' :
-		$status === 'fail' ? '#FF4D4D' :
+		$status === 'success' ? theme.PALETTE.secondary.main :
+		$status === 'fail' ? theme.PALETTE.fourth.main :
 		'transparent'};
 	${flexCenter}
 	flex-shrink: 0;
@@ -638,7 +703,7 @@ S.CheckCircle = styled.div`
 `;
 
 S.CheckTitle = styled.span`
-	${h8Regular}
+	${h7Bold}
 	color: ${({ $status }) => $status ? theme.GRAYSCALE[7] : theme.PALETTE.black};
 	text-decoration: ${({ $status }) => $status === 'success' ? 'line-through' : 'none'};
 `;
@@ -664,8 +729,8 @@ S.CheckExpanded = styled.div`
 `;
 
 S.MemoLabel = styled.p`
-	${h9Bold}
-	color: ${theme.GRAYSCALE[7]};
+	${h8Regular}
+	color: ${theme.PALETTE.black};
 	margin: 12px 0 8px;
 `;
 
@@ -675,7 +740,9 @@ S.MemoInput = styled.textarea`
 	border: 1px solid ${theme.GRAYSCALE[3]};
 	border-radius: 8px;
 	padding: 10px 12px;
-	${h9Regular}
+	${h8Regular}
+	font-family: 'pretendard', sans-serif;
+	color: ${theme.PALETTE.black};
 	resize: none;
 	outline: none;
 	margin-bottom: 12px;
@@ -701,7 +768,7 @@ S.SmallBtn = styled.button`
 	padding: 4px 12px;
 	border-radius: 6px;
 	border: 1px solid ${theme.GRAYSCALE[3]};
-	color: ${theme.GRAYSCALE[7]};
+	color: ${theme.GRAYSCALE[10]};
 	background: ${theme.PALETTE.white};
 	&:hover { background: ${theme.GRAYSCALE[1]}; }
 `;
@@ -710,9 +777,9 @@ S.StatusBtn = styled.button`
 	${h9Bold}
 	padding: 4px 12px;
 	border-radius: 6px;
-	border: 1px solid ${({ $type }) => $type === 'success' ? '#4CAF50' : '#FF4D4D'};
-	color: ${({ $type, $active }) => $active ? 'white' : ($type === 'success' ? '#4CAF50' : '#FF4D4D')};
-	background: ${({ $type, $active }) => !$active ? 'white' : ($type === 'success' ? '#4CAF50' : '#FF4D4D')};
+	border: 1px solid ${({ $type }) => $type === 'success' ? theme.PALETTE.secondary.main : theme.PALETTE.fourth.main};
+	color: ${({ $type, $active }) => $active ? 'white' : ($type === 'success' ? theme.PALETTE.secondary.main : theme.PALETTE.fourth.main)};
+	background: ${({ $type, $active }) => !$active ? 'white' : ($type === 'success' ? theme.PALETTE.secondary.main : theme.PALETTE.fourth.main)};
 	transition: all 0.15s;
 `;
 
@@ -722,13 +789,13 @@ S.AddItemBtn = styled.button`
 	width: 100%;
 	height: 52px;
 	margin-top: 10px;
-	border: 1px dashed ${theme.GRAYSCALE[4]};
+	border: 1px solid ${theme.GRAYSCALE[4]};
 	border-radius: 12px;
 	${h8Regular}
-	color: ${theme.GRAYSCALE[6]};
-	background: transparent;
+	color: ${theme.PALETTE.black};
+	background: ${theme.PALETTE.white};
 	transition: all 0.15s;
-	&:hover { border-color: ${theme.PALETTE.third.main}; color: ${theme.PALETTE.third.main}; background: #faf5ff; }
+	&:hover { border-color: ${theme.PALETTE.third.main}; color: ${theme.PALETTE.third.main}; }
 `;
 
 /* ── Suggestion ── */
@@ -845,6 +912,138 @@ S.AddListBtn = styled.button`
 	white-space: nowrap;
 	transition: all 0.15s;
 	&:hover { background: ${theme.PALETTE.third.main}; color: white; }
+`;
+
+/* ── 새 항목 추가 모달 ── */
+S.ModalOverlay = styled.div`
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.4);
+	${flexCenter}
+	z-index: 200;
+`;
+
+S.AddModal = styled.div`
+	width: 900px;
+	background: ${theme.PALETTE.white};
+	border-radius: 16px;
+	padding: 40px 48px;
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+`;
+
+S.AddModalHeader = styled.div`
+	${flexBetweenRow}
+`;
+
+S.AddModalTitle = styled.h3`
+	${h7Bold}
+	color: ${theme.PALETTE.black};
+`;
+
+S.AddModalClose = styled.button`
+	${h7Bold}
+	color: ${theme.GRAYSCALE[7]};
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 20px;
+	&:hover { color: ${theme.PALETTE.black}; }
+`;
+
+S.AddModalField = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+`;
+
+S.AddModalLabel = styled.label`
+	${h8Regular}
+	color: ${theme.PALETTE.black};
+`;
+
+S.AddModalInput = styled.input`
+	width: 100%;
+	height: 56px;
+	border: 1px solid ${theme.GRAYSCALE[3]};
+	border-radius: 10px;
+	padding: 0 16px;
+	${h8Regular}
+	color: ${theme.PALETTE.black};
+	font-family: 'pretendard', sans-serif;
+	outline: none;
+	&::placeholder { color: ${theme.GRAYSCALE[5]}; }
+	&:focus { border-color: ${theme.PALETTE.third.main}; }
+`;
+
+S.AddModalTextarea = styled.textarea`
+	width: 100%;
+	height: 80px;
+	border: 1px solid ${theme.GRAYSCALE[3]};
+	border-radius: 10px;
+	padding: 16px;
+	${h8Regular}
+	color: ${theme.PALETTE.black};
+	font-family: 'pretendard', sans-serif;
+	resize: none;
+	outline: none;
+	&::placeholder { color: ${theme.GRAYSCALE[5]}; }
+	&:focus { border-color: ${theme.PALETTE.third.main}; }
+`;
+
+S.AddModalBottom = styled.div`
+	${flexBetweenRow}
+	align-items: center;
+`;
+
+S.AddModalPriorityRow = styled.div`
+	${flexStartRow}
+	gap: 16px;
+`;
+
+S.AddModalPriorityBtns = styled.div`
+	${flexStartRow}
+	gap: 8px;
+`;
+
+S.PrioritySelectBtn = styled.button`
+	${h8Bold}
+	padding: 6px 16px;
+	border-radius: 20px;
+	border: 1px solid ${({ $selected, $priority }) =>
+		$selected
+			? $priority === '높음' ? theme.PALETTE.fourth.main
+			: $priority === '중간' ? theme.PALETTE.primary.main
+			: theme.PALETTE.secondary.main
+			: theme.GRAYSCALE[4]};
+	background: ${({ $selected, $priority }) =>
+		$selected
+			? $priority === '높음' ? theme.PALETTE.fourth.light
+			: $priority === '중간' ? theme.PALETTE.primary.light
+			: theme.PALETTE.secondary.light
+			: theme.PALETTE.white};
+	color: ${({ $selected, $priority }) =>
+		$selected
+			? $priority === '높음' ? theme.PALETTE.fourth.main
+			: $priority === '중간' ? theme.PALETTE.primary.main
+			: theme.PALETTE.secondary.main
+			: theme.GRAYSCALE[7]};
+	cursor: pointer;
+	transition: all 0.15s;
+`;
+
+S.AddModalSubmitBtn = styled.button`
+	${h8Bold}
+	width: 88px;
+	height: 36px;
+	border-radius: 10px;
+	border: 1px solid ${theme.GRAYSCALE[4]};
+	background: ${theme.PALETTE.white};
+	color: ${theme.PALETTE.black};
+	transition: all 0.15s;
+	&:hover { border-color: ${theme.PALETTE.third.main}; color: ${theme.PALETTE.third.main}; }
 `;
 
 /* ── Added Popup ── */
