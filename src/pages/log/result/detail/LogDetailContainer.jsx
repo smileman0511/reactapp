@@ -1,6 +1,8 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
 import styled from 'styled-components';
+import heartIcon from '../result_icon/heart.svg';
+import checkCircleIcon from '../result_icon/check_circle.svg';
 
 const LogDetailContainer = () => {
   const { liked, likeCount, handleLike, selectedLog } = useOutletContext();
@@ -14,9 +16,7 @@ const LogDetailContainer = () => {
         {selectedLog.badges.map((badge, idx) => (
           <S.Badge key={idx} $color={badge.color} $bg={badge.bg}>
             {badge.label === "분석 완료" && (
-              <svg width="17" height="17" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.25 1.25C11.8023 1.25 12.25 1.69772 12.25 2.25C12.25 2.80228 11.8023 3.25 11.25 3.25H3.375C3.34185 3.25 3.30958 3.26269 3.28613 3.28613C3.26269 3.30958 3.25 3.34185 3.25 3.375V14.625C3.25 14.6582 3.26269 14.6904 3.28613 14.7139C3.30958 14.7373 3.34185 14.75 3.375 14.75H14.625C14.6582 14.75 14.6904 14.7373 14.7139 14.7139C14.7373 14.6904 14.75 14.6582 14.75 14.625V7.5C14.75 6.94772 15.1977 6.5 15.75 6.5C16.3023 6.5 16.75 6.94772 16.75 7.5V14.625C16.75 15.1886 16.5264 15.7294 16.1279 16.1279C15.7294 16.5264 15.1886 16.75 14.625 16.75H3.375C2.81141 16.75 2.27058 16.5264 1.87207 16.1279C1.47356 15.7294 1.25 15.1886 1.25 14.625V3.375C1.25 2.81141 1.47356 2.27059 1.87207 1.87207C2.27059 1.47356 2.81141 1.25 3.375 1.25H11.25ZM14.5615 2.04395C14.8825 1.59453 15.5066 1.49051 15.9561 1.81152C16.4055 2.13253 16.5095 2.75664 16.1885 3.20605L10.5635 11.0811C10.4039 11.3045 10.1597 11.4524 9.8877 11.4902C9.61563 11.528 9.33948 11.4528 9.125 11.2812L5.375 8.28125C4.94374 7.93624 4.87374 7.30626 5.21875 6.875C5.56376 6.44374 6.19374 6.37374 6.625 6.71875L9.5498 9.05859L14.5615 2.04395Z" fill="#00B53F"/>
-              </svg>
+              <S.CheckIcon src={checkCircleIcon} alt="check circle" />
             )}
             {badge.label}
           </S.Badge>
@@ -37,15 +37,7 @@ const LogDetailContainer = () => {
 
         <S.LikeButton onClick={handleLike} $liked={liked}>
           <S.HeartIcon $liked={liked}>
-            <svg width="18" height="16" viewBox="0 0 25 22" fill={liked ? "#FF4B4B" : "none"} xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7.19401 0.777345C3.65026 0.777345 0.777344 3.65026 0.777344 7.19401C0.777344 13.6107 8.36068 19.444 12.444 20.8008C16.5273 19.444 24.1107 13.6107 24.1107 7.19401C24.1107 3.65026 21.2378 0.777345 17.694 0.777345C15.524 0.777345 13.6048 1.85476 12.444 3.50384C11.8522 2.66115 11.0661 1.97342 10.1523 1.49883C9.23846 1.02424 8.22374 0.776763 7.19401 0.777345Z"
-                stroke="#FF4B4B"
-                strokeWidth="1.55556"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <S.HeartImg src={heartIcon} alt="heart" $liked={liked} />
           </S.HeartIcon>
           <span>{likeCount}</span>
         </S.LikeButton>
@@ -168,6 +160,17 @@ S.HeartIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+S.CheckIcon = styled.img`
+  width: 17px;
+  height: 17px;
+`;
+
+S.HeartImg = styled.img`
+  width: 18px;
+  height: 16px;
+  filter: ${({ $liked }) => $liked ? 'none' : 'grayscale(100%) brightness(200%)'};
 `;
 
 S.VisionBox = styled.div`

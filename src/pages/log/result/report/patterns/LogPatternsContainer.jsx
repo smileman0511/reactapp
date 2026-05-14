@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
+import theme from '../../../../../styles/theme';
 import RadarChart from './RadarChart';
 import DoughnutChart from './DoughnutChart';
 
@@ -55,14 +56,14 @@ const LogPatternsContainer = () => {
     // Dynamic data for failure flow and log content
     const failureReport = {
         flow: [
-            { label: '상황', value: '외부 압박 증가', color: '#FF4B4B' },
-            { label: '결정 패턴', value: '회피 또는 포기', color: '#34C759' },
-            { label: '반복 결과', value: '목표 미달성', color: '#AB47FF' }
+            { label: '상황', value: '외부 압박 증가', color: theme.PALETTE.fourth.main },
+            { label: '결정 패턴', value: '회피 또는 포기', color: theme.PALETTE.secondary.main },
+            { label: '반복 결과', value: '목표 미달성', color: theme.PALETTE.third.main }
         ],
         logAnalysis: [
-            { label: '주요 결정', content: '팀원과 갈등이 생겨서 팀원과의 상의를 하지 않고 혼자 방향을 정해서 맘대로 바꾸었다.', color: '#AB47FF' },
-            { label: '외부 요인', content: '마감 일정 압박, 팀원과 다른 의견과 그로 인한 의견 충돌', color: '#F53102' },
-            { label: '내부 요인', content: '갈등을 해결하려하지 않고 회피하려는 심리, 혼자서도 다 해결할 수 있다는 과신', color: '#0075FF' }
+            { label: '주요 결정', content: '팀원과 갈등이 생겨서 팀원과의 상의를 하지 않고 혼자 방향을 정해서 맘대로 바꾸었다.', color: theme.PALETTE.third.main },
+            { label: '외부 요인', content: '마감 일정 압박, 팀원과 다른 의견과 그로 인한 의견 충돌', color: theme.PALETTE.fourth.main },
+            { label: '내부 요인', content: '갈등을 해결하려하지 않고 회피하려는 심리, 혼자서도 다 해결할 수 있다는 과신', color: theme.PALETTE.primary.main }
         ]
     };
 
@@ -140,8 +141,8 @@ const LogPatternsContainer = () => {
                                     <S.ContentSubTitle>요인별 영향도 비율</S.ContentSubTitle>
                                     <S.DoughnutWrapper>
                                         <S.ChartHeaderInfo>
-                                            <S.InfoItem>외부요인 <span style={{ color: '#0075FF' }}>{factorImpact.external}%</span></S.InfoItem>
-                                            <S.InfoItem>내부요인 <span style={{ color: '#AB47FF' }}>{factorImpact.internal}%</span></S.InfoItem>
+                                            <S.InfoItem>외부요인 <span style={{ color: theme.PALETTE.primary.main }}>{factorImpact.external}%</span></S.InfoItem>
+                                            <S.InfoItem>내부요인 <span style={{ color: theme.PALETTE.third.main }}>{factorImpact.internal}%</span></S.InfoItem>
                                         </S.ChartHeaderInfo>
                                         
                                         <DoughnutChart 
@@ -152,11 +153,11 @@ const LogPatternsContainer = () => {
 
                                         <S.LegendWrapper>
                                             <S.LegendItem>
-                                                <S.Dot color="#0075FF" />
+                                                <S.Dot color={theme.PALETTE.primary.main} />
                                                 외부요인 (환경/타인)
                                             </S.LegendItem>
                                             <S.LegendItem>
-                                                <S.Dot color="#AB47FF" />
+                                                <S.Dot color={theme.PALETTE.third.main} />
                                                 내부요인 (마인드/지식)
                                             </S.LegendItem>
                                         </S.LegendWrapper>
@@ -192,7 +193,7 @@ const LogPatternsContainer = () => {
                                     <S.ContentSubTitle>자주 반복되는 위험한 습관</S.ContentSubTitle>
                                     {analysisDetails.habits.map((habit, idx) => (
                                         <S.ListItem key={`habit-${idx}`}>
-                                            <S.ListNum color="#F53102">{idx + 1}.</S.ListNum>
+                                            <S.ListNum color={theme.PALETTE.fourth.main}>{idx + 1}.</S.ListNum>
                                             <S.ListBody>
                                                 <S.ListTitle>{habit.title}</S.ListTitle>
                                                 <S.ListDesc>{habit.description}</S.ListDesc>
@@ -205,7 +206,7 @@ const LogPatternsContainer = () => {
                                     {/* 내부 요인 출력 */}
                                     {analysisDetails.classification.internal.map((item, idx) => (
                                         <S.ListItem key={`internal-${idx}`}>
-                                            <S.ListNum color="#F53102">{idx + 1}.</S.ListNum>
+                                            <S.ListNum color={theme.PALETTE.fourth.main}>{idx + 1}.</S.ListNum>
                                             <S.ListBody>
                                                 <S.ListTitle>{item.title}</S.ListTitle>
                                                 <S.ListDesc>{item.description}</S.ListDesc>
@@ -217,7 +218,7 @@ const LogPatternsContainer = () => {
                                         const startNum = analysisDetails.classification.internal.length;
                                         return (
                                             <S.ListItem key={`external-${idx}`}>
-                                                <S.ListNum color="#F53102">{startNum + idx + 1}.</S.ListNum>
+                                                <S.ListNum color={theme.PALETTE.fourth.main}>{startNum + idx + 1}.</S.ListNum>
                                                 <S.ListBody>
                                                     <S.ListTitle>{item.title}</S.ListTitle>
                                                     <S.ListDesc>{item.description}</S.ListDesc>
@@ -306,8 +307,8 @@ S.Badge = styled.span`
     align-items: center;
     padding: 0 16px;
     background-color: transparent;
-    color: #F53102;
-    border: 2px solid #F53102;
+    color: ${({ theme }) => theme.PALETTE.fourth.main};
+    border: 2px solid ${({ theme }) => theme.PALETTE.fourth.main};
     border-radius: 10px;
     font-size: ${({ theme }) => theme.FONT_SIZE.h7};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
@@ -421,7 +422,7 @@ S.QuoteText = styled.p`
 
 S.QuoteSubText = styled.p`
     font-size: ${({ theme }) => theme.FONT_SIZE.h8};
-    color: #F53102;
+    color: ${({ theme }) => theme.PALETTE.fourth.main};
     text-align: left;
 `;
 
@@ -433,7 +434,7 @@ S.AccordionList = styled.div`
 
 S.AccordionItem = styled.div`
     border: ${({ $isOpen, theme }) => 
-        $isOpen ? `2px solid ${theme.PALETTE.third.main}` : `1px solid ${theme.GRAYSCALE[4]}`};
+        $isOpen ? `2px solid ${({ theme }) => theme.PALETTE.third.main}` : `1px solid ${({ theme }) => theme.GRAYSCALE[4]}`};
     border-radius: 12px;
     background-color: ${({ theme }) => theme.PALETTE.white};
     cursor: pointer;
@@ -487,7 +488,7 @@ S.Chevron = styled.span`
 
 S.AccordionContent = styled.div`
     padding: 30px;
-    background: #FFFFFF;
+    background: ${({ theme }) => theme.PALETTE.white};
     border-top: 1px solid ${({ theme }) => theme.GRAYSCALE[2]};
     overflow: hidden; /* 삐져나옴 방지 */
 `;
@@ -522,7 +523,7 @@ S.PlaceholderImage = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FAFAFA;
+    background-color: ${({ theme }) => theme.GRAYSCALE[1]};
     border-radius: 8px;
     padding: 20px;
 `;
@@ -533,7 +534,7 @@ S.DoughnutWrapper = styled.div`
     align-items: center;
     position: relative;
     padding: 20px;
-    background-color: #FFF;
+    background-color: ${({ theme }) => theme.PALETTE.white};
     border-radius: 12px;
 `;
 
@@ -549,7 +550,7 @@ S.ChartHeaderInfo = styled.div`
 S.InfoItem = styled.div`
     font-size: 14px;
     font-weight: 700;
-    color: #666;
+    color: ${({ theme }) => theme.GRAYSCALE[8]};
     text-align: right;
 
     span {
@@ -569,7 +570,7 @@ S.LegendItem = styled.div`
     align-items: center;
     gap: 10px;
     font-size: 14px;
-    color: #555;
+    color: ${({ theme }) => theme.GRAYSCALE[10]};
     font-weight: 600;
 `;
 
@@ -585,7 +586,7 @@ S.ChartWrapper = styled.div`
     justify-content: center;
     align-items: center;
     padding: 10px;
-    background-color: #FFF;
+    background-color: ${({ theme }) => theme.PALETTE.white};
     border-radius: 12px;
 `;
 
@@ -598,7 +599,7 @@ S.ListItem = styled.div`
 S.ListNum = styled.span`
     font-size: ${({ theme }) => theme.FONT_SIZE.h7};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-    color: ${({ color }) => color || '#F53102'};
+    color: ${({ color }) => color || theme.PALETTE.fourth.main};
 `;
 
 S.ListBody = styled.div`
@@ -629,14 +630,14 @@ S.FlowWrapper = styled.div`
 S.FlowStep = styled.div`
     width: 120px;
     height: 60px;
-    border: 2px solid ${({ borderColor }) => borderColor || '#E6E6E6'};
+    border: 2px solid ${({ borderColor }) => borderColor || theme.GRAYSCALE[2]};
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: white;
+    background-color: ${({ theme }) => theme.PALETTE.white};
 `;
 
 S.StepLabel = styled.div`

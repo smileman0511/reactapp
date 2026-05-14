@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet, useParams, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import theme from '../../../styles/theme';
 
 const LogResultContainer = () => {
   const navigate = useNavigate();
@@ -350,7 +351,7 @@ S.CarouselTitle = styled.h2`
 S.CarouselSubTitle = styled.p`
   font-size: ${({ theme }) => theme.FONT_SIZE.h5};
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-  color: #000000;
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
   margin-bottom: 60px;
 `;
 
@@ -399,8 +400,8 @@ S.RelatedCard = styled.div`
 `;
 
 S.RelatedBadge = styled.span`
-  background: #F0FDF4;
-  color: #16A34A;
+  background: ${({ theme }) => theme.PALETTE.secondary.light};
+  color: ${({ theme }) => theme.PALETTE.secondary.main};
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 12px;
@@ -411,7 +412,7 @@ S.RelatedBadge = styled.span`
 
 S.RelatedDate = styled.span`
   font-size: ${({ theme }) => theme.FONT_SIZE.h10};
-  color: #000000;
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
   position: absolute;
   right: 32px;
   top: 36px;
@@ -431,7 +432,7 @@ S.RelatedTitle = styled.h4`
 
 S.RelatedSub = styled.p`
   font-size: ${({ theme }) => theme.FONT_SIZE.h8};
-  color: #000000;
+  color: ${({ theme }) => theme.TEXT_COLOR.basic};
   margin-bottom: 16px;
   line-height: 1.5;
   flex: 1;
