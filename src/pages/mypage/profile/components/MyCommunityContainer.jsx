@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import S from "../styles/MyProfileStyle";
 import PagenationComponent from "../../../../components/commons/PagenationComponent";
 import SearchbarComponent from "../../../../components/commons/SearchbarComponent";
+import SearchOptionContainer from "../../../../components/commons/SearchOptionContainer";
 import useSearchStore from "../../../../components/useSearchStore";
 
 const MyCommunityContainer = () => {
@@ -136,11 +137,13 @@ const MyCommunityContainer = () => {
         <>
       <div
         style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginBottom: "20px",
-        }}
+    display: "flex",
+    alignItems: "center",       // 높이 중앙 맞춤
+    gap: "12px",                // 피그마의 Spacing 값에 맞춰 조절 (보통 8px~16px)
+    marginBottom: "32px"      // 리스트와의 간격 (피그마 가이드 확인)
+  }}
       >
+        <SearchOptionContainer />
         <SearchbarComponent
           placeholder="궁금한 실패 사례를 검색해보세요!"
           onSubmit={handleSearchSubmit}
