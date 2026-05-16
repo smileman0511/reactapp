@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import S, { colorCSS } from '../../style.js';
+
+import check from  '../../resources/check-small.svg'
 
 const REPORT_REASONS = [
   { id: 'ad',      title: '광고 / 도배',   desc: '홍보성 댓글' },
@@ -71,7 +73,7 @@ const ReportPopup = ({ type = '댓글', id, profileImg, author, content, onClose
                 <S.Span size="h10Regular" color="faillog_gray9">{reason.desc}</S.Span>
               </ReasonText>
               <RadioCircle selected={selectedReason === reason.id}>
-                {selectedReason === reason.id && <RadioCheck />}
+                {selectedReason === reason.id && <RadioCheck src={check} alt="check" />}
               </RadioCircle>
             </ReasonBox>
           ))}
@@ -98,6 +100,11 @@ const ReportPopup = ({ type = '댓글', id, profileImg, author, content, onClose
   );
 };
 
+const fadeIn = keyframes`
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+`;
+
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -113,13 +120,14 @@ const Overlay = styled.div`
 
 const Popup = styled.div`
   width: 648px;
-  height: 1056px;
+  height: 895px;
   background: #fff;
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 33px 39px 41px 39px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  animation: ${fadeIn} 0.2s ease;
 `
 
 const Header = styled.div`
@@ -189,6 +197,7 @@ const ReasonBox = styled.div`
   cursor: pointer;
   box-sizing: border-box;
   background: #fff;
+  transition: all 0.2s;
 `
 
 const ReasonText = styled.div`
@@ -208,19 +217,18 @@ const RadioCircle = styled.div`
   justify-content: center;
   flex-shrink: 0;
   box-sizing: border-box;
+  /* transition: all 0.2s; */
 `
 
-const RadioCheck = styled.div`
-  width: 6px;
-  height: 10px;
-  border-right: 2px solid #fff;
-  border-bottom: 2px solid #fff;
-  transform: rotate(45deg) translate(-1px, -2px);
+const RadioCheck = styled.img`
+  width: 14px;
+  height: 14px;
+  filter: brightness(0) invert(1);
 `
 
 const ContentTextArea = styled.textarea`
   width: 568px;
-  height: 261px;
+  height: 100px;
   margin-top: 16px;
   background: ${colorCSS["faillog_gray1"]};
   border: none;
@@ -288,6 +296,7 @@ const CompletedPopup = styled.div`
   align-items: center;
   justify-content: center;
   gap: 24px;
+  animation: ${fadeIn} 0.4s ease;
 `
 
 const CheckCircle = styled.div`

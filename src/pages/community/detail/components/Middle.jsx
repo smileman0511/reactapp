@@ -13,7 +13,7 @@ import { useReportContext } from './ReportContext.js';
 // 게시글 상세 중앙(목록으로, 좋아요버튼, 메뉴버튼)
 // isOwner: 본인 게시글 여부, likeCount: 좋아요 수, isLiked: 좋아요 선택 여부
 // postId, postAuthor, postProfileImg, postContent: 신고 팝업용 게시글 정보
-const Middle = ({ isOwner = false, likeCount = 0, isLiked = false, postId, postAuthor, postProfileImg, postContent }) => {
+const Middle = ({ id, isOwner = false, likeCount = 0, isLiked = false, postId, postAuthor, postProfileImg, postContent }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { openReport } = useReportContext();
@@ -42,7 +42,10 @@ const Middle = ({ isOwner = false, likeCount = 0, isLiked = false, postId, postA
                   <DropdownItem onClick={() => { openReport('게시글', postId, postProfileImg, postAuthor, postContent); setMenuOpen(false); }}>
                     <S.Span size="h7Regular">신고하기</S.Span>
                   </DropdownItem>
-                  <DropdownItem onClick={() => setMenuOpen(false)}>
+                  <DropdownItem onClick={() => {
+                      setMenuOpen(false)
+                      navigate(`/community/edit/${id}`)
+                    }}>
                     <S.Span size="h7Regular">수정하기</S.Span>
                   </DropdownItem>
                   <DropdownItem onClick={() => setMenuOpen(false)}>

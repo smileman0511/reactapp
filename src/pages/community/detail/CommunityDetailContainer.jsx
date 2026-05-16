@@ -215,6 +215,7 @@ const CommunityDetailContainer = () => {
 
             {/* 중앙(목록으로,좋아요,메뉴버튼컨테이너) */}
             <Middle
+                id={id}
                 isOwner={true}
                 isLiked={true}
                 likeCount={24}
