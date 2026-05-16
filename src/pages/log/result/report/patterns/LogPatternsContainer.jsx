@@ -8,7 +8,7 @@ import DoughnutChart from './DoughnutChart';
 import patternIcon from '../../result_icon/pattern.svg';
 import habitIcon from '../../result_icon/habit.svg';
 import flowIcon from '../../result_icon/flow.svg';
-import { S } from './LogPatternsContainer.style';
+import { S } from './LogPatternsContainerStyles';
 
 const LogPatternsContainer = () => {
     const theme = useTheme();
@@ -125,7 +125,7 @@ const LogPatternsContainer = () => {
                         <S.AccordionContent>
                             <S.ContentRow>
                                 <S.ContentCol>
-                                    <S.ContentSubTitle>요인별 영향도 비율</S.ContentSubTitle>
+                                    <S.ContentSubTitle $center>요인별 영향도 비율</S.ContentSubTitle>
                                     <S.DoughnutWrapper>
                                         <S.ChartHeaderInfo>
                                             <S.InfoItem>외부요인 <span style={{ color: theme.PALETTE.primary.main }}>{factorImpact.external}%</span></S.InfoItem>
@@ -151,7 +151,7 @@ const LogPatternsContainer = () => {
                                     </S.DoughnutWrapper>
                                 </S.ContentCol>
                                 <S.ContentCol>
-                                    <S.ContentSubTitle>나의 실패 패턴</S.ContentSubTitle>
+                                    <S.ContentSubTitle $center>나의 실패 패턴</S.ContentSubTitle>
                                     <S.ChartWrapper>
                                         <RadarChart data={userPatterns} size={320} />
                                     </S.ChartWrapper>

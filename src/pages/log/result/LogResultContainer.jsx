@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, useParams, useNavigate, useLocation } from 'react-router-dom';
-import { S } from './LogResultContainer.style';
+import { S } from './LogResultContainerStyles';
 
 const LogResultContainer = () => {
   const navigate = useNavigate();

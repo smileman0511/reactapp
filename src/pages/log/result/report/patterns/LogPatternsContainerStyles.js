@@ -235,7 +235,7 @@ S.ContentSubTitle = styled.h4`
     font-size: ${({ theme }) => theme.FONT_SIZE.h7};
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
     margin-bottom: 24px;
-    text-align: left;
+    text-align: ${({ $center }) => ($center ? 'center' : 'left')};
 `;
 
 S.DoughnutWrapper = styled.div`

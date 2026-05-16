@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import checkCircleIcon from '../result_icon/check_circle.svg';
 import heartActiveIcon from '../result_icon/heart_active.svg';
 import heartInactiveIcon from '../result_icon/heart_inactive.svg';
-import { S } from './LogDetailContainer.style';
+import { S } from './LogDetailContainerStyles';
 
 const LogDetailContainer = () => {
   const { liked, likeCount, handleLike, selectedLog } = useOutletContext();

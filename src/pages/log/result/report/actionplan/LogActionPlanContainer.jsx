@@ -7,7 +7,7 @@ import planTargetIcon from './actionplan_icon/plan_target.svg';
 import planEnvIcon from './actionplan_icon/plan_env.svg';
 import planPartnerIcon from './actionplan_icon/plan_partner.svg';
 import planChecklistIcon from './actionplan_icon/plan_checklist.svg';
-import { S } from './LogActionPlanContainer.style';
+import { S } from './LogActionPlanContainerStyles';
 
 const LogActionPlanContainer = () => {
     const theme = useTheme();
