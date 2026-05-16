@@ -436,6 +436,23 @@ S.ProgressBar = styled.div`
   will-change: transform;
 `;
 
+S.CancelButton = styled.button`
+  margin-top: 24px;
+  padding: 10px 24px;
+  background-color: ${({ theme }) => theme.PALETTE.white};
+  border: 1px solid ${({ theme }) => theme.GRAYSCALE[3]};
+  border-radius: 8px;
+  font-size: ${({ theme }) => theme.FONT_SIZE.h9};
+  color: ${({ theme }) => theme.GRAYSCALE[6]};
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.GRAYSCALE[1]};
+    color: ${({ theme }) => theme.TEXT_COLOR.basic};
+  }
+`;
+
 /* ─── Step 4 (Complete) ─── */
 S.CompleteWrapper = styled.div`
   display: flex;

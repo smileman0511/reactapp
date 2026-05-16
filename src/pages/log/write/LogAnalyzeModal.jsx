@@ -233,6 +233,7 @@ const LogAnalyzeModal = ({ onClose }) => {
       <S.ProgressBarWrapper>
         <S.ProgressBar style={{ transform: `scaleX(${progress / 100})` }} />
       </S.ProgressBarWrapper>
+      <S.CancelButton onClick={() => setStep(2)}>분석 취소</S.CancelButton>
     </S.LoadingWrapper>
   );
 
