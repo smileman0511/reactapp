@@ -46,13 +46,13 @@ S.HeaderNav = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 40px;
 `;
 
 S.CloseButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 8px;
+  margin-bottom: 40px;
 `;
 
 S.CloseButton = styled.button`
@@ -81,13 +81,13 @@ S.BackButton = styled.button`
 `;
 
 S.CloseIcon = styled.img`
-  width: 14px;
-  height: 14px;
+  width: 25px;
+  height: 25px;
 `;
 
 S.BackIcon = styled.img`
-  width: 12px;
-  height: 12px;
+  width: 25px;
+  height: 25px;
 `;
 
 S.CheckIconImg = styled.img`
