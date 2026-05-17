@@ -3,12 +3,9 @@ import { sizeCSS, colorCSS } from "../../../../components/style";
 
 const S = {};
 
-/* 🎯 [전면 개편] 최외각 카드 틀 자체를 핑크색 배경의 본체로 만듭니다 */
 S.MyFailCard = styled.div`
   width: 258px;
   height: 336px;
-  
-  /* 🎯 border와 padding이 width/height 크기에 포함되도록 설정하여 크기 계산을 직관적으로 바꿉니다 */
   box-sizing: border-box; 
   border-radius: 20px;
   padding: 24px;
@@ -17,56 +14,62 @@ S.MyFailCard = styled.div`
   position: relative;
   cursor: pointer;
   overflow: hidden;
-
-  /* 🎯 transitions를 가장 중요한 속성들로 정비 */
   transition: all 0.2s ease-in-out;
   
-  /* 🔥 [레이어 1] 본체 배경색 설정: 최외각 틀 자체의 배경색을 직접 바꿉니다 */
-  /* 선택(isSelected) 시 테마 대신 #FFE4E6 계열을 테두리까지 포함한 틀 전체에 강제 적용 */
+  /* 🎯 전체 선택 시 피그마 로즈빛 테두리 라인 밀착 */
+  border: 2px solid ${(props) => props.$isSelected ? "#FDA4AF" : "transparent"}; 
+
+  /* 🎯 평상시 및 호버 시 기존 고유 색상 완벽 유지 (선택 시에만 faillog_light_red 전환) */
   background-color: ${(props) => 
-    props.isSelected 
+    props.$isSelected 
       ? (colorCSS["faillog_light_red"] || "#FFE4E6") 
-      : (props.bgColor || colorCSS["faillog_gray8"])
+      : (props.$bgColor || "transparent")
   };
-  
-  /* 🎯 [핵심] 선택 시 외각 테두리를 자연스러운 로즈빛 라인으로 밀착시킵니다 */
-  border: 2px solid ${(props) => props.isSelected ? "#FDA4AF" : "transparent"}; 
 
+  /* 선택되지 않았고 개별 bgColor가 없을 때만 첫 행 고유 컬러 순환 */
+  ${(props) => !props.$isSelected && !props.$bgColor && `
+    &:nth-of-type(4n + 1) { background-color: #F1F3FB; }
+    &:nth-of-type(4n + 2) { background-color: #E7EFFF; }
+    &:nth-of-type(4n + 3) { background-color: #D8EEFD; }
+    &:nth-of-type(4n + 4) { background-color: #D7E0FF; }
+  `}
 
-  /* 🔥 [레이어 2] 암전 필름 오버레이 */
+  /* 🔥 [요구사항 1 & 5] 검은 반투명 필름 오버레이 (z-index: 2) */
   &::before {
     content: '';
     position: absolute;
-    /* 🎯 border 두께(2px)만큼 바깥으로 확장하여 테두리 위까지 완벽히 덮어버림 */
     top: -2px;
     left: -2px;
     right: -2px;
     bottom: -2px;
-    
     background: rgba(25, 34, 49, 0.45); 
     z-index: 2; 
-    
-    /* 🎯 카드의 곡률과 완벽하게 일치시킴 */
     border-radius: 20px; 
-    
-    opacity: ${(props) => props.isSelected ? 0 : 1};
-    transition: opacity 0.2s ease;
+    /* 선택되었을 때는 필름을 걷어내 본연의 라이트 레드 컬러 노출 */
+    opacity: ${(props) => props.$isSelected ? 0 : 1}; 
+    transition: opacity 0.2s ease-in-out;
   }
 
-  /* ✨ 마우스 호버 액션 */
+  /* 🔥 평상시 (마우스 호버하지 않았을 때) 글자 흰색 고정 */
+  &:not(:hover) {
+    h4, .TimeText, .AuthorArea span {
+      /* 선택 시에는 배경이 밝아지므로 가독성을 위해 블랙으로 반전, 평소엔 화이트 */
+      color: ${(props) => props.$isSelected ? (colorCSS["faillog-black"] || "#000000") : "#FFFFFF"} !important;
+      opacity: 1 !important;
+    }
+  }
+
+  /* ✨ 마우스 호버 시 인터랙션 (필름 제거, 고유색 노출, 블랙 반전) */
   &:hover {
-    /* 선택되지 않은 일반 카드만 호버 시 화이트로 반전시킵니다 */
-    background-color: ${(props) => props.isSelected ? (colorCSS["faillog_light_red"] || "#FFE4E6") : colorCSS["faillog_white"]} !important; 
-    border-color: ${(props) => props.isSelected ? "#FDA4AF" : colorCSS["faillog_purple"]}; 
+    border-color: ${(props) => props.$isSelected ? "#FDA4AF" : colorCSS["faillog_purple"]}; 
     transform: translateY(-4px);
     
     &::before {
       opacity: 0; 
     }
     
-    /* 호버 시 텍스트 컬러 반전 제어 */
     h4, .TimeText, .AuthorArea span {
-      color: ${(colorCSS["faillog_black"] || colorCSS["faillog-black"] || "#000000")} !important;
+      color: ${colorCSS["faillog-black"] || "#000000"} !important;
       opacity: 1 !important;
     }
 
@@ -75,29 +78,27 @@ S.MyFailCard = styled.div`
     }
   }
 
-  /* 🎯 선택된 상태의 카드 내부 텍스트 가독성 확보 */
-  ${(props) => props.isSelected && `
+  /* 전체 선택(isSelected) 상태 시 텍스트 컬러 최종 고정 강제 */
+  ${(props) => props.$isSelected && `
     h4, .TimeText, .AuthorArea span {
-      color: ${(colorCSS["faillog_black"] || colorCSS["faillog-black"] || "#000000")} !important;
+      color: ${(colorCSS["faillog-black"] || "#000000")} !important;
       opacity: 1 !important;
     }
   `}
 `;
 
+/* S.MyFailContent 이하는 레이어 구조(z-index) 복구가 끝난 상태이므로 그대로 유지됩니다. */
 S.MyFailContent = styled.div`
-  /* 🎯 내부 콘텐츠 영역은 최외각 틀 크기를 그대로 다 채웁니다 (수축 방지) */
   width: 100%;
   height: 100%;
-  
   display: flex;
   flex-direction: column;
   position: relative;
   box-sizing: border-box;
 
-  /* 🔥 [레이어 3] 최상단 텍스트 및 콘텐츠 레이어 그룹 */
   .ContentGroup {
     position: relative;
-    z-index: 3;
+    z-index: 3; 
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -137,18 +138,17 @@ S.MyFailContent = styled.div`
     }
   }
 
-  /* 🔥 [배경] 내부 이미지 센터링 박스 */
   .CardMainImage {
     position: absolute;
-    left: 50%;
-    top: 52%;
-    transform: translate(-50%, -50%);
+    bottom: -10px; 
+    right: -10px;
     z-index: 1; 
     width: 110px;
     height: 110px;
     display: flex;
-    justifyContent: center;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: flex-end;
+    pointer-events: none;
     
     img { 
       width: 100%; 
@@ -159,11 +159,10 @@ S.MyFailContent = styled.div`
     }
   }
 
-  /* 하단 푸터 영역 */
   .CardFooter {
     margin-top: auto;
     display: flex;
-    justifyContent: space-between;
+    justify-content: space-between;
     align-items: center;
     
     .TimeText { 
@@ -171,7 +170,6 @@ S.MyFailContent = styled.div`
       transition: color 0.2s ease;
     }
 
-    /* 🎯 원래 존재하던 하트 레이아웃 정렬 규격 */
     .LikeArea {
       display: flex;
       align-items: center;

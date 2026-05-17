@@ -2,26 +2,39 @@ import React from 'react';
 import SearchbarComponent from '../../../components/commons/SearchbarComponent';
 import SearchDropdownComponent from '../../../components/commons/SearchDropdownComponent';
 
-/**
- * @param {string} currentOption - 현재 선택된 검색 옵션 ('제목', '내용', '제목+내용')
- * @param {function} onOptionChange - 드롭다운 변경 시 실행할 상태 변경 함수
- * @param {function} onSearchSubmit - 검색어 제출 시 실행할 훅/핸들러
- * @param {object} styles - 외부 스타일 객체 (LogS)
- */
 const LogSearchComponent = ({ currentOption, onOptionChange, onSearchSubmit, styles }) => {
   return (
-    <styles.SearchControlBlock>
-      <styles.DropdownWrapper>
+    <styles.SearchControlBlock 
+      style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: '12px',
+        width: '100%'
+      }}
+    >
+      {/* 📌 드롭다운: 피그마 규격 전달 (내부 방어코드가 있어서 안전함) */}
+      <styles.DropdownWrapper style={{ width: '160px', flexShrink: 0 }}>
         <SearchDropdownComponent 
           defaultValue={currentOption} 
           onChange={onOptionChange} 
+          style={{ 
+            width: '160px', 
+            height: '48px',
+            borderRadius: '9999px'
+          }}
         />
       </styles.DropdownWrapper>
       
-      <styles.SearchbarWrapper>
+      {/* 📌 서치바: 피그마 규격 강제 매핑 */}
+      <styles.SearchbarWrapper style={{ width: '648px', flexShrink: 0 }}>
         <SearchbarComponent 
           placeholder="내 페일로그 검색..." 
           onSubmit={onSearchSubmit}
+          style={{
+            width: '100%',
+            height: '60px',
+            borderRadius: '9999px'
+          }}
         />
       </styles.SearchbarWrapper>
     </styles.SearchControlBlock>

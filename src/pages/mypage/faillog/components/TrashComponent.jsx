@@ -22,7 +22,7 @@ const TrashComponent = ({
     <>
       {/* 📌 휴지통 타이틀 영역 옆에 편집 모드를 활성화할 체크박스 배치 */}
       <S.SectionHeader style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2><span>페일로그</span>휴지통</h2>
+        <h2><span>페일로그 </span>휴지통</h2>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
           <input 
@@ -60,14 +60,13 @@ const TrashComponent = ({
               const isSelected = isTrashEditMode && selectedTrashIds.includes(log.id);
 
               return (
-                /* 🎯 [청소 완료] 겉돌던 가짜 테두리와 배경 인라인 스타일을 완전히 제거했습니다.
-                   오직 리스트 정렬을 위한 고유 key값과 최소한의 형태만 유지합니다. */
                 <div key={log.id} style={{ position: 'relative' }}>
                   <MyFailCardItemComponent 
                     log={log}
                     index={index}
                     iconSrc={failLogIcon}
-                    isSelected={isSelected} // 📌 판단된 결과값을 자식 컴포넌트에게 온전히 넘겨 스타일을 통제합니다.
+                    isSelected={isSelected} 
+                    isTrash={true} // 🎯 이 카드가 휴지통 전용 카드임을 하위 스타일 시트까지 전달합니다
                     onClick={() => {
                       // 관리 모드가 켜져 있을 때만 클릭 시 토글 선택 동작이 가능하도록 방어 코드 구축
                       if (isTrashEditMode) {
