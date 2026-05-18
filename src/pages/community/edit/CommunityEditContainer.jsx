@@ -15,12 +15,12 @@ const CommunityEditContainer = () => {
     };
 
     const handleCancel = () => {
-        navigate('/community');
+        navigate('/community/detail/${id}');
     };
 
     return (
         <Wrapper>
-            <PostForm onSubmit={handleSubmit} onCancel={handleCancel} />
+            <PostForm onSubmit={handleSubmit} onCancel={handleCancel} isCreate={false} />
         </Wrapper>
     );
 };
