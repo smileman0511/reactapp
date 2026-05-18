@@ -10,6 +10,15 @@ import picture from '../../resources/option-picture.svg';
 import hyper from '../../resources/option-hyper.svg';
 import { flexCenterRow } from '../../../../styles/common';
 
+import { EditorContent, useEditor, useEditorState } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Link from '@tiptap/extension-link';
+import ImageResize from 'tiptap-extension-resize-image';
+import Paragraph from '@tiptap/extension-paragraph';
+import Text from '@tiptap/extension-text';
+
+import '../../css/PostForm.css'
+
 const CATEGORY_OPTIONS = ['시장/창업', '공부/취업', '인간관계', '건강/루틴', '기타'];
 
 const PostForm = ({
@@ -29,7 +38,7 @@ const PostForm = ({
     defaultValues: {
       title: defaultTitle,
       category: defaultCategory,
-      content: defaultContent,
+      // content: defaultContent,
     },
   });
 
@@ -39,6 +48,31 @@ const PostForm = ({
     const categoryIndex = CATEGORY_OPTIONS.indexOf(data.category);
     onSubmit?.({ title: data.title, category: categoryIndex, content: data.content });
   };
+
+  // tiptap 세팅
+    const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Link.configure({ openOnClick: false }),
+      ImageResize.configure({
+        minWidth: 50, // Minimum width in pixels
+        maxWidth: 1270, // Maximum width in pixels
+      }),
+      Paragraph,
+      Text
+    ],
+    content: '<img src="https://www.globalscarves.com/wp-content/uploads/2025/06/la-federation-francaise-de-football-fff-a-enregistre-des-benefices-en-2022-photo-sipa-francois-mori-1673094782.jpg" wrapperstyle="display: flex; margin: 0;"><p>내용</p><p></p><p></p><p>ㅇㅇ</p>',
+  })
+
+  //에디터 상태값변경 (리랜더링)
+  const { isLinkActive } = useEditorState({
+    editor,
+    selector: (ctx) => ({ 
+      isLinkActive: ctx.editor?.isActive('link') ?? false,
+      isBoldActive: ctx.editor?.isActive('bold') ?? false,
+      isItalicActive: ctx.editor?.isActive('italic') ?? false 
+    }),
+  });
 
   return (
     <Wrapper>
@@ -109,7 +143,8 @@ const PostForm = ({
               <ToolbarBtn type="button"><ToolbarIcon src={picture} alt="picture" /></ToolbarBtn>
               <ToolbarBtn type="button"><ToolbarIcon src={hyper} alt="hyperlink" /></ToolbarBtn>
             </EditorToolbar>
-            <EditorTextArea {...register('content')} />
+            <EditorContent editor={editor} />
+            {/* <EditorTextArea {...register('content')} /> */}
           </EditorBox>
         </FieldBlock>
 
@@ -208,9 +243,9 @@ const ErrorMsg = styled.div`
 const EditorBox = styled.div`
   width: 772px;
   height: 464px;
-  border: 1px solid ${colorCSS["faillog_gray9"]};
+  /* border: 1px solid ${colorCSS["faillog_gray9"]}; */
   border-radius: 15px;
-  overflow: hidden;
+  /* overflow: hidden; */
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -225,8 +260,10 @@ const EditorToolbar = styled.div`
   gap: 18px;
   padding: 0 16px;
   box-sizing: border-box;
+  border-radius: 15px 15px 0px 0px;
+  border: 1px solid ${colorCSS["faillog_gray9"]};
   flex-shrink: 0;
-  border-bottom: 1px solid ${colorCSS["faillog_gray9"]};
+  /* border-bottom: 1px solid ${colorCSS["faillog_gray9"]}; */
 `
 
 const ToolbarBtn = styled.button`
