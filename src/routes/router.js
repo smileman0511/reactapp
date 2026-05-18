@@ -20,9 +20,7 @@ import JoinContainer from "../pages/account/join/JoinContainer";
 import LoginContainer from "../pages/account/login/LoginContainer";
 import ResetPassWordContainer from "../pages/account/resetpassword/ResetPassWordContainer";
 import FindIdContainer from "../pages/account/findid/FindIdContainer";
-import MyPostsContainer from "../pages/mypage/posts/MyPostsContainer";
 import MyProfileContainer from "../pages/mypage/profile/MyProfileContainer";
-import MyTrashContainer from "../pages/mypage/trash/MyTrashContainer";
 import MyGuestbookContainer from "../pages/mypage/guestbook/MyGuestbookContainer";
 import MyLikesContainer from "../pages/mypage/likes/MyLikesContainer";
 import MyFailLogsContainer from "../pages/mypage/faillog/MyFailLogsContainer";
@@ -32,6 +30,7 @@ import LogOtherListContainer from "../pages/log/other/LogOtherListContainer";
 import ChronologyMainContainer from "../pages/chronology/ChronologyMainContainer";
 import ProjectMainContainer from "../pages/project/ProjectMainContainer";
 import ProjectSelectAllContainer from "../pages/project/selectAll/ProjectSelectAllContainer";
+import ProjectDetailContainer from "../pages/project/detail/ProjectDetailContainer";
 import VisionMainContainer from "../pages/vision/VisionMainContainer";
 
 const router = createBrowserRouter([
@@ -163,7 +162,7 @@ const router = createBrowserRouter([
         ]
       },
       { 
-        path : "chronology",
+        path: "chronology",
         element: <ChronologyMainContainer />,
         children: []
       },
@@ -171,19 +170,21 @@ const router = createBrowserRouter([
         path: "projects",
         element: <ProjectMainContainer />,
         children: [
-        {
+          {
             path: "",
             element: <ProjectSelectAllContainer />
-        }
-        ]  
+          },
+          {
+            path: ":id",
+            element: <ProjectDetailContainer />
+          }
+        ]
       },
       {
-        path : "vision",
-        element : <VisionMainContainer />,
-        children : []
+        path: "vision",
+        element: <VisionMainContainer />,
+        children: []
       }
-      
-
     ]
   },
 ])
