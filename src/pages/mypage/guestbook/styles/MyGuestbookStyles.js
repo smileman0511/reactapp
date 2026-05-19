@@ -406,7 +406,7 @@ S.EmptyState = styled.div`
   }
 
   p {
-    ${sizeCSS['h9-regular']}
+    ${sizeCSS['h4Regular']}
     color: ${colorCSS['faillog_gray10']};
     line-height: 1.8;
     margin: 0 0 40px;

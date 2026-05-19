@@ -5,6 +5,7 @@ import LS from '../styles/LikesLogStyles';
 import likeIcon from '../../../../components/resources/like.svg';
 import likeFillIcon from '../../../../components/resources/like-fill2.svg';
 import defaultProfile from '../resources/default-profile.png';
+import { formatRelativeTime } from '../../../../utils/relativeTime';
 
 const LikesCardItemComponent = ({ log = {}, iconSrc, onUnlike }) => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const LikesCardItemComponent = ({ log = {}, iconSrc, onUnlike }) => {
           </div>
 
           <div className="CardFooter">
-            <span className="TimeText">{log?.createdAt || log?.date || '방금 전'}</span>
+            <span className="TimeText">{formatRelativeTime(log?.createdAt || log?.date) || '방금 전'}</span>
             <div className="LikeArea">
               <button
                 onClick={handleLikeClick}

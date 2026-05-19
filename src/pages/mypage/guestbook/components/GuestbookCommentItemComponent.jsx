@@ -4,6 +4,7 @@ import GuestbookInputComponent from './GuestbookInputComponent';
 import likeIcon from '../../../../components/resources/like.svg';
 import likeFillIcon from '../../../../components/resources/like-fill2.svg';
 import defaultProfile from '../../likes/resources/default-profile.png';
+import { formatRelativeTime } from '../../../../utils/relativeTime';
 
 /* 3줄 초과 시 "자세히 보기 / 접기" 토글 텍스트 컴포넌트 */
 const ClampedText = ({ content }) => {
@@ -99,7 +100,7 @@ const GuestbookCommentItemComponent = ({
             />
           </S.Avatar>
           <S.CommentAuthor>{comment.author}</S.CommentAuthor>
-          <S.CommentTime>{comment.createdAt}</S.CommentTime>
+          <S.CommentTime>{formatRelativeTime(comment.createdAt)}</S.CommentTime>
         </S.CommentHeaderLeft>
 
         <S.CommentMenu
@@ -186,7 +187,7 @@ const GuestbookCommentItemComponent = ({
                       />
                     </S.ReplyAvatar>
                     <S.CommentAuthor>{reply.author}</S.CommentAuthor>
-                    <S.CommentTime>{reply.createdAt}</S.CommentTime>
+                    <S.CommentTime>{formatRelativeTime(reply.createdAt)}</S.CommentTime>
                   </S.CommentHeaderLeft>
 
                   <S.CommentMenu

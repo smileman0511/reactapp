@@ -341,7 +341,7 @@ S.EmptyTitle = styled.h3`
 `;
 
 S.EmptySubText = styled.p`
-  ${sizeCSS['h9-regular']}
+  ${sizeCSS['h4Regular']}
   color: ${colorCSS['faillog_gray10']};
   margin-bottom: 40px;
   line-height: 1.6;

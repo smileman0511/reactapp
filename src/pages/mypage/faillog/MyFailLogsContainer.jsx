@@ -10,59 +10,8 @@ import TrashComponent from './components/TrashComponent';
 
 import { getHeroContent } from '../heroSection/HeroData';
 import useSearchStore from '../../../components/useSearchStore';
-
-const LocalEmptyState = ({ title, subText, buttonText, onButtonClick }) => {
-  return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      textAlign: 'center',
-      padding: '120px 20px', // 시안 여백과 맞춤
-      width: '100%',
-      maxWidth: '1200px',
-      margin: '0 auto'
-    }}>
-      <h3 style={{ 
-        fontSize: '22px', 
-        fontWeight: '700', 
-        color: '#1E293B', 
-        marginBottom: '14px', 
-        lineHeight: '1.5' 
-      }}>
-        {title}
-      </h3>
-      <p style={{ 
-        fontSize: '15px', 
-        color: '#64748B', 
-        marginBottom: '32px', 
-        lineHeight: '1.6' 
-      }}>
-        {subText}
-      </p>
-      {buttonText && onButtonClick && (
-        <button 
-          onClick={onButtonClick}
-          style={{ 
-            padding: '12px 36px', 
-            background: 'linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%)', // 시안 그라데이션 완벽 재현
-            color: '#fff', 
-            border: 'none', 
-            borderRadius: '8px', 
-            fontSize: '15px', 
-            fontWeight: '600',
-            cursor: 'pointer',
-            boxShadow: '0 4px 10px rgba(99, 102, 241, 0.2)',
-            transition: 'opacity 0.2s'
-          }}
-        >
-          {buttonText}
-        </button>
-      )}
-    </div>
-  );
-};
+import EmptyStateComponent from '../commons/EmptyStateComponent';
+import CommS from '../profile/styles/CommunityStyles';
 
 const MyFailLogsContainer = () => {
   const navigate = useNavigate();
@@ -191,16 +140,12 @@ const MyFailLogsContainer = () => {
       {/* 🎯 동적 분기 영역 */}
       {hasNoCards ? (
         /* 📌 1. 카드가 없을 때: 로컬 빌트인 컴포넌트가 확실하게 UI 바인딩 */
-        <LocalEmptyState 
-          title={
-            <>
-              아직 기록된 실패가 없네요.<br />
-              <span style={{ color: '#6366f1' }}>첫 번째 페일로그</span>를 적어볼까요?
-            </>
-          }
+        <EmptyStateComponent
+          title={<>아직 기록된 실패가 없네요.<br /><span>첫 번째 페일로그</span>를 적어볼까요?</>}
           subText="실패를 외면하지 않고 기록할 때, 당신의 강력한 성장 데이터가 됩니다."
           buttonText="시작하기"
           onButtonClick={() => navigate('/my-page/fail-logs/write')}
+          styles={CommS}
         />
       ) : (
         /* 📌 2. 카드가 있을 때: 기존 요약 배너 및 검색/리스트 섹션 노출 */

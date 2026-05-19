@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import S from '../styles/RecentLogStyles';
 import failLogIcon from '../resources/fail-log-card.png';
 import defaultProfile from '../resources/default-profile.png';
+import { formatRelativeTime } from '../../../../utils/relativeTime';
 
 /**
  * @param {Array} logs - 부모(Container)에게서 전달받은 최근 확인한 로그 리스트 (recentLogs)
@@ -32,7 +33,7 @@ const RecentLogsComponent = ({ logs = [] }) => {
                   </div>
 
                   <div className="CardFooter">
-                    <span className="TimeText">{log.timeText || log.date || "방금 전"}</span>
+                    <span className="TimeText">{formatRelativeTime(log.timeText || log.date) || "방금 전"}</span>
                   </div>
 
                 </div>
