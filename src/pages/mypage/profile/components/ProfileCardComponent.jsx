@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import S from '../styles/MyProfileStyle';
 import defaltProfileImage from '../resouces/default.png';
+import cameraIcon from '../../../../components/resources/camera.svg';
 import PopupComponent from '../../../../components/commons/PopupComponent';
 
 const ProfileCardComponent = ({
@@ -68,13 +69,12 @@ const ProfileCardComponent = ({
         onChange={handleFileChange}
       />
 
-        <button 
-          className="image-edit-btn" 
+        <button
+          className="image-edit-btn"
           onClick={handleImageButtonClick}
           type="button"
         >
-          📸 
-          {/* 아이콘 집어넣을 것 */}
+          <img src={cameraIcon} alt="프로필 사진 변경" style={{ width: '16px', height: '16px' }} />
         </button>
       </div>
 

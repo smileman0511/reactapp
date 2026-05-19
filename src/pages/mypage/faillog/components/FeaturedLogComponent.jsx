@@ -1,6 +1,6 @@
 import React from 'react';
 import S from '../styles/MyFailLogStyles';
-import defaultProfile from '../../likes/resources/default-profile.png';
+import defaultProfile from '../../../../components/resources/default-profile.svg';
 import eyeIcon from '../../../../components/resources/eye.svg';
 import likeFilledIcon from '../../../../components/resources/like-fill2.svg';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import S from '../styles/RecentLogStyles';
 import failLogIcon from '../resources/fail-log-card.png';
-import defaultProfile from '../resources/default-profile.png';
+import defaultProfile from '../../../../components/resources/default-profile.svg';
 import { formatRelativeTime } from '../../../../utils/relativeTime';
 
 /**

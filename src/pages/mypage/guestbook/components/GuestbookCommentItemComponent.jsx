@@ -3,7 +3,7 @@ import S from '../styles/MyGuestbookStyles';
 import GuestbookInputComponent from './GuestbookInputComponent';
 import likeIcon from '../../../../components/resources/like.svg';
 import likeFillIcon from '../../../../components/resources/like-fill2.svg';
-import defaultProfile from '../../likes/resources/default-profile.png';
+import defaultProfile from '../../../../components/resources/default-profile.svg';
 import { formatRelativeTime } from '../../../../utils/relativeTime';
 
 /* 3줄 초과 시 "자세히 보기 / 접기" 토글 텍스트 컴포넌트 */

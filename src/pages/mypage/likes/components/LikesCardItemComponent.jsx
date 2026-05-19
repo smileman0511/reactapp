@@ -4,7 +4,7 @@ import S from '../../commons/styles/MyFailCardItemStyles';
 import LS from '../styles/LikesLogStyles';
 import likeIcon from '../../../../components/resources/like.svg';
 import likeFillIcon from '../../../../components/resources/like-fill2.svg';
-import defaultProfile from '../resources/default-profile.png';
+import defaultProfile from '../../../../components/resources/default-profile.svg';
 import { formatRelativeTime } from '../../../../utils/relativeTime';
 
 const LikesCardItemComponent = ({ log = {}, iconSrc, onUnlike }) => {
