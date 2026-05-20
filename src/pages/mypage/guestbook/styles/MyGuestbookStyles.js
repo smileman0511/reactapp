@@ -62,7 +62,10 @@ S.CommentTextarea = styled.textarea`
   outline: none;
   line-height: 1.75;
 
-  &::placeholder { color: ${colorCSS['faillog_gray8']}; }
+  &::placeholder {
+    ${sizeCSS['h9-regular']}
+    color: ${colorCSS['faillog_gray9']};
+  }
 `;
 
 S.InputFooter = styled.div`

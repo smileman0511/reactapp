@@ -9,11 +9,18 @@ import ProfileCardComponent from './components/ProfileCardComponent';
 import ProfileChartCard from './components/ProfileChartCard';
 import ProfileStreakCard from './components/ProfileStreakCard';
 import AccountDataComponent from './components/AccountDataComponent';
-import MyCommunityContainer from './components/MyCommunityContainer'; // 📌 순수한 커뮤니티 컨테이너
+import MyCommunityContainer from './components/MyCommunityContainer';
 import HeroRotationComponent from '../heroSection/HeroRotationComponents';
 import { getHeroContent } from '../heroSection/HeroData';
+import { DUMMY_COMMUNITY_POSTS, DUMMY_FAIL_LOGS as DUMMY_FAIL_LOGS_DATA } from '../data/dummyData';
 
-// 더미 페일로그 데이터 (실제 연동 시 API 응답으로 대체)
+const DUMMY_STATS = {
+  communityCount: DUMMY_COMMUNITY_POSTS.length,
+  logCount: DUMMY_FAIL_LOGS_DATA.length,
+  todayVisitors: 17,
+  loginStreak: 5,
+};
+
 const DUMMY_FAIL_LOGS = [
   { id: 1, factorType: 'external' },
   { id: 2, factorType: 'external' },
@@ -32,7 +39,6 @@ const MyProfileContainer = () => {
   const { pathname } = useLocation();
   const { mainContent, quickMenus } = getHeroContent(pathname);
 
-  // 회원 정보 상태 관리
   const [memberInfo, setMemberInfo] = useState({
     memberNickname: 'test',
     memberProfileImageUrl: null,
@@ -42,7 +48,6 @@ const MyProfileContainer = () => {
     memberPhoneVerified: 1,
   });
 
-  // 회원 정보 변경 핸들러들
   const handleImageChange = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -67,10 +72,8 @@ const MyProfileContainer = () => {
 
   return (
     <PageS.MainWrapper>
-      {/* 히어로 섹션 */}
       <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} />
 
-      {/* 내 정보 관리 섹션 */}
       <InfoS.InfoManagementSection>
         <div className="info-header">
           <h2>내 정보 관리</h2>
@@ -85,7 +88,12 @@ const MyProfileContainer = () => {
             onImageChange={handleImageChange}
           />
           <ProfileChartCard logs={DUMMY_FAIL_LOGS} />
-          <ProfileStreakCard />
+          <ProfileStreakCard
+            communityCount={DUMMY_STATS.communityCount}
+            logCount={DUMMY_STATS.logCount}
+            todayVisitors={DUMMY_STATS.todayVisitors}
+            loginStreak={DUMMY_STATS.loginStreak}
+          />
         </InfoS.TopCardGrid>
 
         <InfoS.BottomAccountArea>
@@ -99,7 +107,6 @@ const MyProfileContainer = () => {
         </InfoS.BottomAccountArea>
       </InfoS.InfoManagementSection>
 
-      {/* 내 커뮤니티 게시글 관리 섹션 */}
       <CommS.CommunitySection>
         <MyCommunityContainer />
       </CommS.CommunitySection>

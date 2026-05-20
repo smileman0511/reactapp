@@ -4,11 +4,6 @@ import defaultProfile from '../../../../components/resources/default-profile.svg
 import eyeIcon from '../../../../components/resources/eye.svg';
 import likeFilledIcon from '../../../../components/resources/like-fill2.svg';
 
-/**
- * @param {Array} logs - 부모(Container)에게서 전달받은 전체 페일로그 리스트 (allLogs)
- * 조회수 또는 좋아요가 높은 순으로 최대 3개 표시.
- * 로그가 없거나 좋아요가 적용된 게시글이 없으면 렌더링하지 않음.
- */
 const FeaturedLogComponent = ({ logs = [] }) => {
   const hasLikedPosts = logs.some(
     (log) => log.isLiked || (log.likeCount || log.likes || 0) > 0,

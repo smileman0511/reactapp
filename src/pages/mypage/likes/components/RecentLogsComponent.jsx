@@ -5,9 +5,6 @@ import failLogIcon from '../resources/fail-log-card.png';
 import defaultProfile from '../../../../components/resources/default-profile.svg';
 import { formatRelativeTime } from '../../../../utils/relativeTime';
 
-/**
- * @param {Array} logs - 부모(Container)에게서 전달받은 최근 확인한 로그 리스트 (recentLogs)
- */
 const RecentLogsComponent = ({ logs = [] }) => {
   const navigate = useNavigate();
 

@@ -10,6 +10,7 @@ import TrashComponent from './components/TrashComponent';
 
 import { getHeroContent } from '../heroSection/HeroData';
 import useSearchStore from '../../../components/useSearchStore';
+import { DUMMY_FAIL_LOGS } from '../data/dummyData';
 import EmptyStateComponent from '../commons/EmptyStateComponent';
 import CommS from '../profile/styles/CommunityStyles';
 
@@ -20,12 +21,7 @@ const MyFailLogsContainer = () => {
   const { content, setContent, setPage } = useSearchStore();
   
   // 📌 팁: 이 배열을 [] 빈 배열로 비우면 공백 상태가 활성화되고, 데이터가 들어오면 원래 리스트가 뜹니다.
-  const [allLogs, setAllLogs] = useState([
-    { id: 1, title: "1페이지 - Asunica 최종 면접 준비 중 발견한 코드 오류", content: "오늘 프로젝트를 정리하다가 스타일 경로가 꼬인 것을 발견했다.", createdAt: "2026-05-14", isLiked: false },
-    { id: 2, title: "1페이지 - React 공통 컴포넌트 설계의 어려움", content: "페이지네이션 컴포넌트를 만들면서 그룹화 로직을 구현하는 게 까다로웠다.", createdAt: "2026-05-13", isLiked: true },
-    { id: 3, title: "1페이지 - 오늘의 실패: 커피를 쏟은 키보드", content: "코딩에 집중하다가 커피를 쏟았다. 하드웨어 관리는 정말 중요하다.", createdAt: "2026-05-12", isLiked: false },
-    { id: 4, title: "스타일 컴포넌트 레이어 연동 실패 분석", content: "z-index와 가상요소 속성의 원리를 분석한다.", createdAt: "2026-05-11", isLiked: false },
-  ]);
+  const [allLogs, setAllLogs] = useState(DUMMY_FAIL_LOGS);
 
   const [trashedLogs, setTrashedLogs] = useState([]);
   const [filteredLogs, setFilteredLogs] = useState([]);
@@ -137,9 +133,7 @@ const MyFailLogsContainer = () => {
       <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} />
       <DraftLogsComponent draftLogs={draftLogs} />
       
-      {/* 🎯 동적 분기 영역 */}
       {hasNoCards ? (
-        /* 📌 1. 카드가 없을 때: 로컬 빌트인 컴포넌트가 확실하게 UI 바인딩 */
         <EmptyStateComponent
           title={<>아직 기록된 실패가 없네요.<br /><span>첫 번째 페일로그</span>를 적어볼까요?</>}
           subText="실패를 외면하지 않고 기록할 때, 당신의 강력한 성장 데이터가 됩니다."
@@ -148,10 +142,9 @@ const MyFailLogsContainer = () => {
           styles={CommS}
         />
       ) : (
-        /* 📌 2. 카드가 있을 때: 기존 요약 배너 및 검색/리스트 섹션 노출 */
         <>
           <FeaturedLogComponent logs={allLogs} />
-          <MyFailLogListSectionComponent 
+          <MyFailLogListSectionComponent
             searchOption={searchOption}
             setSearchOption={setSearchOption}
             handleSearchSubmit={handleSearchSubmit}
@@ -168,8 +161,7 @@ const MyFailLogsContainer = () => {
         </>
       )}
 
-      {/* 📌 하단 대칭 휴지통 섹션 */}
-      <div style={{ 
+      <div style={{
         width: '100%', 
         maxWidth: '1200px', 
         margin: '100px auto 40px',

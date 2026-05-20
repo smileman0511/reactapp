@@ -52,11 +52,9 @@ const GuestbookCommentItemComponent = ({
 }) => {
   const isMyComment = comment.author === currentUser;
 
-  // 댓글 수정 상태
   const [editMode, setEditMode] = useState(false);
   const [editContent, setEditContent] = useState(comment.content);
 
-  // 답글 수정 상태
   const [editingReplyId, setEditingReplyId] = useState(null);
   const [editReplyContent, setEditReplyContent] = useState('');
 
@@ -88,8 +86,6 @@ const GuestbookCommentItemComponent = ({
 
   return (
     <S.CommentCard>
-
-      {/* ── 헤더 ── */}
       <S.CommentHeader>
         <S.CommentHeaderLeft>
           <S.Avatar>
@@ -130,7 +126,6 @@ const GuestbookCommentItemComponent = ({
         )}
       </S.CommentHeader>
 
-      {/* ── 본문 (수정 모드 / 일반 모드) ── */}
       {editMode ? (
         <>
           <S.EditTextarea
@@ -168,7 +163,6 @@ const GuestbookCommentItemComponent = ({
         </>
       )}
 
-      {/* ── 답글 목록 ── */}
       {comment.replies.length > 0 && (
         <S.ReplyList>
           {comment.replies.map((reply) => {
@@ -257,7 +251,6 @@ const GuestbookCommentItemComponent = ({
         </S.ReplyList>
       )}
 
-      {/* ── 답글 입력창 ── */}
       {replyOpen && (
         <S.ReplyInputWrapper>
           <GuestbookInputComponent
