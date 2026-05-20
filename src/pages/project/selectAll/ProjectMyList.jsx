@@ -10,28 +10,31 @@ const FolderIcon = () => (
 );
 
 const ProjectCard = ({ project, onClick }) => (
-	<S.CardWrapper>
-		<S.Card onClick={() => onClick?.(project)}>
-			<S.AccentBar $color={project.accentColor || theme.PALETTE.third.main} />
-			<S.CardContent>
-				<S.CardTop>
-					<S.OwnerRow>
-						<S.OwnerAvatar $color={project.ownerColor || theme.PALETTE.third.main}>
-							{project.ownerInitial || '나'}
-						</S.OwnerAvatar>
-						<S.OwnerName>{project.owner || '나의 프로젝트'}</S.OwnerName>
-					</S.OwnerRow>
-					<S.DDay>{project.dDay || 'D-Day'}</S.DDay>
-				</S.CardTop>
-				<S.CardTitle>{project.name}</S.CardTitle>
-				<S.TagRow>
-					{(project.tags || []).map((tag, idx) => (
-						<S.Tag key={idx}><FolderIcon />{tag}</S.Tag>
-					))}
-				</S.TagRow>
-			</S.CardContent>
-		</S.Card>
-	</S.CardWrapper>
+    <S.CardWrapper>
+        <S.Card onClick={() => onClick?.(project)}>
+            <S.AccentBar $color={project.accentColor || theme.PALETTE.third.main} />
+                <S.CardContent>
+                    <S.CardTop>
+                        <S.OwnerRow>
+                            <S.OwnerAvatar $color={project.ownerColor || theme.PALETTE.third.main}>
+                                {project.ownerInitial || '나'}
+                            </S.OwnerAvatar>
+                            <S.OwnerName>{project.owner || '나의 프로젝트'}</S.OwnerName>
+                        </S.OwnerRow>
+                        <S.DDay>{project.progressDay || 'D-Day'}</S.DDay>
+                    </S.CardTop>
+                    <S.CardTitle>{project.projectTitle}</S.CardTitle>
+                    <S.TagRow>
+                        {(project.checklists || []).map((checklist) => (
+                            <S.Tag key={checklist.id}>
+                                <FolderIcon />
+                                {checklist.checklistTitle}
+                            </S.Tag>
+                        ))}
+                    </S.TagRow>
+                </S.CardContent>
+        </S.Card>
+    </S.CardWrapper>
 );
 
 // ─────────────────────────────────────────

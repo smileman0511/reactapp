@@ -117,12 +117,14 @@ S.DDay = styled.span`
 `;
 
 S.CardTitle = styled.p`
-	${h6Bold}
-	color: ${theme.PALETTE.black};
-	line-height: 1.4;
-	display: flex;
-	align-items: center;
-	flex: 1;
+    ${h6Bold}
+    color: ${theme.PALETTE.black};
+    line-height: 1.4;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 `;
 
 S.TagRow = styled.div`

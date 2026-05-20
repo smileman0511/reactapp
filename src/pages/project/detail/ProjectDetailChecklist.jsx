@@ -15,66 +15,102 @@ const PRIORITY_CONFIG = {
 // SUB COMPONENTS
 // ─────────────────────────────────────────
 const ChecklistItem = ({ item, onToggle, onStatusChange }) => {
-	const [expanded, setExpanded] = useState(false);
-	const [memo, setMemo] = useState(item.memo || '');
-	const priorityConf = PRIORITY_CONFIG[item.priority] || PRIORITY_CONFIG['낮음'];
+    const [expanded, setExpanded] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);  // ← 추가
+    const [memo, setMemo] = useState(item.memo || '');
+    const [title, setTitle] = useState(item.title || '');  // ← 추가
+    const priorityConf = PRIORITY_CONFIG[item.priority] || PRIORITY_CONFIG['낮음'];
 
-	return (
-		<S.CheckItem $status={item.status}>
-			<S.CheckItemTop onClick={() => setExpanded(prev => !prev)}>
-				<S.CheckLeft>
-					<S.CheckCircle $status={item.status} onClick={(e) => { e.stopPropagation(); }}>
-						{item.status === 'success' && (
-							<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-								<path d="M2.5 7L5.5 10L11.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-							</svg>
-						)}
-						{item.status === 'fail' && (
-							<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-								<path d="M4 4L10 10M10 4L4 10" stroke="white" strokeWidth="2" strokeLinecap="round" />
-							</svg>
-						)}
-					</S.CheckCircle>
-					<S.CheckTitle $status={item.status}>{item.title}</S.CheckTitle>
-				</S.CheckLeft>
-				<S.CheckRight>
-					<S.PriorityBadge $bg={priorityConf.bg} $color={priorityConf.color}>
-						{priorityConf.label}
-					</S.PriorityBadge>
-					<S.ChevronIcon $expanded={expanded}>
-						<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-							<path d="M3 5L7 9L11 5" stroke={theme.PALETTE.black} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-						</svg>
-					</S.ChevronIcon>
-				</S.CheckRight>
-			</S.CheckItemTop>
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
 
-			{expanded && (
-				<S.CheckExpanded>
-					<S.MemoLabel>한 줄 메모</S.MemoLabel>
-					<S.MemoInput
-						value={memo}
-						onChange={(e) => setMemo(e.target.value)}
-						placeholder="아직 작성되지 않았습니다."
-					/>
-					<S.CheckActions>
-						<S.CheckActionsLeft>
-							<S.SmallBtn onClick={() => onToggle(item.id, 'delete')}>삭제</S.SmallBtn>
-							<S.SmallBtn onClick={() => onToggle(item.id, 'edit')}>수정</S.SmallBtn>
-						</S.CheckActionsLeft>
-						<S.CheckActionsRight>
-							<S.StatusBtn $active={item.status === 'success'} $type="success" onClick={() => onStatusChange(item.id, item.status === 'success' ? null : 'success')}>
-								목표 달성
-							</S.StatusBtn>
-							<S.StatusBtn $active={item.status === 'fail'} $type="fail" onClick={() => onStatusChange(item.id, item.status === 'fail' ? null : 'fail')}>
-								목표 실패
-							</S.StatusBtn>
-						</S.CheckActionsRight>
-					</S.CheckActions>
-				</S.CheckExpanded>
-			)}
-		</S.CheckItem>
-	);
+    const handleSaveClick = () => {
+        onToggle(item.id, 'edit', memo, title);  // title도 같이 전달
+        setIsEditing(false);
+    };
+
+    const handleCancelClick = () => {
+        setMemo(item.memo || '');   // 원래 값으로 복구
+        setTitle(item.title || '');
+        setIsEditing(false);
+    };
+
+    return (
+        <S.CheckItem $status={item.status}>
+            <S.CheckItemTop onClick={() => setExpanded(prev => !prev)}>
+                <S.CheckLeft>
+                    <S.CheckCircle $status={item.status} onClick={(e) => { e.stopPropagation(); }}>
+                        {item.status === 'success' && (
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M2.5 7L5.5 10L11.5 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        )}
+                        {item.status === 'fail' && (
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M4 4L10 10M10 4L4 10" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                            </svg>
+                        )}
+                    </S.CheckCircle>
+                    {/* 수정 모드일 때만 title 입력 가능 */}
+                    {isEditing ? (
+                        <S.MemoInput
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{ height: '36px', marginBottom: 0 }}
+                        />
+                    ) : (
+                        <S.CheckTitle $status={item.status}>{item.title}</S.CheckTitle>
+                    )}
+                </S.CheckLeft>
+                <S.CheckRight>
+                    <S.PriorityBadge $bg={priorityConf.bg} $color={priorityConf.color}>
+                        {priorityConf.label}
+                    </S.PriorityBadge>
+                    <S.ChevronIcon $expanded={expanded}>
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                            <path d="M3 5L7 9L11 5" stroke={theme.PALETTE.black} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </S.ChevronIcon>
+                </S.CheckRight>
+            </S.CheckItemTop>
+
+            {expanded && (
+                <S.CheckExpanded>
+                    <S.MemoLabel>한 줄 메모</S.MemoLabel>
+                    <S.MemoInput
+                        value={memo}
+                        onChange={(e) => setMemo(e.target.value)}
+                        placeholder="아직 작성되지 않았습니다."
+                        disabled={!isEditing}  // ← 수정 모드일 때만 편집 가능
+                        style={{ opacity: isEditing ? 1 : 0.6 }}
+                    />
+                    <S.CheckActions>
+                        <S.CheckActionsLeft>
+                            <S.SmallBtn onClick={() => onToggle(item.id, 'delete')}>삭제</S.SmallBtn>
+                            {isEditing ? (
+                                <>
+                                    <S.SmallBtn onClick={handleSaveClick}>저장</S.SmallBtn>
+                                    <S.SmallBtn onClick={handleCancelClick}>취소</S.SmallBtn>
+                                </>
+                            ) : (
+                                <S.SmallBtn onClick={handleEditClick}>수정</S.SmallBtn>
+                            )}
+                        </S.CheckActionsLeft>
+                        <S.CheckActionsRight>
+                            <S.StatusBtn $active={item.status === 'success'} $type="success" onClick={() => onStatusChange(item.id, item.status === 'success' ? null : 'success')}>
+                                목표 달성
+                            </S.StatusBtn>
+                            <S.StatusBtn $active={item.status === 'fail'} $type="fail" onClick={() => onStatusChange(item.id, item.status === 'fail' ? null : 'fail')}>
+                                목표 실패
+                            </S.StatusBtn>
+                        </S.CheckActionsRight>
+                    </S.CheckActions>
+                </S.CheckExpanded>
+            )}
+        </S.CheckItem>
+    );
 };
 
 // ─────────────────────────────────────────
