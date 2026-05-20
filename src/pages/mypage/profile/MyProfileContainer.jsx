@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import PageS from './styles/MyPageWrapper';
 import InfoS from './styles/InfoManagementStyles';
@@ -35,6 +35,7 @@ const DUMMY_FAIL_LOGS = [
 ];
 
 const MyProfileContainer = () => {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { mainContent, quickMenus } = getHeroContent(pathname);
 
@@ -65,6 +66,8 @@ const MyProfileContainer = () => {
   const handleEmailChange = (newEmail) => {
     setMemberInfo((prev) => ({ ...prev, memberEmail: newEmail }));
   };
+
+  const handleUnregister = () => navigate('/account/delete');
 
   const handlePasswordChange = (newPassword) => {
     setMemberInfo((prev) => ({ ...prev, memberPassword: newPassword }));
@@ -105,6 +108,7 @@ const MyProfileContainer = () => {
             memberPhoneVerified={memberInfo.memberPhoneVerified}
             onEmailSubmit={handleEmailChange}
             onPasswordSubmit={handlePasswordChange}
+            onUnregister={handleUnregister}
           />
         </InfoS.BottomAccountArea>
       </InfoS.InfoManagementSection>
