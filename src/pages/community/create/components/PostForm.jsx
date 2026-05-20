@@ -369,7 +369,7 @@ const ButtonRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 25px;
+  gap: 8px;
   margin-top: 23px;
 `
 
