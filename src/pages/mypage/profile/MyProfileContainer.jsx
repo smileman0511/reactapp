@@ -67,7 +67,7 @@ const MyProfileContainer = () => {
     setMemberInfo((prev) => ({ ...prev, memberEmail: newEmail }));
   };
 
-  const handleUnregister = () => navigate('/account/delete');
+  const handleUnregister = () => navigate('/delete');
 
   const handlePasswordChange = (newPassword) => {
     setMemberInfo((prev) => ({ ...prev, memberPassword: newPassword }));
