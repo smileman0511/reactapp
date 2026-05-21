@@ -233,11 +233,11 @@ const LogPatternsContainer = () => {
                                     <S.FlowWrapper>
                                         {failureReport.flow.map((step, idx) => (
                                             <React.Fragment key={`flow-${idx}`}>
-                                                <S.FlowStep borderColor={step.color}>
+                                                <S.FlowStep borderColor={step.color} $delay={idx * 0.4}>
                                                     <S.StepLabel>{step.label}</S.StepLabel>
                                                     <S.StepValue>{step.value}</S.StepValue>
                                                 </S.FlowStep>
-                                                {idx < failureReport.flow.length - 1 && <S.ArrowDown>∨</S.ArrowDown>}
+                                                {idx < failureReport.flow.length - 1 && <S.ArrowDown $delay={idx * 0.4 + 0.2}>∨</S.ArrowDown>}
                                             </React.Fragment>
                                         ))}
                                     </S.FlowWrapper>
