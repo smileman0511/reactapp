@@ -48,6 +48,21 @@ const ProjectSelectAllContainer = () => {
         }
     };
 
+    // ── 프로젝트 검색 ──
+    const handleSearch = async (keyword) => {
+        // 검색어가 없으면 전체 목록으로 복구
+        if (!keyword) {
+            fetchOtherProjects();
+            return;
+        }
+        try {
+            const response = await axios.get(`/api/project/search?keyword=${keyword}`);
+            setOtherProjects(response.data.data || []);
+        } catch (err) {
+            console.error('프로젝트 검색 실패:', err);
+        }
+    };
+
     useEffect(() => {
         fetchMyProjects();
         fetchOtherProjects(); // 추가
@@ -103,7 +118,7 @@ const ProjectSelectAllContainer = () => {
 
             <S.CommunitySection>
                 <S.Inner>
-                    <ProjectOtherSearch />
+                    <ProjectOtherSearch onSearch={handleSearch} />
                     <ProjectOtherList
                         projects={otherProjects}  // MOCK → 실제 데이터로 교체
                         currentPage={currentPage}
