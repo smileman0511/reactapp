@@ -5,6 +5,19 @@ import './RootLayout.css';
 
 const RootLayout = () => {
   const { isAuthenticated, setUser, setIsAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await fetch('http://localhost:10000/private/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch (e) {}
+    setUser(null);
+    setIsAuthenticated(false);
+    navigate('/login');
+  };
 
   useEffect(() => {
     fetch('http://localhost:10000/private/member/me', { credentials: 'include' })
@@ -43,7 +56,7 @@ const RootLayout = () => {
         {/* 버튼 */}
         <div className="root-header-actions">
           {isAuthenticated ? (
-            <button className="root-header-btn">로그아웃</button>
+            <button className="root-header-btn" onClick={handleLogout}>로그아웃</button>
           ) : (
             <Link to="/login" className="root-header-btn">로그인</Link>
           )}

@@ -123,7 +123,8 @@ const JoinContainer = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ memberPhone: phone }),
       });
-      if (!res.ok) throw new Error('인증번호 발송에 실패했습니다.');
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error('인증번호 발송에 실패했습니다.');
       setPhoneSent(true);
       startPhoneTimer();
     } catch (err) {
