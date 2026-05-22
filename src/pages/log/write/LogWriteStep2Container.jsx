@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LogAnalyzeModal from './LogAnalyzeModal';
+import writingIcon from './write_icon/writing.svg';
 import { S } from './LogWriteStep2ContainerStyles';
 
 const TipIconComponent = ({ className }) => (
@@ -48,7 +49,7 @@ const LogWriteStep2Container = () => {
           <S.LogHeader>
             <S.Badges>
               <S.BadgeOrange>
-                <S.WritingIcon $src="/assets/picture/write-icon/writing.svg" />
+                <S.WritingIcon $src={writingIcon} />
                 작성 중
               </S.BadgeOrange>
               <S.BadgeBlue>공부/취업</S.BadgeBlue>

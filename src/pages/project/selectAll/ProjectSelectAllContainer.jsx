@@ -54,10 +54,13 @@ const ProjectSelectAllContainer = () => {
         fetchMyProjects();
     }, []);
 
+    // ── 프로젝트 생성 완료 후 처리 ──
     const handleCreated = (newProject) => {
-        setMyProjects(prev => [newProject, ...prev]);
-        setIsModalOpen(false);
-    };
+    fetchMyProjects();
+    navigate(`/projects/${newProject.id}`, {
+        state: { aiSuggestions: newProject.aiSuggestions }  // ← aiSuggestions 전달
+    });
+};
 
     // ── 프로젝트 카드 클릭 ──
     const handleCardClick = (project) => {

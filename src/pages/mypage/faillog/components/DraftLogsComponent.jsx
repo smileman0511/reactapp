@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import S from "./styles/DraftLogsComponentStyle";
+import failLogIcon from '../resources/fail-log-card.png';
 
 const DraftLogsComponent = ({ draftLogs = [] }) => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const DraftLogsComponent = ({ draftLogs = [] }) => {
             </div>
 
             <div className="CardImage">
-              <img src="/assets/picture/mypage-faillog/fail-log-card.png" alt="" />
+              <img src={failLogIcon} alt="" />
             </div>
           </S.DraftCard>
         ))}

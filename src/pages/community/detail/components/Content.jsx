@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import detail1 from '../../resources/detail1.png'
+import detail2 from '../../resources/detail2.png'
 import S from '../../style';
 import HtmlContent from './HtmlContent';
 

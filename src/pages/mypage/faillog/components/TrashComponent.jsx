@@ -1,5 +1,6 @@
 import React from 'react';
 import CommS from '../../profile/styles/CommunityStyles';
+import failLogIcon from '../resources/fail-log-card.png';
 import MyFailCardItemComponent from '../../commons/MyFailCardItemComponent';
 import S from '../styles/MyFailLogStyles';
 import PostControlBarComponent from '../../commons/ControlBarComponent';
@@ -57,7 +58,7 @@ const TrashComponent = ({
                   <MyFailCardItemComponent
                     log={log}
                     index={index}
-                    iconSrc="/assets/picture/mypage-faillog/fail-log-card.png"
+                    iconSrc={failLogIcon}
                     isSelected={isSelected}
                     isTrash={true}
                     onClick={() => {

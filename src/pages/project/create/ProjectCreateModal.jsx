@@ -13,6 +13,7 @@ import {
     h11Regular 
 } from '../../../styles/common';
 import theme from '../../../styles/theme';
+import CheckIconSrc from './create_icon/check-small.svg';
 
 const CATEGORIES = ['전체', '사업/창업', '공부/취업', '인간관계', '건강/루틴', '기타'];
 
@@ -97,29 +98,31 @@ const ProjectCreateModal = ({ onClose, onCreated }) => {
                 {/* 로그 목록 */}
                 <S.LogList>
                     {isFetching ? (
-                        <S.EmptyText>로딩 중...</S.EmptyText>
+                        <S.EmptyText>로그 목록을 불러오는 중...</S.EmptyText>
                     ) : filteredLogs.length === 0 ? (
-                        <S.EmptyText>선택 가능한 로그가 없습니다.</S.EmptyText>
-                    ) : filteredLogs.map((log) => (
-                        <S.LogCard
-                            key={log.logId}
-                            $active={selectedLogId === log.logId}
-                            onClick={() => setSelectedLogId(log.logId)}
-                        >
-                            <div>
-                                <S.LogCategory>{log.categoryName}</S.LogCategory>
-                                <S.LogTitle>
-                                    <strong>{log.logTitle}</strong> - {log.visionTitle}
-                                </S.LogTitle>
-                                <S.LogDate>{log.logCreatedAt}</S.LogDate>
-                            </div>
-                            <S.RadioCircle $active={selectedLogId === log.logId}>
-                                {selectedLogId === log.logId && (
-                                    <S.CheckIcon src="/assets/picture/project-create-icon/check-small.svg" alt="check" />
-                                )}
-                            </S.RadioCircle>
-                        </S.LogCard>
-                    ))}
+                        <S.EmptyText>해당 카테고리의 페일로그가 없습니다.</S.EmptyText>
+                    ) : (
+                        filteredLogs.map((log) => (
+                            <S.LogCard
+                                key={log.id}
+                                $active={selectedLogId === log.id}
+                                onClick={() => setSelectedLogId(log.id)}
+                            >
+                                <div>
+                                    <S.LogCategory>{log.categoryName}</S.LogCategory>
+                                    <S.LogTitle>
+                                        <strong>{log.logTitle}</strong> - {log.visionTitle}
+                                    </S.LogTitle>
+                                    <S.LogDate>{log.logCreatedAt} 작성</S.LogDate>
+                                </div>
+                                <S.RadioCircle $active={selectedLogId === log.id}>
+                                    {selectedLogId === log.id && (
+                                        <S.CheckIcon src={CheckIconSrc} alt="check" />
+                                    )}
+                                </S.RadioCircle>
+                            </S.LogCard>
+                        ))
+                    )}
                 </S.LogList>
 
                 {/* 에러 메시지 */}

@@ -1,5 +1,8 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
+import checkCircleIcon from '../result_icon/check_circle.svg';
+import heartActiveIcon from '../result_icon/heart_active.svg';
+import heartInactiveIcon from '../result_icon/heart_inactive.svg';
 import { S } from './LogDetailContainerStyles';
 
 const LogDetailContainer = () => {
@@ -14,7 +17,7 @@ const LogDetailContainer = () => {
         {selectedLog.badges.map((badge, idx) => (
           <S.Badge key={idx} $color={badge.color} $bg={badge.bg}>
             {badge.label === "분석 완료" && (
-              <S.CheckIcon src="/assets/picture/result-icon/check_circle.svg" alt="check circle" />
+              <S.CheckIcon src={checkCircleIcon} alt="check circle" />
             )}
             {badge.label}
           </S.Badge>
@@ -35,7 +38,7 @@ const LogDetailContainer = () => {
 
         <S.LikeButton onClick={handleLike}>
           <S.HeartIcon>
-            <img src={liked ? "/assets/picture/result-icon/heart_active.svg" : "/assets/picture/result-icon/heart_inactive.svg"} alt="heart" />
+            <img src={liked ? heartActiveIcon : heartInactiveIcon} alt="heart" />
           </S.HeartIcon>
           <span>{likeCount}</span>
         </S.LikeButton>

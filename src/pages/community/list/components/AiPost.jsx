@@ -4,6 +4,10 @@ import S, { colorCSS, boxShadow } from '../../style';
 import { flexCenterRow } from '../../../../styles/common';
 import getCategoryInfo from '../../GetCategoryInfo';
 
+import eye from '../../resources/eye.svg'
+import heart from '../../resources/like.svg'
+import comment from '../../resources/post.svg'
+import likeFill from '../../resources/like-fill2.svg'
 
 const AiPost = ({ date, category, title, profile, author, views, likes, comments }) => {
   
@@ -29,15 +33,15 @@ const AiPost = ({ date, category, title, profile, author, views, likes, comments
         </AuthorWrap>
         <Stats>
           <StatItem>
-            <img src="/assets/picture/eye.svg" width={12} height={8}></img>
+            <img src={eye} width={12} height={8}></img>
             <S.Span size="h11Regular" color="faillog-black">{views}</S.Span>
           </StatItem>
           <StatItem>
-            <img src="/assets/picture/like.svg" width={12} height={12}></img>
+            <img src={heart} width={12} height={12}></img>
             <S.Span size="h11Regular" color="faillog-black">{likes}</S.Span>
           </StatItem>
           <StatItem>
-            <img src="/assets/picture/post.svg" width={12} height={12}></img>
+            <img src={comment} width={12} height={12}></img>
             <S.Span size="h11Regular" color="faillog-black">{comments}</S.Span>
           </StatItem>
         </Stats>

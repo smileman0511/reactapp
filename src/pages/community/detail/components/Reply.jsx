@@ -1,6 +1,9 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 
+import likeImg from '../../resources/like.svg';
+import likeFill2Img from '../../resources/like-fill2.svg';
+import menuIcon from '../../resources/menuIcon.svg';
 
 import S, { colorCSS, sizeCSS } from '../../style.js';
 import { flexCenterRow } from '../../../../styles/common.js';
@@ -75,7 +78,7 @@ const Reply = ({
 
         <MenuContainer>
           <MenuBtn onClick={toggleMenu}>
-            <img src="/assets/picture/menuIcon.svg" width={20} height={20} alt="메뉴" />
+            <img src={menuIcon} width={20} height={20} alt="메뉴" />
           </MenuBtn>
 
           {menuOpen && (
@@ -108,7 +111,7 @@ const Reply = ({
 
       <ActionRow>
         <LikeGroup>
-          <img src={isLiked ? "/assets/picture/like-fill2.svg" : "/assets/picture/like.svg"} width={16} height={16} alt="좋아요" />
+          <img src={isLiked ? likeFill2Img : likeImg} width={16} height={16} alt="좋아요" />
           <S.Span size="h10Bold">{likeCount}</S.Span>
         </LikeGroup>
         <ReplyBtn onClick={() => setReplyOpen(prev => !prev)}>

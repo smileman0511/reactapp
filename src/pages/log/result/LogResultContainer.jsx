@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { S } from './LogResultContainerStyles';
+import viewIcon from './result_icon/view_icon.svg';
+import likeIcon from './result_icon/like_icon.svg';
 
 const LogResultContainer = () => {
   const navigate = useNavigate();
@@ -224,11 +226,11 @@ const LogResultContainer = () => {
                       <S.RelatedAuthor>{person.author.name}</S.RelatedAuthor>
                       <S.RelatedStats>
                         <S.StatItem>
-                          <img src="/assets/picture/result-icon/view_icon.svg" alt="views" />
+                          <img src={viewIcon} alt="views" />
                           <span>{person.views}</span>
                         </S.StatItem>
                         <S.StatItem>
-                          <img src="/assets/picture/result-icon/like_icon.svg" alt="likes" />
+                          <img src={likeIcon} alt="likes" />
                           <span>{person.likes}</span>
                         </S.StatItem>
                       </S.RelatedStats>

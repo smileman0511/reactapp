@@ -1,5 +1,8 @@
 import React from 'react';
 import S from '../styles/MyFailLogStyles';
+import defaultProfile from '../../../../components/resources/default-profile.svg';
+import eyeIcon from '../../../../components/resources/eye.svg';
+import likeFilledIcon from '../../../../components/resources/like-fill2.svg';
 
 const FeaturedLogComponent = ({ logs = [] }) => {
   const hasLikedPosts = logs.some(
@@ -37,7 +40,7 @@ const FeaturedLogComponent = ({ logs = [] }) => {
               <div className="Meta">
                 <div className="User">
                   <img
-                    src={log.profileImg || "/assets/picture/default-profile.svg"}
+                    src={log.profileImg || defaultProfile}
                     alt="profile"
                     style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover' }}
                   />
@@ -45,11 +48,11 @@ const FeaturedLogComponent = ({ logs = [] }) => {
                 </div>
                 <div className="Stats">
                   <span>
-                    <img src="/assets/picture/eye.svg" alt="조회수" style={{ width: '16px', height: '16px' }} />
+                    <img src={eyeIcon} alt="조회수" style={{ width: '16px', height: '16px' }} />
                     {log.views || 0}
                   </span>
                   <span>
-                    <img src="/assets/picture/like-fill2.svg" alt="좋아요" style={{ width: '16px', height: '16px' }} />
+                    <img src={likeFilledIcon} alt="좋아요" style={{ width: '16px', height: '16px' }} />
                     {log.likeCount || log.likes || 0}
                   </span>
                 </div>
@@ -68,7 +71,7 @@ const FeaturedLogComponent = ({ logs = [] }) => {
             <p>"{featuredLog.content?.substring(0, 70)}..."</p>
             <div className="AuthorInfo">
               <img
-                src={featuredLog.profileImg || "/assets/picture/default-profile.svg"}
+                src={featuredLog.profileImg || defaultProfile}
                 alt="profile"
                 style={{ width: '18px', height: '18px', borderRadius: '50%', objectFit: 'cover' }}
               />

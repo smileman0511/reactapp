@@ -1,7 +1,21 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import repeatIcon from './intro_icon/repeat_238888.svg';
+import washTimeIcon from './intro_icon/wash-time_103937.svg';
+import arrowIcon from './intro_icon/arrow_90418.svg';
+import fileIcon from './intro_icon/file_1324039.svg';
+import barChartIcon from './intro_icon/bar-chart_347779.svg';
+import teamworkIcon from './intro_icon/teamwork_484616.svg';
+import crossOutIcon from './intro_icon/cross-out_2586312.svg';
+import pieChartIcon from './intro_icon/pie-chart_744334.svg';
+import shareIcon from './intro_icon/share_683175.svg';
+import registrationIcon from './intro_icon/registration-mark_1203943.svg';
+import heartIcon from './intro_icon/ph--heart-light.svg';
+import viewIcon from './intro_icon/hugeicons--view.svg';
+import avatar1 from './intro_profile/image 337.png';
+import avatar2 from './intro_profile/image 309.png';
+import avatar3 from './intro_profile/IMAGE.png';
 import S from './IntroContainerStyle';
-import useAuthStore from '../../store/authStore';
 
 /* ──────────────────────────────────────────
    섹션 2 — 오른쪽 카드 3개
@@ -18,19 +32,19 @@ const StatCard = ({ icon, $variant, stat, label }) => (
 
 const STAT_CARDS = [
     {
-        icon: "/assets/picture/intro-icon/repeat_238888.svg",
+        icon: repeatIcon,
         $variant: 'red',
         stat: '73%',
         label: '같은 유형의 실패를 2회 이상 경험',
     },
     {
-        icon: "/assets/picture/intro-icon/wash-time_103937.svg",
+        icon: washTimeIcon,
         $variant: 'blue',
         stat: '2주',
         label: '실패의 맥락을 기억하는 평균 시간',
     },
     {
-        icon: "/assets/picture/intro-icon/arrow_90418.svg",
+        icon: arrowIcon,
         $variant: 'green',
         stat: '6배',
         label: '기록된 실패를 분석할 때 개선율',
@@ -52,19 +66,19 @@ const MethodCard = ({ icon, $variant, title, desc }) => (
 
 const METHOD_CARDS = [
     {
-        icon: "/assets/picture/intro-icon/file_1324039.svg",
+        icon: fileIcon,
         $variant: 'left',
         title: '구조화된 실패 기록',
         desc: '감정이 아닌 선택 근거, 무시한 신호 등 당시 제약을 체계적으로 기록합니다.',
     },
     {
-        icon: "/assets/picture/intro-icon/bar-chart_347779.svg",
+        icon: barChartIcon,
         $variant: 'center',
         title: '패턴 분석 대시보드',
         desc: '개인의 실패 패턴을 시각화하고, 반복되는 선택의 오류를 객관적으로 파악합니다.',
     },
     {
-        icon: "/assets/picture/intro-icon/teamwork_484616.svg",
+        icon: teamworkIcon,
         $variant: 'right',
         title: '타인의 실패로부터 학습',
         desc: '다양한 분야의 실패 사례를 읽고, 공감, 지식, 경험을 공유하세요.',
@@ -130,7 +144,7 @@ const StepCard = ({ step, icon, name, desc, tags, side }) => {
 const STEP_CARDS = [
     {
         step: 1,
-        icon: "/assets/picture/intro-icon/cross-out_2586312.svg",
+        icon: crossOutIcon,
         name: '기록',
         desc: '실패를 구조화된 템플릿으로 기록하세요.',
         tags: ['상황', '선택', '결과'],
@@ -138,7 +152,7 @@ const STEP_CARDS = [
     },
     {
         step: 2,
-        icon: "/assets/picture/intro-icon/pie-chart_744334.svg",
+        icon: pieChartIcon,
         name: '분석',
         desc: '분석 리포트를 확인하세요.',
         tags: ['패턴', '키워드'],
@@ -146,7 +160,7 @@ const STEP_CARDS = [
     },
     {
         step: 3,
-        icon: "/assets/picture/intro-icon/share_683175.svg",
+        icon: shareIcon,
         name: '공유',
         desc: '로그와 경험을 공유해보세요.',
         tags: ['커뮤니티', '다양한 로그'],
@@ -154,7 +168,7 @@ const STEP_CARDS = [
     },
     {
         step: 4,
-        icon: "/assets/picture/intro-icon/registration-mark_1203943.svg",
+        icon: registrationIcon,
         name: '개선',
         desc: '다음 도전에 인사이트를 적용하세요.',
         tags: ['액션플랜', '리마인드'],
@@ -179,11 +193,11 @@ const LogCard = ({ $variant, category, title, desc, nickname, avatar, views, lik
             </S.LogProfile>
             <S.LogStats>
                 <S.LogStat>
-                    <img src="/assets/picture/intro-icon/hugeicons--view.svg" alt="views" width="16" height="16" />
+                    <img src={viewIcon} alt="views" width="16" height="16" />
                     {views}
                 </S.LogStat>
                 <S.LogStat>
-                    <img src="/assets/picture/intro-icon/ph--heart-light.svg" alt="likes" width="16" height="16" />
+                    <img src={heartIcon} alt="likes" width="16" height="16" />
                     {likes}
                 </S.LogStat>
             </S.LogStats>
@@ -198,7 +212,7 @@ const LOG_CARDS = [
         title: '면접에서 반복된 질문에 답변을 못한 이유',
         desc: '면접에서 반복된 질문에 답변을 못한 이유',
         nickname: '취준탈출넘버원',
-        avatar: "/assets/picture/intro-profile/image 337.png",
+        avatar: avatar1,
         views: 45,
         likes: 35,
     },
@@ -208,7 +222,7 @@ const LOG_CARDS = [
         title: '첫 사업 아이템을 3번 바꾼 이유',
         desc: '시장 조사 없이 시작했다가 피벗을 반복한 이야기',
         nickname: '창업도전왕',
-        avatar: "/assets/picture/intro-profile/image 309.png",
+        avatar: avatar2,
         views: 45,
         likes: 35,
     },
@@ -218,7 +232,7 @@ const LOG_CARDS = [
         title: '말을 언제나 생각하고 조심히 말하기',
         desc: '한 순간의 실수로 멀어져버린 우리 사이',
         nickname: '말조심연습',
-        avatar: "/assets/picture/intro-profile/IMAGE.png",
+        avatar: avatar3,
         views: 45,
         likes: 35,
     },
@@ -229,11 +243,6 @@ const LOG_CARDS = [
 ────────────────────────────────────────── */
 const IntroContainer = () => {
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuthStore();
-
-    const handleStart = () => {
-        navigate(isAuthenticated ? '/' : '/join');
-    };
 
     return (
         <S.Wrap>
@@ -250,7 +259,7 @@ const IntroContainer = () => {
                         </h1>
                         <p className="intro-section1-sub">실패를 외면하지 않고 기록할 때,</p>
                         <p className="intro-section1-sub">당신의 강력한 성장 데이터가 됩니다.</p>
-                        <S.StartButton onClick={handleStart}>
+                        <S.StartButton onClick={() => navigate('/join')}>
                             시작하기
                         </S.StartButton>
                     </div>
@@ -374,7 +383,7 @@ const IntroContainer = () => {
                         ))}
                     </S.Section5Cards>
 
-                    <S.StartButton onClick={handleStart}>
+                    <S.StartButton onClick={() => navigate('/join')}>
                         시작하기
                     </S.StartButton>
                 </div>

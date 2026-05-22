@@ -4,6 +4,7 @@ import CommunityMainHeaderStyle from '../../styles/CommunityMainHeaderStyle';
 import S from '../../style';
 import { useNavigate } from 'react-router-dom';
 
+import internet from '../../resources/internet.svg'
 
 const CommunityMainHeader = () => {
 
@@ -17,7 +18,7 @@ const CommunityMainHeader = () => {
               <myStyle.MainHeaderLeftDiv>
 
                   <myStyle.MainHeaderLeftTextTopDiv>
-                    <myStyle.headerImg src="/assets/picture/internet.svg"/>
+                    <myStyle.headerImg src={internet}/>
                     <S.Span size={"h2Bold"} color={"faillog-black"}>Community</S.Span>
                   </myStyle.MainHeaderLeftTextTopDiv>
 

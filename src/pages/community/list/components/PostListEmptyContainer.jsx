@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { flexCenterRow } from '../../../../styles/common';
 import S from '../../style';
+import file from '../../resources/file.svg';
 
 const PostListEmptyContainer = ({ search }) => {
   search = "sss"
   return (
     <Wrapper>
       <Inner>
-        <EmptyImg src="/assets/picture/file.svg" alt="empty" width={200} height={124} />
+        <EmptyImg src={file} alt="empty" width={200} height={124} />
         <S.Span size="h10Bold" color="faillog_purple">SEARCH EMPTY</S.Span>
         <S.Span size="h4Bold" color="faillog-black">검색 결과가 없어요</S.Span>
         <DescWrap>
