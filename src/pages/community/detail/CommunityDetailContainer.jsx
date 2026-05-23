@@ -90,7 +90,9 @@ const CommunityDetailContainer = () => {
     }));
 
     const replyList = (replies ?? []).map((r) => ({
-        isOwner: r.memberId === CURRENT_MEMBER_ID,
+        loginId: CURRENT_MEMBER_ID,
+        memberId: r.memberId,
+        replyId: r.id,
         profileImg: r.memberProfileImageUrl ?? icon04,
         createdAt: formatTimeAgo(r.replyCreatedAt),
         author: r.memberNickname,
@@ -98,7 +100,8 @@ const CommunityDetailContainer = () => {
         isLiked: r.isLiked === 1,
         likeCount: r.likeCount ?? 0,
         rereplyList: (r.replies ?? []).map((rr) => ({
-            isOwner: rr.memberId === CURRENT_MEMBER_ID,
+            loginId: CURRENT_MEMBER_ID,
+            memberId: rr.memberId,
             profileImg: rr.memberProfileImageUrl ?? icon04,
             author: rr.memberNickname,
             content: rr.rereplyContent,

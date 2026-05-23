@@ -41,11 +41,14 @@ const EXAMPLE = {
   ],
 };
 
-// isOwner: 본인 댓글 여부, profileImg: 프로필 이미지, createdAt: 작성일
+// loginId: 로그인 유저 id, memberId: 댓글 작성자 id, replyId: 댓글 id
+// profileImg: 프로필 이미지, createdAt: 작성일
 // author: 작성자, content: 내용, isLiked: 좋아요 여부, likeCount: 좋아요 수
 // rereplyList: 대댓글 배열 (Rereply props 객체 배열)
 const Reply = ({
-  isOwner = EXAMPLE.isOwner,
+  loginId,
+  memberId,
+  replyId,
   profileImg = EXAMPLE.profileImg,
   createdAt = EXAMPLE.createdAt,
   author = EXAMPLE.author,
@@ -54,6 +57,7 @@ const Reply = ({
   likeCount = EXAMPLE.likeCount,
   rereplyList = EXAMPLE.rereplyList,
 }) => {
+  const isOwner = loginId != null && loginId === memberId;
   const { openMenuId, setOpenMenuId } = useMenuContext();
   const { openReport } = useReportContext();
   const menuId = useRef(`reply-${Math.random()}`).current;
@@ -62,6 +66,32 @@ const Reply = ({
 
   const [expanded, setExpanded] = useState(false);
   const [replyOpen, setReplyOpen] = useState(false);
+  const [liked, setLiked] = useState(isLiked);
+  const [count, setCount] = useState(likeCount);
+
+  
+
+  const handleLike = async () => {
+
+console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
+
+    const url = liked
+      ? 'http://localhost:10000/api/posts/cancel-like-reply'
+      : 'http://localhost:10000/api/posts/like-reply';
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ memberId: loginId, replyId }),
+    });
+
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) {
+      setLiked(json.data.isLiked === 1);
+      setCount(json.data.likeCount);
+    }
+  };
 
   const isOverflow = content.length > LIMIT;
   const displayText = isOverflow && !expanded ? content.slice(0, LIMIT) : content;
@@ -110,9 +140,9 @@ const Reply = ({
       </ContentArea>
 
       <ActionRow>
-        <LikeGroup>
-          <img src={isLiked ? likeFill2Img : likeImg} width={16} height={16} alt="좋아요" />
-          <S.Span size="h10Bold">{likeCount}</S.Span>
+        <LikeGroup onClick={handleLike}>
+          <img src={liked ? likeFill2Img : likeImg} width={16} height={16} alt="좋아요" />
+          <S.Span size="h10Bold">{count}</S.Span>
         </LikeGroup>
         <ReplyBtn onClick={() => setReplyOpen(prev => !prev)}>
           <S.Span size="h10Bold">답글</S.Span>

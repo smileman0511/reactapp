@@ -16,14 +16,17 @@ const EXAMPLE = {
   createdAt: '2분전',
 };
 
-// isOwner: 본인 대댓글 여부, profileImg: 프로필 이미지, author: 작성자, content: 내용, createdAt: 작성일
+// loginId: 로그인 유저 id, memberId: 대댓글 작성자 id
+// profileImg: 프로필 이미지, author: 작성자, content: 내용, createdAt: 작성일
 const Rereply = ({
-  isOwner = EXAMPLE.isOwner,
+  loginId,
+  memberId,
   profileImg = EXAMPLE.profileImg,
   author = EXAMPLE.author,
   content = EXAMPLE.content,
   createdAt = EXAMPLE.createdAt,
 }) => {
+  const isOwner = loginId != null && loginId === memberId;
   const { openMenuId, setOpenMenuId } = useMenuContext();
   const { openReport } = useReportContext();
   const menuId = useRef(`rereply-${Math.random()}`).current;

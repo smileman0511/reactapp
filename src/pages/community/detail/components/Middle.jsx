@@ -22,7 +22,7 @@ const Middle = ({ loginId, isOwner = false, likeCount = 0, isLiked = false, memb
 
   const handleLike = async () => {
 
-    console.log(`id : ${loginId}, postId : ${postId}`);
+    //로그인이 안됬을 때 return
 
     const url = liked
       ? 'http://localhost:10000/api/posts/cancel-like'
