@@ -37,6 +37,7 @@ const CommunityDetailContainer = () => {
     const [pageData, setPageData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -60,7 +61,7 @@ const CommunityDetailContainer = () => {
             }
         };
         fetchPost();
-    }, [id]);
+    }, [id, refreshKey]);
 
     const openReport = (type, reportId, profileImg, author, content) => {
         setReportState({ type, id: reportId, profileImg, author, content });
@@ -194,7 +195,12 @@ const CommunityDetailContainer = () => {
                 postContent={post.postTitle}
             />
 
-            <ReplyContainer replyList={replyList} />
+            <ReplyContainer
+                replyList={replyList}
+                postId={post.id}
+                loginId={CURRENT_MEMBER_ID}
+                onReplyAdded={() => setRefreshKey(k => k + 1)}
+            />
 
             <BeforeAfterPost
                 prevTitle={beforePost?.postTitle}
