@@ -6,6 +6,7 @@ import S, { colorCSS, sizeCSS } from '../../style.js';
 import { flexCenterRow } from '../../../../styles/common.js';
 import { useMenuContext } from './MenuContext.js';
 import { useReportContext } from './ReportContext.js';
+import PopupComponent from '../../../../components/commons/PopupComponent';
 
 //삭제예정
 const EXAMPLE = {
@@ -16,15 +17,18 @@ const EXAMPLE = {
   createdAt: '2분전',
 };
 
-// loginId: 로그인 유저 id, memberId: 대댓글 작성자 id
+// loginId: 로그인 유저 id, memberId: 대댓글 작성자 id, rereplyId: 대댓글 id
 // profileImg: 프로필 이미지, author: 작성자, content: 내용, createdAt: 작성일
+// onReplyAdded: 삭제 후 페이지 갱신 콜백
 const Rereply = ({
   loginId,
   memberId,
+  rereplyId,
   profileImg = EXAMPLE.profileImg,
   author = EXAMPLE.author,
   content = EXAMPLE.content,
   createdAt = EXAMPLE.createdAt,
+  onReplyAdded,
 }) => {
   const isOwner = loginId != null && loginId === memberId;
   const { openMenuId, setOpenMenuId } = useMenuContext();
@@ -34,12 +38,35 @@ const Rereply = ({
   const toggleMenu = () => setOpenMenuId(menuOpen ? null : menuId);
 
   const [expanded, setExpanded] = useState(false);
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+
+  const handleDeleteClick = () => {
+    setOpenMenuId(null);
+    setDeletePopupOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    setDeletePopupOpen(false);
+    const res = await fetch(`http://localhost:10000/api/posts/delete-rereply/${rereplyId}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) onReplyAdded?.();
+  };
 
   const LIMIT = 230;
   const isOverflow = content.length > LIMIT;
   const displayText = isOverflow && !expanded ? content.slice(0, LIMIT) : content;
 
   return (
+    <>
+    <PopupComponent
+      isOpen={deletePopupOpen}
+      message="대댓글을 삭제하시겠습니까?"
+      onConfirm={handleDeleteConfirm}
+      onCancel={() => setDeletePopupOpen(false)}
+    />
     <Wrapper>
       <TopRow>
         <ProfileGroup>
@@ -56,7 +83,7 @@ const Rereply = ({
           {menuOpen && (
             <Dropdown>
               {isOwner ? (
-                <DropdownItem onClick={() => setOpenMenuId(null)}>
+                <DropdownItem onClick={handleDeleteClick}>
                   <S.Span size="h9Regular">삭제하기</S.Span>
                 </DropdownItem>
               ) : (
@@ -81,6 +108,7 @@ const Rereply = ({
         </ContentText>
       </ContentArea>
     </Wrapper>
+    </>
   );
 };
 

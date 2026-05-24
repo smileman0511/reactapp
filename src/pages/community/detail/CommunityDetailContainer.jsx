@@ -14,6 +14,7 @@ import AiPostContainer from './components/AiPostContainer';
 import ReportPopup from './components/ReportPopup';
 import { ReportContext } from './components/ReportContext';
 import { formatRelativeTime } from '../../../utils/relativeTime';
+import PopupComponent from '../../../components/commons/PopupComponent';
 
 // TODO: 로그인 구현 후 auth context에서 가져올 것
 const CURRENT_MEMBER_ID = 1;
@@ -103,6 +104,7 @@ const CommunityDetailContainer = () => {
         rereplyList: (r.replies ?? []).map((rr) => ({
             loginId: CURRENT_MEMBER_ID,
             memberId: rr.memberId,
+            rereplyId: rr.id,
             profileImg: rr.memberProfileImageUrl ?? icon04,
             author: rr.memberNickname,
             content: rr.rereplyContent,

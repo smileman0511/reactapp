@@ -11,6 +11,7 @@ import Rereply from './Rereply.jsx';
 import ReplySubmit from './ReplySubmit.jsx';
 import { useMenuContext } from './MenuContext.js';
 import { useReportContext } from './ReportContext.js';
+import PopupComponent from '../../../../components/commons/PopupComponent';
 
 const LIMIT = 230;
 
@@ -70,8 +71,19 @@ const Reply = ({
   const [replyOpen, setReplyOpen] = useState(false);
   const [liked, setLiked] = useState(isLiked);
   const [count, setCount] = useState(likeCount);
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
 
   
+
+  const handleDeleteConfirm = async () => {
+    setDeletePopupOpen(false);
+    const res = await fetch(`http://localhost:10000/api/posts/delete-reply/${replyId}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) onReplyAdded?.();
+  };
 
   const handleRereplySubmit = async (text) => {
     if (!text.trim()) return;
@@ -115,6 +127,13 @@ console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
   const showSection = rereplyList.length > 0 || replyOpen;
 
   return (
+    <>
+    <PopupComponent
+      isOpen={deletePopupOpen}
+      message="댓글을 삭제하시겠습니까?"
+      onConfirm={handleDeleteConfirm}
+      onCancel={() => setDeletePopupOpen(false)}
+    />
     <Wrapper>
       <TopRow>
         <ProfileGroup>
@@ -131,7 +150,7 @@ console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
           {menuOpen && (
             <Dropdown>
               {isOwner ? (
-                <DropdownItem onClick={() => setOpenMenuId(null)}>
+                <DropdownItem onClick={() => { setOpenMenuId(null); setDeletePopupOpen(true); }}>
                   <S.Span size="h9Regular">삭제하기</S.Span>
                 </DropdownItem>
               ) : (
@@ -171,13 +190,14 @@ console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
           <Divider />
           <RereplyListArea>
             {rereplyList.map((item, i) => (
-              <Rereply key={i} {...item} />
+              <Rereply key={i} {...item} onReplyAdded={onReplyAdded} />
             ))}
             {replyOpen && <ReplySubmit subject={"답글"} onSubmit={handleRereplySubmit} />}
           </RereplyListArea>
         </SectionArea>
       )}
     </Wrapper>
+    </>
   );
 };
 
