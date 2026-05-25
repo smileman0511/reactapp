@@ -24,6 +24,7 @@ const Posts = ({postData, search = ''}) => {
         postData.map((post, i) => (
           <Post
             key={post.id}
+            id={post.id}
             category={post.category}
             title={post.title}
             content={post.content}
