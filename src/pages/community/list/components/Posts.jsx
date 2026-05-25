@@ -15,7 +15,7 @@ myStyle.wrapper = styled.div`
     ${boxShadow["boxBasic"]}
 `
 
-const Posts = ({postData}) => {
+const Posts = ({postData, search = ''}) => {
 
   return (
     <div>
@@ -37,7 +37,7 @@ const Posts = ({postData}) => {
             isHrHidden={(postData.length-1) === i}
           />
         )) 
-        : <PostListEmptyContainer></PostListEmptyContainer>
+        : <PostListEmptyContainer search={search} />
       }
       </myStyle.wrapper>
     </div>
