@@ -162,14 +162,19 @@ const useChronologyData = () => {
     setTimeline((prev) => [...prev, ...newItems]);
   };
 
+  const handleSelectProject = (project) => {
+    setSelectedProject(project);
+    setVision({ id: project.id, title: project.visionTitle || project.title });
+  };
+
   return {
     vision,
     projects,
-    addProjects:         projects,       // "새 항목 추가" 목록용
+    addProjects:         projects,
     timeline,
     analysis,
     selectedProject,
-    onSelectProject:     setSelectedProject,
+    onSelectProject:     handleSelectProject,
     onReorderTimeline,
     onRemoveTimeline,
     onAddTimeline,
