@@ -19,9 +19,6 @@ const PerformanceResultComponent = ({ vision, analysis, onBack }) => {
         <S.Nickname>{analysis.nickname}</S.Nickname> 님의 목표 달성률은 상위{' '}
         <S.Highlight>{analysis.percentile}%</S.Highlight> 에 해당합니다 !
       </S.RankTitle>
-      <S.RankSubtitle>
-        아주 탁월합니다. 목표를 위해 망설이고 달려왔군요. 그간 자신을 위해 오늘하루를 투자하는건 어떨까요 ?
-      </S.RankSubtitle>
 
       <S.BellCurveBox>
         <BellCurveSVG percentile={analysis.percentile} />
@@ -68,6 +65,17 @@ const PerformanceResultComponent = ({ vision, analysis, onBack }) => {
           </S.StatItem>
         </S.StatsSection>
       </S.StatsCard>
+
+      <S.AiCard>
+        <S.AiCardHeader>
+          <S.AiCardIcon>🤖</S.AiCardIcon>
+          <S.AiCardTitle>AI 코치의 한마디</S.AiCardTitle>
+        </S.AiCardHeader>
+        {analysis.aiFeedback
+          ? <S.AiCardText>{analysis.aiFeedback}</S.AiCardText>
+          : <S.AiCardSkeleton />
+        }
+      </S.AiCard>
 
       <S.BackButton onClick={onBack}>← 타임라인으로 돌아가기</S.BackButton>
     </S.Wrapper>
