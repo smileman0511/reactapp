@@ -22,7 +22,6 @@ S.CommunityGrid = styled.div`
 S.CardWrapper = styled.div`
     position: relative;
     height: 180px;
-    overflow: hidden;
     min-width: 0;
 `;
 
