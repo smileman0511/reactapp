@@ -1,5 +1,6 @@
-﻿import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+﻿import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../../../api/axiosInstance';
 
 import PageS from './styles/MyPageWrapper';
 import InfoS from './styles/InfoManagementStyles';
@@ -14,18 +15,21 @@ import HeroRotationComponent from '../heroSection/HeroRotationComponents';
 import { getHeroContent } from '../heroSection/HeroData';
 import { DUMMY_FAIL_LOGS } from '../data/dummyData';
 
-const MyProfileContainer = () => {
+const MyProfileContainer = ({ isPageOwner = true }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { userId } = useParams();
   const { mainContent, quickMenus } = getHeroContent(pathname);
 
   const [memberInfo, setMemberInfo] = useState({
+    memberId: null,
     memberNickname: '',
     memberProfileImageUrl: null,
     memberEmail: '',
     memberName: '',
     memberPhone: '',
     memberPhoneVerified: 0,
+    socialMemberProvider: 'local',
   });
 
   const [stats, setStats] = useState({
@@ -37,47 +41,88 @@ const MyProfileContainer = () => {
 
   const [chartLogs, setChartLogs] = useState(DUMMY_FAIL_LOGS);
 
+  useEffect(() => {
+    if (!isPageOwner) return;
+    axiosInstance.get('/private/member/me')
+      .then((res) => {
+        if (res.data?.success) {
+          const d = res.data.data;
+          setMemberInfo((prev) => ({
+            ...prev,
+            memberId: d.id,
+            memberNickname: d.memberNickname || '',
+            memberProfileImageUrl: d.memberPicture || null,
+            memberEmail: d.memberEmail || '',
+            memberName: d.memberName || '',
+            socialMemberProvider: d.socialMemberProvider || 'local',
+          }));
+          setStats((prev) => ({ ...prev, loginStreak: d.memberLoginStreak || 1 }));
+        }
+      })
+      .catch(console.error);
+  }, [isPageOwner]);
+
+  const isSocialLogin = memberInfo.socialMemberProvider !== 'local';
+
   const handleImageChange = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setMemberInfo((prev) => ({
-        ...prev,
-        memberProfileImageUrl: reader.result,
-      }));
+      const base64 = reader.result;
+      setMemberInfo((prev) => ({ ...prev, memberProfileImageUrl: base64 }));
+      axiosInstance.put('/private/member', { memberProfileImageUrl: base64 }).catch(console.error);
     };
   };
 
   const handleNicknameChange = (newNickname) => {
-    setMemberInfo((prev) => ({ ...prev, memberNickname: newNickname }));
+    axiosInstance.put('/private/member', { memberNickname: newNickname })
+      .then((res) => {
+        if (res.data?.success) {
+          setMemberInfo((prev) => ({ ...prev, memberNickname: newNickname }));
+        }
+      })
+      .catch(console.error);
   };
 
   const handleEmailChange = (newEmail) => {
     setMemberInfo((prev) => ({ ...prev, memberEmail: newEmail }));
   };
 
-  const handleUnregister = () => navigate('/delete');
-
-  const handlePasswordChange = (newPassword) => {
-    setMemberInfo((prev) => ({ ...prev, memberPassword: newPassword }));
+  const handleUnregister = () => {
+    axiosInstance.delete('/private/member')
+      .then(() => navigate('/delete'))
+      .catch(console.error);
   };
+
+  const handlePasswordChange = (currentPw, newPw) => {
+    axiosInstance.put('/private/member/password', { currentPassword: currentPw, newPassword: newPw }).catch(console.error);
+  };
+
+  const displayNickname = memberInfo.memberNickname || (!isPageOwner ? userId : '');
 
   return (
     <PageS.MainWrapper>
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} userId={userId} />
 
       <InfoS.InfoManagementSection>
         <div className="info-header">
-          <h2>내 정보 관리</h2>
-          <p>내 정보의 수정 및 회원 서비스를 관리할 수 있습니다.</p>
+          {isPageOwner ? (
+            <>
+              <h2>내 정보 관리</h2>
+              <p>내 정보의 수정 및 회원 서비스를 관리할 수 있습니다.</p>
+            </>
+          ) : (
+            <h2>{displayNickname || '회원'}의 페이지입니다.</h2>
+          )}
         </div>
 
         <InfoS.TopCardGrid>
           <ProfileCardComponent
-            memberNickname={memberInfo.memberNickname}
+            memberNickname={displayNickname}
             memberProfileImageUrl={memberInfo.memberProfileImageUrl}
             onNicknameChange={handleNicknameChange}
             onImageChange={handleImageChange}
+            isPageOwner={isPageOwner}
           />
           <ProfileChartCard logs={chartLogs} />
           <ProfileStreakCard
@@ -88,22 +133,25 @@ const MyProfileContainer = () => {
           />
         </InfoS.TopCardGrid>
 
-        <InfoS.BottomAccountArea>
-          <AccountDataComponent
-            memberNickname={memberInfo.memberNickname}
-            memberEmail={memberInfo.memberEmail}
-            memberName={memberInfo.memberName}
-            memberPhone={memberInfo.memberPhone}
-            memberPhoneVerified={memberInfo.memberPhoneVerified}
-            onEmailSubmit={handleEmailChange}
-            onPasswordSubmit={handlePasswordChange}
-            onUnregister={handleUnregister}
-          />
-        </InfoS.BottomAccountArea>
+        {isPageOwner && (
+          <InfoS.BottomAccountArea>
+            <AccountDataComponent
+              memberNickname={memberInfo.memberNickname}
+              memberEmail={memberInfo.memberEmail}
+              memberName={memberInfo.memberName}
+              memberPhone={memberInfo.memberPhone}
+              memberPhoneVerified={memberInfo.memberPhoneVerified}
+              onEmailSubmit={handleEmailChange}
+              onPasswordSubmit={handlePasswordChange}
+              onUnregister={handleUnregister}
+              isSocialLogin={isSocialLogin}
+            />
+          </InfoS.BottomAccountArea>
+        )}
       </InfoS.InfoManagementSection>
 
       <CommS.CommunitySection>
-        <MyCommunityContainer />
+        <MyCommunityContainer isPageOwner={isPageOwner} memberNickname={displayNickname} />
       </CommS.CommunitySection>
     </PageS.MainWrapper>
   );

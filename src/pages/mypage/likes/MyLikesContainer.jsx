@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PageS from '../profile/styles/MyPageWrapper';
 
 import HeroRotationComponent from '../heroSection/HeroRotationComponents';
@@ -11,9 +11,10 @@ import useSearchStore from '../../../components/useSearchStore';
 import EmptyStateComponent from '../commons/EmptyStateComponent';
 import CommS from '../profile/styles/CommunityStyles';
 
-const MyLikesContainer = () => {
+const MyLikesContainer = ({ isPageOwner = true }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { userId } = useParams();
   const { mainContent, quickMenus } = getHeroContent(pathname);
   const { content, setContent, setPage } = useSearchStore();
 
@@ -53,7 +54,7 @@ const MyLikesContainer = () => {
 
   return (
     <PageS.MainWrapper>
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} userId={userId} />
       <RecentLogsComponent logs={recentLogs} />
 
       {hasNoCards ? (
@@ -75,6 +76,7 @@ const MyLikesContainer = () => {
           handlePageChange={(page) => setCurrentPage(page)}
           navigate={navigate}
           onUnlikeOne={handleUnlikeOne}
+          isPageOwner={isPageOwner}
         />
       )}
     </PageS.MainWrapper>

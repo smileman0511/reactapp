@@ -1,20 +1,48 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getHeroContent } from '../heroSection/HeroData';
 import HeroRotationComponent from '../heroSection/HeroRotationComponents';
 import PageS from '../profile/styles/MyPageWrapper';
 import S from './styles/MyGuestbookStyles';
 import SearchDropdownComponent from '../../../components/commons/SearchDropdownComponent';
-import useAuthStore from '../../../store/authStore';
 
 import GuestbookInputComponent from './components/GuestbookInputComponent';
 import GuestbookCommentItemComponent from './components/GuestbookCommentItemComponent';
+import axiosInstance from '../../../api/axiosInstance';
 
-const MyGuestbookContainer = () => {
+const mapGuestbook = (item) => ({
+  id: item.id,
+  ownerNickname: item.ownerNickname || '',
+  author: item.writerNickname || '익명',
+  authorId: item.writerMemberId,
+  profileImg: item.writerProfileImageUrl || null,
+  title: item.guestbookContent?.slice(0, 20) || '',
+  content: item.guestbookContent || '',
+  createdAt: item.guestbookCreatedAt || '',
+  likes: item.likeCount || 0,
+  liked: item.isLike === 1,
+  replies: (item.replies || []).map((r) => ({
+    id: r.id,
+    author: r.writerNickname || '익명',
+    authorId: r.writerMemberId,
+    profileImg: r.writerProfileImageUrl || null,
+    content: r.guestbookReplyContent || '',
+    createdAt: r.guestbookReplyCreatedAt || '',
+    likes: r.likeCount || 0,
+    liked: r.isLike === 1,
+  })),
+});
+
+const MyGuestbookContainer = ({ isPageOwner = true }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { userId } = useParams();
   const { mainContent, quickMenus } = getHeroContent(pathname);
-  const currentUser = useAuthStore((state) => state.user?.nickname || state.user?.name || '익명');
+
+  const [loggedInMemberId, setLoggedInMemberId] = useState(null);
+  const [loggedInNickname, setLoggedInNickname] = useState('익명');
+  const [ownerMemberId, setOwnerMemberId] = useState(null);
+  const [ownerNickname, setOwnerNickname] = useState('');
 
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
@@ -25,6 +53,39 @@ const MyGuestbookContainer = () => {
   const [visibleCount, setVisibleCount] = useState(4);
   const [activeMenuId, setActiveMenuId] = useState(null);
   const sentinelRef = useRef(null);
+
+  // 로그인 유저 정보 + ownerMemberId 결정
+  useEffect(() => {
+    axiosInstance.get('/private/member/me')
+      .then((res) => {
+        if (res.data?.success) {
+          const d = res.data.data;
+          setLoggedInMemberId(d.id);
+          setLoggedInNickname(d.memberNickname || '익명');
+          if (isPageOwner) {
+            setOwnerMemberId(d.id);
+          }
+        }
+      })
+      .catch(console.error);
+  }, [isPageOwner]);
+
+  // ownerMemberId가 결정되면 방명록 목록 로드
+  useEffect(() => {
+    const ownerId = isPageOwner ? ownerMemberId : (userId ? Number(userId) : null);
+    if (!ownerId) return;
+    axiosInstance.get('/api/guestbook/list', { params: { ownerMemberId: ownerId } })
+      .then((res) => {
+        if (res.data?.success && Array.isArray(res.data.data)) {
+          const mapped = res.data.data.map(mapGuestbook);
+          setComments(mapped);
+          if (!isPageOwner && mapped.length > 0 && mapped[0].ownerNickname) {
+            setOwnerNickname(mapped[0].ownerNickname);
+          }
+        }
+      })
+      .catch(console.error);
+  }, [ownerMemberId, isPageOwner, userId]);
 
   const filteredComments = useMemo(() => {
     const keyword = searchKeyword.trim().toLowerCase();
@@ -74,20 +135,17 @@ const MyGuestbookContainer = () => {
 
   const handleSubmit = () => {
     const trimmed = newComment.trim();
-    if (!trimmed) return;
-    setComments((prev) => [
-      {
-        id: Date.now(),
-        author: currentUser,
-        title: '새로운 방명록',
-        content: trimmed,
-        createdAt: '방금 전',
-        likes: 0,
-        liked: false,
-        replies: [],
-      },
-      ...prev,
-    ]);
+    if (!trimmed || !loggedInMemberId) return;
+    const ownerId = isPageOwner ? ownerMemberId : (userId ? Number(userId) : null);
+    if (!ownerId) return;
+    axiosInstance.post('/api/guestbook/write', { ownerMemberId: ownerId, guestbookContent: trimmed, writerMemberId: loggedInMemberId })
+      .then(() => {
+        return axiosInstance.get('/api/guestbook/list', { params: { ownerMemberId: ownerId } });
+      })
+      .then((res) => {
+        if (res.data?.success && Array.isArray(res.data.data)) setComments(res.data.data.map(mapGuestbook));
+      })
+      .catch(console.error);
     setNewComment('');
     setVisibleCount((prev) => prev + 1);
   };
@@ -112,7 +170,8 @@ const MyGuestbookContainer = () => {
                 ...c.replies,
                 {
                   id: Date.now(),
-                  author: currentUser,
+                  author: loggedInNickname,
+                  authorId: loggedInMemberId,
                   content: replyText,
                   createdAt: '방금 전',
                   likes: 0,
@@ -155,13 +214,25 @@ const MyGuestbookContainer = () => {
   const handleCloseMenu = () => setActiveMenuId(null);
 
   const handleEditComment = (commentId, newContent) => {
-    setComments((prev) =>
-      prev.map((c) => c.id === commentId ? { ...c, content: newContent } : c),
-    );
+    const comment = comments.find((c) => c.id === commentId);
+    if (!comment) return;
+    const ownerId = isPageOwner ? ownerMemberId : (userId ? Number(userId) : null);
+    axiosInstance.put('/api/guestbook/update', { id: commentId, ownerMemberId: ownerId, guestbookContent: newContent, writerMemberId: comment.authorId })
+      .then(() => {
+        setComments((prev) => prev.map((c) => c.id === commentId ? { ...c, content: newContent } : c));
+      })
+      .catch(console.error);
   };
 
   const handleDeleteComment = (commentId) => {
-    setComments((prev) => prev.filter((c) => c.id !== commentId));
+    const comment = comments.find((c) => c.id === commentId);
+    if (!comment) return;
+    const ownerId = isPageOwner ? ownerMemberId : (userId ? Number(userId) : null);
+    axiosInstance.delete('/api/guestbook/delete', { data: { id: commentId, ownerMemberId: ownerId, writerMemberId: comment.authorId } })
+      .then(() => {
+        setComments((prev) => prev.filter((c) => c.id !== commentId));
+      })
+      .catch(console.error);
   };
 
   const handleEditReply = (commentId, replyId, newContent) => {
@@ -186,12 +257,12 @@ const MyGuestbookContainer = () => {
 
   return (
     <PageS.MainWrapper>
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} userId={userId} />
 
       <S.GuestbookSection>
         <S.GuestbookHeader>
           <h2><span>페일로그</span> 방명록</h2>
-          <p>다른 사람들이 남긴 방명록을 통해 소통해보세요.</p>
+          <p>{isPageOwner ? '다른 사람들이 남긴 방명록을 통해 소통해보세요.' : `${ownerNickname || userId}님의 방명록입니다.`}</p>
         </S.GuestbookHeader>
 
         <GuestbookInputComponent
@@ -221,8 +292,8 @@ const MyGuestbookContainer = () => {
               <GuestbookCommentItemComponent
                 key={comment.id}
                 comment={comment}
-                currentUser={currentUser}
-                isPageOwner={true}
+                currentUser={loggedInNickname}
+                isPageOwner={isPageOwner}
                 onLike={handleToggleLike}
                 onReplyToggle={handleReplyToggle}
                 replyOpen={replyOpenId === comment.id}

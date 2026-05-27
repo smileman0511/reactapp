@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PageS from '../profile/styles/MyPageWrapper';
 
 import HeroRotationComponent from '../heroSection/HeroRotationComponents';
@@ -16,9 +16,10 @@ import FailS from './styles/MyFailLogStyles';
 import PopupComponent from '../../../components/commons/PopupComponent';
 import { DUMMY_FAIL_LOGS, DUMMY_DRAFT_LOGS } from '../data/dummyData';
 
-const MyFailLogsContainer = () => {
+const MyFailLogsContainer = ({ isPageOwner = true }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { userId } = useParams();
   const { mainContent, quickMenus } = getHeroContent(pathname);
   const { content, setContent, setPage } = useSearchStore();
   
@@ -143,9 +144,9 @@ const MyFailLogsContainer = () => {
       onCancel={popup?.onCancel}
     />
     <PageS.MainWrapper>
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} />
-      <DraftLogsComponent draftLogs={draftLogs} />
-      
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} userId={userId} />
+      {isPageOwner && <DraftLogsComponent draftLogs={draftLogs} />}
+
       {hasNoCards ? (
         <EmptyStateComponent
           title={<>아직 기록된 실패가 없네요.<br /><span>첫 번째 페일로그</span>를 적어볼까요?</>}
@@ -170,22 +171,25 @@ const MyFailLogsContainer = () => {
             onSelectOneLog={handleSelectOneLog}
             onSelectAllLogs={handleSelectAllLogs}
             onDeleteLogs={handleDeleteLogs}
+            isPageOwner={isPageOwner}
           />
         </>
       )}
 
-      <FailS.TrashSeparator>
-        <TrashComponent
-          trashedLogs={trashedLogs}
-          isTrashEditMode={isTrashEditMode}
-          onToggleEditMode={handleToggleTrashEditMode}
-          selectedTrashIds={selectedTrashIds}
-          onSelectOneTrash={handleSelectOneTrash}
-          onSelectAllTrash={handleSelectAllTrash}
-          onRestoreSelected={handleRestoreSelectedLogs}
-          onDeleteForeverSelected={handleDeleteForeverSelectedLogs}
-        />
-      </FailS.TrashSeparator>
+      {isPageOwner && (
+        <FailS.TrashSeparator>
+          <TrashComponent
+            trashedLogs={trashedLogs}
+            isTrashEditMode={isTrashEditMode}
+            onToggleEditMode={handleToggleTrashEditMode}
+            selectedTrashIds={selectedTrashIds}
+            onSelectOneTrash={handleSelectOneTrash}
+            onSelectAllTrash={handleSelectAllTrash}
+            onRestoreSelected={handleRestoreSelectedLogs}
+            onDeleteForeverSelected={handleDeleteForeverSelectedLogs}
+          />
+        </FailS.TrashSeparator>
+      )}
     </PageS.MainWrapper>
     </>
   );

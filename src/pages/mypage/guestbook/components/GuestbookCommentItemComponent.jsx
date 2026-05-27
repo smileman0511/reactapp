@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import S from '../styles/MyGuestbookStyles';
 import GuestbookInputComponent from './GuestbookInputComponent';
 import likeIcon from '../../../../components/resources/like.svg';
@@ -49,6 +50,7 @@ const GuestbookCommentItemComponent = ({
   onEditReply,
   onDeleteReply,
 }) => {
+  const navigate = useNavigate();
   const isMyComment = comment.author === currentUser;
 
   const [editMode, setEditMode] = useState(false);
@@ -87,13 +89,15 @@ const GuestbookCommentItemComponent = ({
     <S.CommentCard>
       <S.CommentHeader>
         <S.CommentHeaderLeft>
-          <S.Avatar>
-            <img
-              src={comment.profileImg || defaultProfile}
-              alt="profile"
-            />
-          </S.Avatar>
-          <S.CommentAuthor>{comment.author}</S.CommentAuthor>
+          <S.AuthorLink type="button" onClick={() => navigate(`/user/${comment.authorId}/profile`)}>
+            <S.Avatar>
+              <img
+                src={comment.profileImg || defaultProfile}
+                alt="profile"
+              />
+            </S.Avatar>
+            <S.CommentAuthor>{comment.author}</S.CommentAuthor>
+          </S.AuthorLink>
           <S.CommentTime>{formatRelativeTime(comment.createdAt)}</S.CommentTime>
         </S.CommentHeaderLeft>
 
@@ -170,13 +174,15 @@ const GuestbookCommentItemComponent = ({
               <S.ReplyCard key={reply.id}>
                 <S.CommentHeader>
                   <S.CommentHeaderLeft>
-                    <S.ReplyAvatar>
-                      <img
-                        src={reply.profileImg || defaultProfile}
-                        alt="profile"
-                                />
-                    </S.ReplyAvatar>
-                    <S.CommentAuthor>{reply.author}</S.CommentAuthor>
+                    <S.AuthorLink type="button" onClick={() => navigate(`/user/${reply.authorId}/profile`)}>
+                      <S.ReplyAvatar>
+                        <img
+                          src={reply.profileImg || defaultProfile}
+                          alt="profile"
+                        />
+                      </S.ReplyAvatar>
+                      <S.CommentAuthor>{reply.author}</S.CommentAuthor>
+                    </S.AuthorLink>
                     <S.CommentTime>{formatRelativeTime(reply.createdAt)}</S.CommentTime>
                   </S.CommentHeaderLeft>
 

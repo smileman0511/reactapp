@@ -108,10 +108,11 @@ const BaseCard = styled.div`
   aspect-ratio: 424 / 236;
   border-radius: 24px;
   position: relative;
-  cursor: pointer;
+  cursor: ${props => props.$disabled ? 'not-allowed' : 'pointer'};
+  opacity: ${props => props.$disabled ? 0.5 : 1};
   display: flex;
   flex-direction: column;
-  overflow: hidden; 
+  overflow: hidden;
   padding: 8% 10%;
   transition: all 0.3s ease-in-out;
 
@@ -128,8 +129,8 @@ const BaseCard = styled.div`
   }
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    transform: ${props => props.$disabled ? 'none' : 'translateY(-8px)'};
+    box-shadow: ${props => props.$disabled ? 'none' : '0 12px 30px rgba(0, 0, 0, 0.1)'};
   }
 `;
 

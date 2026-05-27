@@ -13,7 +13,7 @@ import PopupComponent from '../../../../components/commons/PopupComponent';
 
 const PAGE_SIZE = 9;
 
-const MyCommunityContainer = () => {
+const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '' }) => {
   const [allPosts, setAllPosts] = useState(DUMMY_COMMUNITY_POSTS);
   const [popup, setPopup] = useState(null);
   const closePopup = () => setPopup(null);
@@ -109,8 +109,14 @@ const MyCommunityContainer = () => {
       <S.CommunityContainer>
         <S.HeaderSection>
           <div>
-            <h3>내 커뮤니티 게시글 관리</h3>
-            <p>내가 작성한 커뮤니티 게시글을 관리할 수 있습니다.</p>
+            {isPageOwner ? (
+              <>
+                <h3>내 커뮤니티 게시글 관리</h3>
+                <p>내가 작성한 커뮤니티 게시글을 관리할 수 있습니다.</p>
+              </>
+            ) : (
+              <h3>{memberNickname || '회원'}님의 커뮤니티 게시글</h3>
+            )}
           </div>
         </S.HeaderSection>
 
@@ -133,6 +139,7 @@ const MyCommunityContainer = () => {
                   onSelectOne={handleSelectOne}
                   onNavigateOne={handleNavigate}
                   styles={S}
+                  isPageOwner={isPageOwner}
                 />
 
                 <S.PaginationWrapper>
@@ -143,16 +150,18 @@ const MyCommunityContainer = () => {
                     onPageChange={handlePageChange}
                   />
 
-                  <S.ControlBarAbsolute>
-                    <PostControlBarComponent
-                      isAllChecked={isAllChecked}
-                      onSelectAll={handleSelectAll}
-                      selectedCount={selectedCount}
-                      totalCount={totalCountOnPage}
-                      onDelete={handleDelete}
-                      showRestore={false}
-                    />
-                  </S.ControlBarAbsolute>
+                  {isPageOwner && (
+                    <S.ControlBarAbsolute>
+                      <PostControlBarComponent
+                        isAllChecked={isAllChecked}
+                        onSelectAll={handleSelectAll}
+                        selectedCount={selectedCount}
+                        totalCount={totalCountOnPage}
+                        onDelete={handleDelete}
+                        showRestore={false}
+                      />
+                    </S.ControlBarAbsolute>
+                  )}
                 </S.PaginationWrapper>
               </>
             ) : (

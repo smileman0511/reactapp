@@ -182,6 +182,21 @@ S.CommentTime = styled.span`
   color: ${colorCSS['faillog_gray9']};
 `;
 
+S.AuthorLink = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover span {
+    color: ${colorCSS['faillog_purple']};
+    text-decoration: underline;
+  }
+`;
+
 /* ── 댓글 본문 ── */
 S.CommentText = styled.p`
   margin: 0;
