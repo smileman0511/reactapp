@@ -4,7 +4,7 @@ import { getHeroContent } from '../heroSection/HeroData';
 import HeroRotationComponent from '../heroSection/HeroRotationComponents';
 import PageS from '../profile/styles/MyPageWrapper';
 import S from './styles/MyGuestbookStyles';
-import SearchDropdownComponent from '../../../components/commons/SearchDropdownComponent';
+import LogSearchComponent from '../commons/LogSearchComponent';
 
 import GuestbookInputComponent from './components/GuestbookInputComponent';
 import GuestbookCommentItemComponent from './components/GuestbookCommentItemComponent';
@@ -286,14 +286,12 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
           onSubmit={handleSubmit}
         />
 
-        <S.SearchBar>
-          <SearchDropdownComponent defaultValue={searchType} onChange={setSearchType} />
-          <S.SmallSearchInput
-            value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
-            placeholder="검색어를 입력하세요."
-          />
-        </S.SearchBar>
+        <LogSearchComponent
+          currentOption={searchType}
+          onOptionChange={setSearchType}
+          onSearchSubmit={setSearchKeyword}
+          placeholder="방명록 검색..."
+        />
 
         {filteredComments.length === 0 ? (
           <S.EmptyState>

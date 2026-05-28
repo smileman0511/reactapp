@@ -1,29 +1,22 @@
 import React from 'react';
-import SearchbarComponent from '../../../components/commons/SearchbarComponent';
-import SearchDropdownComponent from '../../../components/commons/SearchDropdownComponent';
+import styled from 'styled-components';
+import SearchComponent from '../../community/list/components/SearchComponent';
+import CommunitySearchOrderComponent from '../../community/list/components/CommunitySearchOrderComponent';
 
-const LogSearchComponent = ({ currentOption, onOptionChange, onSearchSubmit, styles }) => {
+const SearchRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+`;
+
+const LogSearchComponent = ({ currentOption, onOptionChange, onSearchSubmit, placeholder = '내 페일로그 검색...' }) => {
   return (
-    <styles.SearchControlBlock>
-      <styles.DropdownWrapper>
-        <SearchDropdownComponent
-          defaultValue={currentOption}
-          onChange={onOptionChange}
-          style={{
-            width: '160px',
-            height: '48px',
-            borderRadius: '9999px'
-          }}
-        />
-      </styles.DropdownWrapper>
-
-      <styles.SearchbarWrapper>
-        <SearchbarComponent
-          placeholder="내 페일로그 검색..."
-          onSubmit={onSearchSubmit}
-        />
-      </styles.SearchbarWrapper>
-    </styles.SearchControlBlock>
+    <SearchRow>
+      <SearchComponent onSubmit={onSearchSubmit} placeholder={placeholder} />
+      <CommunitySearchOrderComponent defaultValue={currentOption} onChange={onOptionChange} />
+    </SearchRow>
   );
 };
 
