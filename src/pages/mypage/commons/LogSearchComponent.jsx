@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SearchComponent from '../../community/list/components/SearchComponent';
+import SearchbarComponent from '../../../components/commons/SearchbarComponent';
 import CommunitySearchOrderComponent from '../../community/list/components/CommunitySearchOrderComponent';
 
 const SearchRow = styled.div`
@@ -11,10 +11,10 @@ const SearchRow = styled.div`
   margin-bottom: 24px;
 `;
 
-const LogSearchComponent = ({ currentOption, onOptionChange, onSearchSubmit, placeholder = '내 페일로그 검색...' }) => {
+const LogSearchComponent = ({ currentOption, onOptionChange, onSearchSubmit, placeholder = '내 페일로그를 검색해볼까요?' }) => {
   return (
     <SearchRow>
-      <SearchComponent onSubmit={onSearchSubmit} placeholder={placeholder} />
+      <SearchbarComponent onSubmit={onSearchSubmit} placeholder={placeholder} />
       <CommunitySearchOrderComponent defaultValue={currentOption} onChange={onOptionChange} />
     </SearchRow>
   );
