@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DUMMY_COMMUNITY_POSTS } from "../../data/dummyData";
+import axiosInstance from "../../../../api/axiosInstance";
 import S from "../styles/MyProfileStyle";
 import LogStyles from "../../faillog/styles/MyFailLogStyles";
 import useSearchStore from "../../../../components/useSearchStore";
@@ -13,8 +13,26 @@ import PopupComponent from '../../../../components/commons/PopupComponent';
 
 const PAGE_SIZE = 9;
 
+const stripHtml = (html) => {
+  if (!html) return '';
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return doc.body.textContent || '';
+};
+
+const mapPost = (item) => ({
+  id: item.id,
+  category: item.categoryName || '',
+  title: item.postTitle || '',
+  content: stripHtml(item.postContent),
+  author: item.memberNickname || '',
+  date: (item.postCreatedAt || '').slice(0, 10).replace(/-/g, '.'),
+  likes: item.likeCount || 0,
+  comments: item.replyCount || 0,
+  imageUrl: item.postThumbnailUrl || null,
+});
+
 const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '' }) => {
-  const [allPosts, setAllPosts] = useState(DUMMY_COMMUNITY_POSTS);
+  const [allPosts, setAllPosts] = useState([]);
   const [popup, setPopup] = useState(null);
   const closePopup = () => setPopup(null);
   const showAlert = (message) => setPopup({ message, onConfirm: closePopup });
@@ -25,6 +43,17 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '' }) => {
 
   const navigate = useNavigate();
   const { content, setContent, setPage } = useSearchStore();
+
+  useEffect(() => {
+    if (!isPageOwner) return;
+    axiosInstance.get('/api/posts/my-list')
+      .then((res) => {
+        if (res.data?.success && Array.isArray(res.data.data)) {
+          setAllPosts(res.data.data.map(mapPost));
+        }
+      })
+      .catch(console.error);
+  }, [isPageOwner]);
 
   const filteredPosts = React.useMemo(() => {
     const keyword = content?.toLowerCase().trim() ?? "";

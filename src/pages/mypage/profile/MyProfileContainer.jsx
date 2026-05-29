@@ -69,6 +69,15 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
       .then((res) => {
         if (res.data?.success && Array.isArray(res.data.data)) {
           setStats((prev) => ({ ...prev, logCount: res.data.data.length }));
+          setChartLogs(res.data.data);
+        }
+      })
+      .catch(console.error);
+
+    axiosInstance.get('/api/posts/my-list')
+      .then((res) => {
+        if (res.data?.success && Array.isArray(res.data.data)) {
+          setStats((prev) => ({ ...prev, communityCount: res.data.data.length }));
         }
       })
       .catch(console.error);
