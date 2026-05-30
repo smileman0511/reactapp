@@ -183,7 +183,7 @@ console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
                   </DropdownItem>
                 </>
               ) : (
-                <DropdownItem onClick={() => { openReport('댓글', undefined, profileImg, author, content); setOpenMenuId(null); }}>
+                <DropdownItem onClick={() => { openReport('댓글', replyId, profileImg, author, content); setOpenMenuId(null); }}>
                   <S.Span size="h9Regular">신고하기</S.Span>
                 </DropdownItem>
               )}

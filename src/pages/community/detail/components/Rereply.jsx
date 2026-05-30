@@ -118,7 +118,7 @@ const Rereply = ({
                   </DropdownItem>
                 </>
               ) : (
-                <DropdownItem onClick={() => { openReport('대댓글', undefined, profileImg, author, content); setOpenMenuId(null); }}>
+                <DropdownItem onClick={() => { openReport('대댓글', rereplyId, profileImg, author, content); setOpenMenuId(null); }}>
                   <S.Span size="h9Regular">신고하기</S.Span>
                 </DropdownItem>
               )}

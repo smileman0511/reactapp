@@ -222,6 +222,7 @@ const CommunityDetailContainer = () => {
             profileImg={reportState.profileImg}
             author={reportState.author}
             content={reportState.content}
+            memberId={CURRENT_MEMBER_ID}
             onClose={closeReport}
         />
     )}
