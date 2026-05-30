@@ -9,6 +9,7 @@ import heart from '../../resources/like.svg'
 import comment from '../../resources/post.svg'
 import likeFill from '../../resources/like-fill2.svg'
 import getCategoryInfo from '../../GetCategoryInfo';
+import defaultProfile from '../../resources/default.png';
 
 const Wrapper = styled.div`
   width: 984px;
@@ -180,7 +181,7 @@ const Post = ({
             <S.Span2 size={"h9Regular"} color={"faillog_black"}>{content}</S.Span2>
             <BottomRow>
               <AuthorWrap>
-                <AuthorImg src={profile} alt={author} />
+                <AuthorImg src={profile || defaultProfile} alt={author} />
                 <AuthorName>{author}</AuthorName>
               </AuthorWrap>
               <Stats>

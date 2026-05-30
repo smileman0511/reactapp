@@ -10,6 +10,7 @@ import heart from '../../resources/like.svg'
 import post from '../../resources/post.svg'
 import heartFill from '../../resources/like-fill2.svg'
 import thumbnailEmpty from '../../resources/month-image-empty.png'
+import defaultProfile from '../../resources/default.png'
 import { useNavigate } from 'react-router-dom';
 
 const CommunityBestPost = ({
@@ -63,7 +64,7 @@ const CommunityBestPost = ({
                         <myStyle.BestPostMainHr></myStyle.BestPostMainHr>
                         <myStyle.BestPostMainInfo>
                           <myStyle.UserInfo>
-                            <myStyle.UserImg src={profile}></myStyle.UserImg>
+                            <myStyle.UserImg src={profile || defaultProfile}></myStyle.UserImg>
                             <S.Span size={"h9Regular"} color={"faillog_black"}>{author}</S.Span>
                             <myStyle.PostInfo>
                               <myStyle.infoElement>

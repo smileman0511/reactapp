@@ -39,11 +39,11 @@ const formatDate = (dateStr) => {
     return dateStr.slice(0, 10).replace(/-/g, '.');
 };
 
-const CommunityListContainer = () => {
+const CommunityListContainer = ({ initialPostList = [], initialMaxPage = 1 }) => {
 
     const {order1, order2, category, page, content, setPage, resetSearch} = useSearchStore();
-    const [postList, setPostList] = useState([]);
-    const [maxPage, setMaxPage] = useState(1);
+    const [postList, setPostList] = useState(initialPostList);
+    const [maxPage, setMaxPage] = useState(initialMaxPage);
 
     const isMounted = useRef(false);
 
@@ -72,17 +72,12 @@ const CommunityListContainer = () => {
         setMaxPage(Math.ceil(json.data.total / 6) || 1);
     };
 
-    const a = () => {
-        fetchPosts({ order: 0, order2Val: 0, cat: 0, pg: 1, cont: '' });
-    };
-
     const b = () => {
         fetchPosts({ order: order1, order2Val: order2, cat: category, pg: page, cont: content });
     };
 
     useEffect(() => {
         resetSearch();
-        a();
     }, []);
 
     useEffect(() => {

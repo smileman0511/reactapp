@@ -12,6 +12,7 @@ import likeFill from '../../resources/like-fill2.svg'
 import getCategoryInfo from '../../GetCategoryInfo';
 
 import imageEmpty from '../../resources/popular-image-empty.png'
+import defaultProfile from '../../resources/default.png'
 
 const CARD_W = 420;
 const FOCUS_W = 480;
@@ -182,7 +183,7 @@ const CommunityPopularPostContainer = ({ posts }) => {
                     <myStyle.CardDivider />
                     <myStyle.CardFooter>
                       <myStyle.AuthorInfo>
-                        <myStyle.AuthorAvatar src={post.profile} />
+                        <myStyle.AuthorAvatar src={post.profile || defaultProfile} />
                         <S.Span size="h10Regular" color="faillog_gray9">{post.author}</S.Span>
                       </myStyle.AuthorInfo>
                       <myStyle.Stats>
