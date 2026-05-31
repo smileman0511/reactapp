@@ -7,14 +7,22 @@ const SearchRow = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-  width: 100%;
-  margin-bottom: 24px;
+  width: 80%;
+  max-width: 1400px;
+  margin: 0 auto 24px;
+`;
+
+const InputWrapper = styled.div`
+  flex: 1;
+  min-width: 0;
 `;
 
 const LogSearchComponent = ({ currentOption, onOptionChange, onSearchSubmit, placeholder = '내 페일로그를 검색해볼까요?' }) => {
   return (
     <SearchRow>
-      <SearchbarComponent onSubmit={onSearchSubmit} placeholder={placeholder} />
+      <InputWrapper>
+        <SearchbarComponent onSubmit={onSearchSubmit} placeholder={placeholder} />
+      </InputWrapper>
       <CommunitySearchOrderComponent defaultValue={currentOption} onChange={onOptionChange} />
     </SearchRow>
   );

@@ -220,19 +220,20 @@ S.AccountItem = styled.div`
 S.ProfileCard = styled.div`
   background: #ffffff;
   border-radius: 24px;
-  padding: 32px 30px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 0;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   border: 1px solid #F1F5F9;
   height: 100%;
-  min-height: 320px;
+  min-height: 260px;
 
   .profileImageContainer {
     position: relative;
-    margin-bottom: 28px;
+    margin-bottom: 20px;
 
     .profileImageCircle {
       width: 120px;
@@ -268,7 +269,7 @@ S.ProfileCard = styled.div`
 
   .nickname-area {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
     text-align: center;
 
     .display-mode {

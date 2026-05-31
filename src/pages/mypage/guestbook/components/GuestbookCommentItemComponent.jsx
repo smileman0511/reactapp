@@ -35,6 +35,7 @@ const ClampedText = ({ content }) => {
 const GuestbookCommentItemComponent = ({
   comment,
   currentUser,
+  currentUserId,
   isPageOwner,
   onLike,
   onReplyToggle,
@@ -55,6 +56,11 @@ const GuestbookCommentItemComponent = ({
 }) => {
   const navigate = useNavigate();
   const isMyComment = comment.author === currentUser;
+
+  const navigateToProfile = (authorId) => {
+    if (authorId === currentUserId) navigate('/my-page/profile');
+    else navigate(`/user/${authorId}/profile`);
+  };
 
   const [editMode, setEditMode] = useState(false);
   const [editContent, setEditContent] = useState(comment.content);
@@ -97,7 +103,7 @@ const GuestbookCommentItemComponent = ({
     <S.CommentCard>
       <S.CommentHeader>
         <S.CommentHeaderLeft>
-          <S.AuthorLink type="button" onClick={() => navigate(`/user/${comment.authorId}/profile`)}>
+          <S.AuthorLink type="button" onClick={() => navigateToProfile(comment.authorId)}>
             <S.Avatar>
               <img
                 src={comment.profileImg || defaultProfile}
@@ -183,7 +189,7 @@ const GuestbookCommentItemComponent = ({
               <S.ReplyCard key={reply.id}>
                 <S.CommentHeader>
                   <S.CommentHeaderLeft>
-                    <S.AuthorLink type="button" onClick={() => navigate(`/user/${reply.authorId}/profile`)}>
+                    <S.AuthorLink type="button" onClick={() => navigateToProfile(reply.authorId)}>
                       <S.ReplyAvatar>
                         <img
                           src={reply.profileImg || defaultProfile}
@@ -271,7 +277,7 @@ const GuestbookCommentItemComponent = ({
                         <S.ReplyCard key={rereply.id} style={{ marginLeft: '20px' }}>
                           <S.CommentHeader>
                             <S.CommentHeaderLeft>
-                              <S.AuthorLink type="button" onClick={() => navigate(`/user/${rereply.authorId}/profile`)}>
+                              <S.AuthorLink type="button" onClick={() => navigateToProfile(rereply.authorId)}>
                                 <S.ReplyAvatar>
                                   <img
                                     src={rereply.profileImg || defaultProfile}

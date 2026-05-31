@@ -74,19 +74,19 @@ S.HeroBanner = styled.div`
 
   /* ✅ ID별 이미지 세부 조정 (배너 안으로 검거) */
   ${props => props.$id === "fail-logs" && `
-    ${S.MainGraphic} { width: 75%; bottom: -5%; right: -2%; }
+    ${S.MainGraphic} { width: 90%; bottom: -1%; right: 0%; }
   `}
 
   ${props => props.$id === "my-fail-log" && `
-    ${S.MainGraphic} { width: 62%; bottom: -2%; right: 5%; }
+    ${S.MainGraphic} { width: 60%; bottom: 0%; right: 0%; }
   `}
 
   ${props => props.$id === "likes" && `
-    ${S.MainGraphic} { width: 65%; bottom: -2%; left: 2%; }
+    ${S.MainGraphic} { width: 50%; bottom: -1%; left: 0%; }
   `}
 
   ${props => props.$id === "guestbook" && `
-    ${S.MainGraphic} { width: 70%; bottom: -8%; right: 0%; }
+    ${S.MainGraphic} { width: 60%; bottom: 0%; right: 0%; }
   `}
 
   &:hover {

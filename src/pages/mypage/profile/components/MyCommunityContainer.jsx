@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../../../../api/axiosInstance";
 import S from "../styles/MyProfileStyle";
 import LogStyles from "../../faillog/styles/MyFailLogStyles";
@@ -31,8 +32,7 @@ const mapPost = (item) => ({
   imageUrl: item.postThumbnailUrl || null,
 });
 
-const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '' }) => {
-  const [allPosts, setAllPosts] = useState([]);
+const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '', memberId = null }) => {
   const [popup, setPopup] = useState(null);
   const closePopup = () => setPopup(null);
   const showAlert = (message) => setPopup({ message, onConfirm: closePopup });
@@ -44,16 +44,20 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '' }) => {
   const navigate = useNavigate();
   const { content, setContent, setPage } = useSearchStore();
 
+  const { data: fetchedPosts = [] } = useQuery({
+    queryKey: ['myPosts', memberId],
+    queryFn: () =>
+      axiosInstance.get('/api/posts/my-list', { params: { memberId } })
+        .then((res) => (res.data?.success && Array.isArray(res.data.data) ? res.data.data.map(mapPost) : [])),
+    enabled: isPageOwner && !!memberId,
+    staleTime: 0,
+  });
+
+  const [allPosts, setAllPosts] = useState([]);
+
   useEffect(() => {
-    if (!isPageOwner) return;
-    axiosInstance.get('/api/posts/my-list')
-      .then((res) => {
-        if (res.data?.success && Array.isArray(res.data.data)) {
-          setAllPosts(res.data.data.map(mapPost));
-        }
-      })
-      .catch(console.error);
-  }, [isPageOwner]);
+    setAllPosts(fetchedPosts);
+  }, [fetchedPosts]);
 
   const filteredPosts = React.useMemo(() => {
     const keyword = content?.toLowerCase().trim() ?? "";
@@ -151,14 +155,12 @@ const MyCommunityContainer = ({ isPageOwner = true, memberNickname = '' }) => {
 
         {currentPagePosts.length > 0 || content ? (
           <>
-            <S.SearchCenterWrapper>
-              <LogSearchComponent
-                currentOption={searchOption}
-                onOptionChange={handleOptionChange}
-                onSearchSubmit={handleSearchSubmit}
-                styles={LogStyles}
-              />
-            </S.SearchCenterWrapper>
+            <LogSearchComponent
+              currentOption={searchOption}
+              onOptionChange={handleOptionChange}
+              onSearchSubmit={handleSearchSubmit}
+              styles={LogStyles}
+            />
 
             {currentPagePosts.length > 0 ? (
               <>

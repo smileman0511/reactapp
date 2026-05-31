@@ -69,7 +69,7 @@ const ProfileChartCardComponent = ({ logs = [] }) => {
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setHovered(null)}
         >
-          <svg width="180" height="180" viewBox="0 0 180 180">
+          <svg width="140" height="140" viewBox="0 0 180 180">
             <defs>
               {/* 전체 링에 적용되는 그라데이션 */}
               <linearGradient id="donutGrad" gradientUnits="userSpaceOnUse"

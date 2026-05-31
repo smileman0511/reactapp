@@ -7,7 +7,7 @@ const S = {};
 /* ── 섹션 래퍼 ── */
 S.GuestbookSection = styled.section`
   width: 100%;
-  max-width: 1096px;
+  max-width: 1160px;
   margin: 0 auto;
   padding: 60px 0 80px;
   display: flex;

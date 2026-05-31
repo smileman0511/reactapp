@@ -1,4 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../../api/axiosInstance';
 
@@ -74,14 +75,20 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
       })
       .catch(console.error);
 
-    axiosInstance.get('/api/posts/my-list')
-      .then((res) => {
-        if (res.data?.success && Array.isArray(res.data.data)) {
-          setStats((prev) => ({ ...prev, communityCount: res.data.data.length }));
-        }
-      })
-      .catch(console.error);
   }, [isPageOwner]);
+
+  const { data: myPostsData } = useQuery({
+    queryKey: ['myPosts', memberInfo.memberId],
+    queryFn: () =>
+      axiosInstance.get('/api/posts/my-list', { params: { memberId: memberInfo.memberId } })
+        .then((res) => (res.data?.success && Array.isArray(res.data.data) ? res.data.data : [])),
+    enabled: isPageOwner && !!memberInfo.memberId,
+    staleTime: 0,
+  });
+
+  useEffect(() => {
+    if (myPostsData) setStats((prev) => ({ ...prev, communityCount: myPostsData.length }));
+  }, [myPostsData]);
 
   // 남의 프로필 방문 시: 공개 회원 정보 조회 + 방문 기록
   useEffect(() => {
@@ -220,7 +227,7 @@ const MyProfileContainer = ({ isPageOwner = true }) => {
       </InfoS.InfoManagementSection>
 
       <CommS.CommunitySection>
-        <MyCommunityContainer isPageOwner={isPageOwner} memberNickname={displayNickname} />
+        <MyCommunityContainer isPageOwner={isPageOwner} memberNickname={displayNickname} memberId={memberInfo.memberId} />
       </CommS.CommunitySection>
     </PageS.MainWrapper>
     </>
