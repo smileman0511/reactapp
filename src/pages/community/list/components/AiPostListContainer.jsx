@@ -6,34 +6,34 @@ import aiImage from '../../resources/ai_image.svg';
 
 const posts = [
   {
-    id: 1,
+    id: 3,
     date: "2026년 03월 03일",
-    category: 0,
-    title: "처음부터 서비스 방향을 너무 넓게 잡아서 실패했던 기록기록의 기록이다ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ",
-    profile: 'https://i.pravatar.cc/150?img=5',
-    author: "필기마스터",
+    category: 3,
+    title: "다이어트 1년, 요요 세 번 반복한 기록",
+    profile: null,
+    author: "개복치 1단계",
     views: 1240,
     likes: 35,
     comments: 6,
   },
   {
-    id: 2,
+    id: 16,
     date: "2026년 03월 03일",
-    category: 1,
-    title: "시험 직전 불안이 심해질 때 내가 했던 복기 루틴 3가지",
-    profile: 'https://i.pravatar.cc/150?img=5',
-    author: "필기마스터",
+    category: 0,
+    title: "대학원 중퇴, 그 선택이 옳았는가",
+    profile: null,
+    author: "개복치 1단계",
     views: 45,
     likes: 35,
     comments: 6,
   },
   {
-    id: 3,
+    id: 20,
     date: "2026년 03월 03일",
-    category: 2,
-    title: "시험 직전 불안이 심해질 때 내가 했던 복기 루틴 3가지",
-    profile: 'https://i.pravatar.cc/150?img=5',
-    author: "필기마스터",
+    category: 0,
+    title: "자격증 시험 4번 불합격, 5번째에 붙은 방법",
+    profile: null,
+    author: "개복치 1단계",
     views: 45,
     likes: 35,
     comments: 6,
@@ -56,6 +56,7 @@ const AiPostListContainer = () => {
         {posts.map(post => (
           <AiPost
             key={post.id}
+            postId={post.id}
             date={post.date}
             category={post.category}
             title={post.title}

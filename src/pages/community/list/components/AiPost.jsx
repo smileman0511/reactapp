@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import S, { colorCSS, boxShadow } from '../../style';
 import { flexCenterRow } from '../../../../styles/common';
@@ -8,13 +9,15 @@ import eye from '../../resources/eye.svg'
 import heart from '../../resources/like.svg'
 import comment from '../../resources/post.svg'
 import likeFill from '../../resources/like-fill2.svg'
+import defaultProfile from '../../resources/default.png'
 
-const AiPost = ({ date, category, title, profile, author, views, likes, comments }) => {
-  
+const AiPost = ({ postId, date, category, title, profile, author, views, likes, comments }) => {
+
+  const navigate = useNavigate();
   const {name, textColor ,bgColor} = getCategoryInfo(category)
-  
+
   return (
-    <Card>
+    <Card onClick={() => navigate(`/community/detail/${postId}`)}>
       <TopRow>
         <S.Span size="h11Bold" color="faillog_gray8">{date}</S.Span>
         <CategoryBadge bgcolor={bgColor}>
@@ -28,7 +31,7 @@ const AiPost = ({ date, category, title, profile, author, views, likes, comments
 
       <BottomRow>
         <AuthorWrap>
-          <AuthorImg src={profile} alt={author} />
+          <AuthorImg src={profile || defaultProfile} alt={author} />
           <S.Span size="h10Regular" color="faillog-black">{author}</S.Span>
         </AuthorWrap>
         <Stats>
@@ -61,6 +64,7 @@ const Card = styled.div`
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
+  cursor: pointer;
 `;
 
 const TopRow = styled.div`
