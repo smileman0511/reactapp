@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import myStyle from '../../styles/CommunityPopularPostContainerStyle';
 import S from '../../style';
 
@@ -27,6 +28,7 @@ const SIZE_TRANSITION = `flex-basis ${SIZE_DUR}ms ease, height ${SIZE_DUR}ms eas
 
 const CommunityPopularPostContainer = ({ posts }) => {
   const total = posts.length;
+  const navigate = useNavigate();
   const [activeIdx, setActiveIdx] = useState(0);
   const animatingRef = useRef(false);
   const trackRef = useRef(null);
@@ -105,17 +107,19 @@ const CommunityPopularPostContainer = ({ posts }) => {
     timerRef.current = setInterval(() => slide('next'), 5000);
   };
 
-  const dragRef = useRef({ startX: 0, isDragging: false });
+  const dragRef = useRef({ startX: 0, isDragging: false, wasDragged: false });
 
   const onDragStart = (x) => {
     dragRef.current.startX = x;
     dragRef.current.isDragging = true;
+    dragRef.current.wasDragged = false;
   };
 
   const onDragEnd = (x) => {
     if (!dragRef.current.isDragging) return;
     dragRef.current.isDragging = false;
     const diff = x - dragRef.current.startX;
+    dragRef.current.wasDragged = Math.abs(diff) >= 50;
     if (Math.abs(diff) < 50) return;
     handleNav(diff < 0 ? 'next' : 'prev');
   };
@@ -142,12 +146,12 @@ const CommunityPopularPostContainer = ({ posts }) => {
       </myStyle.headerWrap>
 
       <myStyle.CarouselWrapper
-        style={{ userSelect: 'none', cursor: 'grab' }}
         onMouseDown={(e) => onDragStart(e.clientX)}
         onMouseUp={(e) => onDragEnd(e.clientX)}
         onMouseLeave={() => { dragRef.current.isDragging = false; }}
         onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
         onTouchEnd={(e) => onDragEnd(e.changedTouches[0].clientX)}
+        onDragStart={(e) => e.preventDefault()}
       >
         <myStyle.Track ref={trackRef}>
           {Array.from({ length: 9 }, (_, i) => {
@@ -157,6 +161,7 @@ const CommunityPopularPostContainer = ({ posts }) => {
               <myStyle.CardOuter
                 key={i}
                 ref={(el) => { cardRefs.current[i] = el; }}
+                onClick={() => { if (!dragRef.current.wasDragged) navigate(`/community/detail/${post.id}`); }}
               >
                 <myStyle.Card>
                   <myStyle.CardImageWrap>
@@ -164,7 +169,6 @@ const CommunityPopularPostContainer = ({ posts }) => {
                   </myStyle.CardImageWrap>
                   <myStyle.CardBody>
                     <myStyle.CardMeta>
-                      {/* <myStyle.CategoryBadge>{post.category}</myStyle.CategoryBadge> */}
                       <myStyle.CategoryWrap bgColor={bgColor}>
                         <S.Span color={textColor} size={"h11Bold"}>{name}</S.Span>
                       </myStyle.CategoryWrap>

@@ -46,6 +46,8 @@ S.CarouselWrapper = styled.div`
   align-items: center;
   height: ${FOCUS_H}px;
   flex-shrink: 0;
+  user-select: none;
+  cursor: grab;
 `
 
 S.Track = styled.div`
@@ -60,6 +62,7 @@ S.CardOuter = styled.div`
   flex: 0 0 ${CARD_W}px;
   height: ${CARD_H}px;
   position: relative;
+  cursor: pointer;
 `
 
 S.Card = styled.div`
@@ -87,6 +90,8 @@ S.CardImage = styled.img`
   width: ${({width}) => width};
   height: ${({height}) => height};
   /* object-fit: cover; */
+  -webkit-user-drag: none;
+  pointer-events: none;
 `
 
 S.CardBody = styled.div`
