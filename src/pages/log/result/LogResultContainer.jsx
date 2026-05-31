@@ -32,17 +32,30 @@ const LogResultContainer = () => {
     }
   };
 
+  const saveToRecentLogs = (logInfo) => {
+    const recent = JSON.parse(localStorage.getItem('recentViewedLogs') || '[]');
+    const entry = {
+      id: logInfo.id,
+      title: logInfo.logTitle || '',
+      author: logInfo.memberNickname || '익명',
+      profileImg: logInfo.memberProfileImageUrl || null,
+      date: logInfo.logCreatedAt || '',
+    };
+    const filtered = recent.filter((item) => item.id !== entry.id);
+    localStorage.setItem('recentViewedLogs', JSON.stringify([entry, ...filtered].slice(0, 3)));
+  };
+
   // 실데이터 연동 API 호출
   useEffect(() => {
     const fetchLogData = async () => {
       try {
         setLoading(true);
-        // GET /api/logs/analyze/{logId} 호출
         const res = await axiosInstance.get(`/api/logs/analyze/${id}`);
         if (res.data?.success) {
             setLogData(res.data.data);
             setLikeCount(res.data.data.logInfo.likeCount || 0);
-            setLiked(false);
+            setLiked(res.data.data.logInfo.isLiked ?? res.data.data.logInfo.liked ?? false);
+            saveToRecentLogs(res.data.data.logInfo);
         }
       } catch (err) {
         console.error("로그 데이터 불러오기 실패:", err);
@@ -55,9 +68,27 @@ const LogResultContainer = () => {
     }
   }, [id]);
 
-  const handleLike = () => {
-    setLiked(prev => !prev);
-    setLikeCount(prev => liked ? prev - 1 : prev + 1);
+  const handleLike = async () => {
+    // 낙관적 업데이트 (UI 먼저 변경)
+    const prevLiked = liked;
+    const prevCount = likeCount;
+
+    setLiked(!prevLiked);
+    setLikeCount(prevLiked ? prevCount - 1 : prevCount + 1);
+
+    try {
+      const res = await axiosInstance.post(`/api/logs/like/${id}`);
+      if (res.data?.success) {
+        // 서버에서 반환한 정확한 값으로 보정 (선택사항이나, 정확도를 위해 반영)
+        setLiked(res.data.data.isLiked === 1);
+        setLikeCount(res.data.data.likeCount);
+      }
+    } catch (err) {
+      console.error("좋아요 처리 실패:", err);
+      // 에러 발생 시 원래 상태로 롤백
+      setLiked(prevLiked);
+      setLikeCount(prevCount);
+    }
   };
 
   if (loading) {
@@ -121,6 +152,11 @@ const LogResultContainer = () => {
             }} />
           </S.Card>
         </S.CardWrapper>
+
+        {/* 하단 목록으로 가기 버튼 */}
+        <S.BottomActionRow>
+          <S.ListButton onClick={() => navigate('/fail-logs')}>목록으로 가기</S.ListButton>
+        </S.BottomActionRow>
       </S.ContentWrapper>
     </S.Wrapper>
   );
