@@ -69,6 +69,7 @@ const LogResultContainer = () => {
   }, [id]);
 
   const handleLike = () => {
+    axiosInstance.post(`/api/logs/${id}/like`).catch(console.error);
     setLiked(prev => !prev);
     setLikeCount(prev => liked ? prev - 1 : prev + 1);
   };
