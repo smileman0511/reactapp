@@ -82,14 +82,13 @@ S.CardImageWrap = styled.div`
   height: 44%;
   background: ${colorCSS["faillog_gray4"]};
   flex-shrink: 0;
-
-  ${flexCenterRow}
+  overflow: hidden;
 `
 
 S.CardImage = styled.img`
-  width: ${({width}) => width};
-  height: ${({height}) => height};
-  /* object-fit: cover; */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   -webkit-user-drag: none;
   pointer-events: none;
 `

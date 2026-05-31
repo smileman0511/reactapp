@@ -49,7 +49,13 @@ CommunityBestPostStyle.BestPostImgWrapDiv = styled.div`
   width: 530px;
   height: 606px;
   background-color: ${colorCSS.faillog_gray1};
-  ${flexCenterRow}
+  overflow: hidden;
+`
+
+CommunityBestPostStyle.BestPostImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `
 
 CommunityBestPostStyle.BestPostMainDiv = styled.div`

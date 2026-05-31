@@ -165,7 +165,7 @@ const CommunityPopularPostContainer = ({ posts }) => {
               >
                 <myStyle.Card>
                   <myStyle.CardImageWrap>
-                    <myStyle.CardImage src={post.thumbnail ? post.thumbnail : imageEmpty} width={"100%"} height={"100%"}></myStyle.CardImage>
+                    <myStyle.CardImage src={post.thumbnail ? post.thumbnail : imageEmpty} />
                   </myStyle.CardImageWrap>
                   <myStyle.CardBody>
                     <myStyle.CardMeta>

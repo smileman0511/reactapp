@@ -93,7 +93,7 @@ const CommunityBestPost = ({
 
                 {/* 이미지 영역 */}
                 <myStyle.BestPostImgWrapDiv>
-                  <S.Img width={"100%"} height={"100%"} src={thumbnail ? thumbnail : thumbnailEmpty}></S.Img>
+                  <myStyle.BestPostImg src={thumbnail ? thumbnail : thumbnailEmpty} />
                 </myStyle.BestPostImgWrapDiv>
             </myStyle.BestPost>
         </myStyle.BestPostWrap>
