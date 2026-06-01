@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import myStyle from '../../styles/CommunityPopularPostContainerStyle';
 import S from '../../style';
 
@@ -12,6 +13,7 @@ import likeFill from '../../resources/like-fill2.svg'
 import getCategoryInfo from '../../GetCategoryInfo';
 
 import imageEmpty from '../../resources/popular-image-empty.png'
+import defaultProfile from '../../resources/default.png'
 
 const CARD_W = 420;
 const FOCUS_W = 480;
@@ -26,6 +28,7 @@ const SIZE_TRANSITION = `flex-basis ${SIZE_DUR}ms ease, height ${SIZE_DUR}ms eas
 
 const CommunityPopularPostContainer = ({ posts }) => {
   const total = posts.length;
+  const navigate = useNavigate();
   const [activeIdx, setActiveIdx] = useState(0);
   const animatingRef = useRef(false);
   const trackRef = useRef(null);
@@ -104,17 +107,19 @@ const CommunityPopularPostContainer = ({ posts }) => {
     timerRef.current = setInterval(() => slide('next'), 5000);
   };
 
-  const dragRef = useRef({ startX: 0, isDragging: false });
+  const dragRef = useRef({ startX: 0, isDragging: false, wasDragged: false });
 
   const onDragStart = (x) => {
     dragRef.current.startX = x;
     dragRef.current.isDragging = true;
+    dragRef.current.wasDragged = false;
   };
 
   const onDragEnd = (x) => {
     if (!dragRef.current.isDragging) return;
     dragRef.current.isDragging = false;
     const diff = x - dragRef.current.startX;
+    dragRef.current.wasDragged = Math.abs(diff) >= 50;
     if (Math.abs(diff) < 50) return;
     handleNav(diff < 0 ? 'next' : 'prev');
   };
@@ -141,12 +146,12 @@ const CommunityPopularPostContainer = ({ posts }) => {
       </myStyle.headerWrap>
 
       <myStyle.CarouselWrapper
-        style={{ userSelect: 'none', cursor: 'grab' }}
         onMouseDown={(e) => onDragStart(e.clientX)}
         onMouseUp={(e) => onDragEnd(e.clientX)}
         onMouseLeave={() => { dragRef.current.isDragging = false; }}
         onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
         onTouchEnd={(e) => onDragEnd(e.changedTouches[0].clientX)}
+        onDragStart={(e) => e.preventDefault()}
       >
         <myStyle.Track ref={trackRef}>
           {Array.from({ length: 9 }, (_, i) => {
@@ -156,14 +161,14 @@ const CommunityPopularPostContainer = ({ posts }) => {
               <myStyle.CardOuter
                 key={i}
                 ref={(el) => { cardRefs.current[i] = el; }}
+                onClick={() => { if (!dragRef.current.wasDragged) navigate(`/community/detail/${post.id}`); }}
               >
                 <myStyle.Card>
                   <myStyle.CardImageWrap>
-                    <myStyle.CardImage src={post.thumbnail ? post.thumbnail : imageEmpty} width={"100%"} height={"100%"}></myStyle.CardImage>
+                    <myStyle.CardImage src={post.thumbnail ? post.thumbnail : imageEmpty} />
                   </myStyle.CardImageWrap>
                   <myStyle.CardBody>
                     <myStyle.CardMeta>
-                      {/* <myStyle.CategoryBadge>{post.category}</myStyle.CategoryBadge> */}
                       <myStyle.CategoryWrap bgColor={bgColor}>
                         <S.Span color={textColor} size={"h11Bold"}>{name}</S.Span>
                       </myStyle.CategoryWrap>
@@ -175,28 +180,28 @@ const CommunityPopularPostContainer = ({ posts }) => {
                       </S.Span2>
                     </myStyle.CardTitle>
                     <myStyle.CardContent>
-                      <S.Span2 size="h9Bold" color="faillog_gray9" lineclamp={3}>
+                      <S.Span2 size="h8Bold" color="faillog_gray9" lineclamp={3}>
                         {post.content}
                       </S.Span2>
                     </myStyle.CardContent>
                     <myStyle.CardDivider />
                     <myStyle.CardFooter>
                       <myStyle.AuthorInfo>
-                        <myStyle.AuthorAvatar src={post.profile} />
-                        <S.Span size="h10Regular" color="faillog_gray9">{post.author}</S.Span>
+                        <myStyle.AuthorAvatar src={post.profile || defaultProfile} />
+                        <S.Span size="h9Regular" color="faillog_gray9">{post.author}</S.Span>
                       </myStyle.AuthorInfo>
                       <myStyle.Stats>
                         <myStyle.postInfo>
                           <img src={eye} width={12} height={8}></img>
-                          <S.Span size={"h11Regular"} color={"faillog-black"} isvisible={true}>{post.views}</S.Span>
+                          <S.Span size={"h10Regular"} color={"faillog-black"} isvisible={true}>{post.views}</S.Span>
                         </myStyle.postInfo>
                         <myStyle.postInfo>
                           <img src={heart} width={14} height={14}></img>
-                          <S.Span size={"h11Regular"} color={"faillog-black"}>{post.likes}</S.Span>
+                          <S.Span size={"h10Regular"} color={"faillog-black"}>{post.likes}</S.Span>
                         </myStyle.postInfo>
                         <myStyle.postInfo>
                           <img src={comment} width={14} height={14}></img>
-                          <S.Span size={"h11Regular"} color={"faillog-black"}>{post.comments}</S.Span>
+                          <S.Span size={"h10Regular"} color={"faillog-black"}>{post.comments}</S.Span>
                         </myStyle.postInfo>
                       </myStyle.Stats>
                     </myStyle.CardFooter>

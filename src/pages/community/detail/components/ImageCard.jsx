@@ -4,26 +4,21 @@ import S, { colorCSS } from '../../style';
 
 const ImageCard = ({ src, name }) => {
   
-  const handleDownload = async () => {
-
-    window.open(src, '_blank', 'noopener,noreferrer');
-
-    // try {
-    //   const response = await fetch(`${src}?not-from-cache-please`, { mode: 'cors' });
-    //   if (!response.ok) throw new Error('fetch failed');
-    //   const blob = await response.blob();
-    //   const url = window.URL.createObjectURL(blob);
-    //   const a = document.createElement('a');
-    //   a.href = url;
-    //   a.download = name;
-    //   document.body.appendChild(a);
-    //   a.click();
-    //   document.body.removeChild(a);
-    //   window.URL.revokeObjectURL(url);
-    // } catch {
-    //   // CORS 등으로 blob 다운로드 불가 시 새 탭에서 열기
-    //   window.open(src, '_blank', 'noopener,noreferrer');
-    // }
+  const handleDownload = () => {
+    if (src.startsWith('data:')) {
+      // base64 → Blob → object URL → 새 탭
+      const [header, base64] = src.split(',');
+      const mime = header.match(/:(.*?);/)[1];
+      const bytes = atob(base64);
+      const arr = new Uint8Array(bytes.length);
+      for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+      const blob = new Blob([arr], { type: mime });
+      const objectUrl = URL.createObjectURL(blob);
+      window.open(objectUrl, '_blank', 'noopener,noreferrer');
+      // setTimeout(() => URL.revokeObjectURL(objectUrl), 60000);
+    } else {
+      window.open(src, '_blank', 'noopener,noreferrer');
+    }
   };
 
   return (
