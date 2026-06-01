@@ -12,7 +12,7 @@ S.Wrapper = styled.div`
 
 S.Trigger = styled.div`
   width: 200px;
-  height: 48px;
+  height: 62px;
   padding: 0 11px 0px 26px;
   border: 1px solid #D9D9D9;
   border-radius: 15px;

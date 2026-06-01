@@ -1,6 +1,7 @@
 import React from 'react';
 import CommunitySearchOrder2Component from './CommunitySearchOrder2Component';
 import useSearchStore from '../useSearchStore';
+import SearchOptionComponent from '../../../../components/commons/SearchOptionComponent';
 
 const CommunitySearchOrder2Container = () => {
   
@@ -26,6 +27,7 @@ const CommunitySearchOrder2Container = () => {
   
   return (
     <div>
+      {/* <SearchOptionComponent onChange={handleOnChangeDropDown}></SearchOptionComponent> */}
       <CommunitySearchOrder2Component onChange={handleOnChangeDropDown}></CommunitySearchOrder2Component>
     </div>
   );

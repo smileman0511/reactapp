@@ -12,17 +12,41 @@ const REPORT_REASONS = [
   { id: 'other',   title: '기타',          desc: '직접작성' },
 ];
 
-// type: 팝업 종류 (게시글/댓글/대댓글), id: 신고 대상 id
+const REASON_CATEGORY_MAP = { ad: 1, abuse: 2, privacy: 3, other: 4 };
+
+const API_URL_MAP = {
+  '게시글': 'http://localhost:10000/api/CommunityReport/post',
+  '댓글':   'http://localhost:10000/api/CommunityReport/reply',
+  '대댓글': 'http://localhost:10000/api/CommunityReport/rereply',
+};
+
+// type: 팝업 종류 (게시글/댓글/대댓글), id: 신고 대상 id, memberId: 로그인 멤버 id(신고자 멤버 id)
 // profileImg: 작성자 프로필 이미지, author: 작성자, content: 내용
 // onClose: 팝업 닫기 이벤트
-const ReportPopup = ({ type = '댓글', id, profileImg, author, content, onClose = () => {} }) => {
+const ReportPopup = ({ type = '댓글', id, memberId, profileImg, author, content, onClose = () => {} }) => {
   const [selectedReason, setSelectedReason] = useState(null);
   const [reportText, setReportText] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = () => {
+  const buildBody = () => {
+    const categoryId = REASON_CATEGORY_MAP[selectedReason];
+    if (type === '게시글') return { memberId, postId: id, reportReasonCategoryId: categoryId, postReportContent: reportText };
+    if (type === '댓글')   return { memberId, replyId: id, reportReasonCategoryId: categoryId, replyReportContent: reportText };
+    if (type === '대댓글') return { memberId, rereplyId: id, reportReasonCategoryId: categoryId, rereplyReportContent: reportText };
+  };
+
+  const handleSubmit = async () => {
     if (!selectedReason) return;
-    setSubmitted(true);
+    const url = API_URL_MAP[type];
+    if (!url) return;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(buildBody()),
+    });
+    if (!res.ok) return;
+    const json = await res.json();
+    if (json.success) setSubmitted(true);
   };
 
   if (submitted) {
@@ -56,8 +80,8 @@ const ReportPopup = ({ type = '댓글', id, profileImg, author, content, onClose
         <ProfileBox>
           {profileImg && <ProfileImg src={profileImg} alt={author} />}
           <ProfileRight>
-            <S.Span size="h10Bold">{author}</S.Span>
-            <S.Span2 size="h10Regular" color="faillog_gray9" lineclamp={2}>{content}</S.Span2>
+            <S.Span size="h9Bold">{author}</S.Span>
+            <S.Span2 size="h9Regular" color="faillog_gray9" lineclamp={2}>{content}</S.Span2>
           </ProfileRight>
         </ProfileBox>
 
@@ -164,8 +188,8 @@ const ProfileBox = styled.div`
 `
 
 const ProfileImg = styled.img`
-  width: 28px;
-  height: 28px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -230,7 +254,7 @@ const ContentTextArea = styled.textarea`
   width: 568px;
   height: 100px;
   margin-top: 16px;
-  background: ${colorCSS["faillog_gray1"]};
+  background: ${colorCSS["faillog-sector-gray"]};
   border: none;
   border-radius: 10px;
   padding: 16px;

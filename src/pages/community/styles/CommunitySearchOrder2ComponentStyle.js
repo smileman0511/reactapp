@@ -14,7 +14,7 @@ S.Trigger = styled.div`
   width: 88px;
   height: 40px;
   border: 1px solid #D9D9D9;
-  border-radius: 15px;
+  border-radius: 10px;
   background: ${colorCSS["faillog_white"]};
   cursor: pointer;
   ${flexCenterRow}
@@ -33,7 +33,7 @@ S.OptionBox = styled.div`
   left: 0;
   width: 88px;
   height: 100px;
-  border-radius: 15px;
+  border-radius: 10px;
   overflow: hidden;
   z-index: 999;
   border: 1px solid ${colorCSS["faillog_gray9"]};

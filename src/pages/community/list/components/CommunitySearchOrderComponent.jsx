@@ -30,7 +30,7 @@ const CommunitySearchOrderComponent = ({ defaultValue = '제목', onChange }) =>
   return (
     <myStyle.Wrapper ref={wrapperRef}>
       <myStyle.Trigger onClick={() => setIsOpen((prev) => !prev)}>
-        <S.Span size="h8Regular" color="faillog-black">{selected}</S.Span>
+        <S.Span size="h7Regular" color="faillog-black">{selected}</S.Span>
         <myStyle.ChevronImg isOpen={isOpen} src={downImage}></myStyle.ChevronImg>
       </myStyle.Trigger>
 

@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import likeImg from '../../resources/like.svg';
@@ -61,6 +62,7 @@ const Reply = ({
   onReplyAdded,
 }) => {
   const isOwner = loginId != null && loginId === memberId;
+  const navigate = useNavigate();
   const { openMenuId, setOpenMenuId } = useMenuContext();
   const { openReport } = useReportContext();
   const menuId = useRef(`reply-${Math.random()}`).current;
@@ -110,6 +112,11 @@ const Reply = ({
   };
 
   const handleRereplySubmit = async (text) => {
+    if (loginId === 0) {
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/login');
+      return;
+    }
     if (!text.trim()) return;
     const res = await fetch('http://localhost:10000/api/posts/write-rereply', {
       method: 'POST',
@@ -125,9 +132,11 @@ const Reply = ({
   };
 
   const handleLike = async () => {
-
-console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
-
+    if (loginId === 0) {
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/login');
+      return;
+    }
     const url = liked
       ? 'http://localhost:10000/api/posts/cancel-like-reply'
       : 'http://localhost:10000/api/posts/like-reply';
@@ -163,7 +172,7 @@ console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
         <ProfileGroup>
           {profileImg && <ProfileImg src={profileImg} alt="프로필" />}
           <S.Span size="h8Bold">{author}</S.Span>
-          <S.Span size="h11Regular" color="faillog_gray9">{createdAt}</S.Span>
+          <S.Span size="h10Regular" color="faillog_gray9">{createdAt}</S.Span>
         </ProfileGroup>
 
         <MenuContainer>
@@ -183,7 +192,7 @@ console.log(`member: ${memberId} reply: ${replyId} loginid: ${loginId}`);
                   </DropdownItem>
                 </>
               ) : (
-                <DropdownItem onClick={() => { openReport('댓글', undefined, profileImg, author, content); setOpenMenuId(null); }}>
+                <DropdownItem onClick={() => { openReport('댓글', replyId, profileImg, author, content); setOpenMenuId(null); }}>
                   <S.Span size="h9Regular">신고하기</S.Span>
                 </DropdownItem>
               )}
@@ -274,8 +283,8 @@ const ProfileGroup = styled.div`
 `
 
 const ProfileImg = styled.img`
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   object-fit: cover;
 `
@@ -320,13 +329,14 @@ const DropdownItem = styled.div`
 
 const ContentArea = styled.div`
   margin-top: 10px;
+  margin-bottom: 10px;
 `
 
 const ContentText = styled.p`
   margin: 0;
   padding-right: 170px;
   ${sizeCSS["h9Regular"]}
-  color: ${colorCSS["faillog-black"]};
+  color: ${colorCSS["faillog_gray9"]};
   word-break: break-all;
 `
 

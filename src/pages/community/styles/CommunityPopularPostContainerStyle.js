@@ -46,6 +46,8 @@ S.CarouselWrapper = styled.div`
   align-items: center;
   height: ${FOCUS_H}px;
   flex-shrink: 0;
+  user-select: none;
+  cursor: grab;
 `
 
 S.Track = styled.div`
@@ -60,6 +62,7 @@ S.CardOuter = styled.div`
   flex: 0 0 ${CARD_W}px;
   height: ${CARD_H}px;
   position: relative;
+  cursor: pointer;
 `
 
 S.Card = styled.div`
@@ -79,14 +82,15 @@ S.CardImageWrap = styled.div`
   height: 44%;
   background: ${colorCSS["faillog_gray4"]};
   flex-shrink: 0;
-
-  ${flexCenterRow}
+  overflow: hidden;
 `
 
 S.CardImage = styled.img`
-  width: ${({width}) => width};
-  height: ${({height}) => height};
-  /* object-fit: cover; */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-drag: none;
+  pointer-events: none;
 `
 
 S.CardBody = styled.div`
@@ -149,8 +153,8 @@ S.AuthorInfo = styled.div`
 `
 
 S.AuthorAvatar = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   /* border-radius: 50%; */
   /* background-color: ${colorCSS["faillog_gray1"]};
   border: 1px solid #e0e0e0; */

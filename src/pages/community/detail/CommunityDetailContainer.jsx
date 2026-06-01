@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { boxShadow, colorCSS } from '../style';
 import PostHeader from './components/PostHeader';
-import icon04 from '../resources/icon04.png';
+import icon04 from '../resources/default.png';
 import Content from './components/Content';
 import ImagesContainer from './components/ImagesContainer';
 import AuthorInfo from './components/AuthorInfo';
@@ -15,9 +15,10 @@ import ReportPopup from './components/ReportPopup';
 import { ReportContext } from './components/ReportContext';
 import { formatRelativeTime } from '../../../utils/relativeTime';
 import PopupComponent from '../../../components/commons/PopupComponent';
+import useAuthStore from '../../../store/authStore';
 
 // TODO: 로그인 구현 후 auth context에서 가져올 것
-const CURRENT_MEMBER_ID = 1;
+// const CURRENT_MEMBER_ID = 1;
 
 const formatTimeAgo = (dateStr) => {
     if (!dateStr) return '';
@@ -34,11 +35,15 @@ const formatTimeAgo = (dateStr) => {
 
 const CommunityDetailContainer = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [reportState, setReportState] = useState(null);
     const [pageData, setPageData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [refreshKey, setRefreshKey] = useState(0);
+
+    const memberId = useAuthStore((state) => state.user?.id ?? 0);
+    // console.log(memberId);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -47,7 +52,7 @@ const CommunityDetailContainer = () => {
                 const res = await fetch('http://localhost:10000/api/posts/read', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ memberId: CURRENT_MEMBER_ID, postId: Number(id) }),
+                    body: JSON.stringify({ memberId, postId: Number(id) }),
                 });
                 const json = await res.json();
                 if (json.success) {
@@ -65,6 +70,11 @@ const CommunityDetailContainer = () => {
     }, [id, refreshKey]);
 
     const openReport = (type, reportId, profileImg, author, content) => {
+        if (memberId === 0) {
+            alert('로그인이 필요한 서비스입니다.');
+            navigate('/login');
+            return;
+        }
         setReportState({ type, id: reportId, profileImg, author, content });
     };
     const closeReport = () => setReportState(null);
@@ -92,7 +102,7 @@ const CommunityDetailContainer = () => {
     }));
 
     const replyList = (replies ?? []).map((r) => ({
-        loginId: CURRENT_MEMBER_ID,
+        loginId: memberId,
         memberId: r.memberId,
         replyId: r.id,
         profileImg: r.memberProfileImageUrl ?? icon04,
@@ -102,7 +112,7 @@ const CommunityDetailContainer = () => {
         isLiked: r.isLiked === 1,
         likeCount: r.likeCount ?? 0,
         rereplyList: (r.replies ?? []).map((rr) => ({
-            loginId: CURRENT_MEMBER_ID,
+            loginId: memberId,
             memberId: rr.memberId,
             rereplyId: rr.id,
             profileImg: rr.memberProfileImageUrl ?? icon04,
@@ -115,6 +125,7 @@ const CommunityDetailContainer = () => {
     //임시(ai post list 더미데이터)
     const aiPostList = [
     {
+        postId: 3,
         date: '2026년 03월 03일',
         category: 0,
         title: '시험 직전 불안이 심해질 때 내가 했던 복기 루틴 3가지를 소개합니다',
@@ -125,6 +136,7 @@ const CommunityDetailContainer = () => {
         comments: 6,
     },
     {
+        postId: 3,
         date: '2026년 03월 03일',
         category: 0,
         title: '도서관 루틴으로 바꾸고 나서 집중력이 유지된 기록',
@@ -135,6 +147,7 @@ const CommunityDetailContainer = () => {
         comments: 6,
     },
     {
+        postId: 3,
         date: '2026년 03월 03일',
         category: 1,
         title: '공부 환경을 바꾸고 나서 성적이 오른 실제 경험담',
@@ -145,6 +158,7 @@ const CommunityDetailContainer = () => {
         comments: 6,
     },
     {
+        postId: 3,
         date: '2026년 03월 03일',
         category: 2,
         title: '기출 회독보다 개념 이해가 먼저다 – 내 공부법 변화기',
@@ -187,8 +201,8 @@ const CommunityDetailContainer = () => {
             <Divider />
 
             <Middle
-                loginId={CURRENT_MEMBER_ID}
-                isOwner={post.memberId === CURRENT_MEMBER_ID}
+                loginId={memberId}
+                isOwner={post.memberId === memberId}
                 isLiked={post.isLiked === 1}
                 likeCount={post.likeCount}
                 postId={post.id}
@@ -200,7 +214,7 @@ const CommunityDetailContainer = () => {
             <ReplyContainer
                 replyList={replyList}
                 postId={post.id}
-                loginId={CURRENT_MEMBER_ID}
+                loginId={memberId}
                 onReplyAdded={() => setRefreshKey(k => k + 1)}
             />
 
@@ -222,6 +236,7 @@ const CommunityDetailContainer = () => {
             profileImg={reportState.profileImg}
             author={reportState.author}
             content={reportState.content}
+            memberId={memberId}
             onClose={closeReport}
         />
     )}
