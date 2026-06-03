@@ -5,11 +5,9 @@ import {
     flexCenter,
     h6Bold,
     h7Bold,
-    h8Bold,
     h9Bold,
     h9Regular,
     h10Bold,
-    h11Regular,
 } from '../../../styles/common';
 import theme from '../../../styles/theme';
 
@@ -120,6 +118,57 @@ S.Card = styled.div`
     &:hover {
         transform: translateY(-8px);
         box-shadow: 0 16px 40px rgba(171, 71, 255, 0.15);
+    }
+`;
+
+/* ── Pagination Styles ── */
+S.PaginationWrapper = styled.div`
+    ${flexCenter}
+    gap: 8px;
+    margin-top: 40px;
+`;
+
+S.NavButton = styled.button`
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: ${theme.PALETTE.white};
+    border: 1px solid ${theme.GRAYSCALE[3]};
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    &:hover:not(:disabled) {
+        border-color: ${theme.PALETTE.third.main};
+        svg path {
+            stroke: ${theme.PALETTE.third.main};
+        }
+    }
+`;
+
+S.PageButton = styled.button`
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: ${({ $active }) => ($active ? theme.PALETTE.third.main : theme.PALETTE.white)};
+    border: 1px solid ${({ $active }) => ($active ? theme.PALETTE.third.main : theme.GRAYSCALE[3])};
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        border-color: ${theme.PALETTE.third.main};
+        span {
+            color: ${({ $active }) => ($active ? theme.PALETTE.white : theme.PALETTE.third.main)} !important;
+        }
     }
 `;
 

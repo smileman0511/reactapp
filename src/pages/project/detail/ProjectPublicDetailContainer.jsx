@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import axios from '../../../api/axiosInstance';
 import theme from '../../../styles/theme';
@@ -131,6 +131,7 @@ const LogSelectModal = ({ onClose, onConfirm }) => {
 // ─────────────────────────────────────────
 const ProjectPublicDetailContainer = () => {
     const { id: projectId } = useParams();
+    const navigate = useNavigate();
 
     const [project, setProject] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -258,6 +259,9 @@ const ProjectPublicDetailContainer = () => {
                         <span style={{ color: theme.GRAYSCALE[10], fontSize: '14px' }}>
                             {project.memberNickname}님의 프로젝트
                         </span>
+                        <S.OutlineBtn onClick={() => navigate('/projects')}>
+                            목록으로
+                        </S.OutlineBtn>
                     </S.TopBtnRow>
                 </S.PageTop>
 

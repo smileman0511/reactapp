@@ -229,6 +229,9 @@ const ProjectDetailContainer = () => {
                 <S.PageTop>
                     <S.PageTitle>PROJECT</S.PageTitle>
                     <S.TopBtnRow>
+                        <S.OutlineBtn onClick={() => navigate('/projects')}>
+                            목록으로
+                        </S.OutlineBtn>
                         <S.OutlineBtn $danger onClick={handleDelete}>
                             프로젝트 삭제
                         </S.OutlineBtn>
