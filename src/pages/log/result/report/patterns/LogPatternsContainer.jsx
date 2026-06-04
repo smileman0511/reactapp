@@ -35,8 +35,8 @@ const LogPatternsContainer = () => {
 
     // 2. Factor Impact Data
     const factorImpact = {
-        external: aiResult.logResultExternalRatio || 50,
-        internal: aiResult.logResultInternalRatio || 50
+        external: aiResult?.logResultExternalRatio ?? 50,
+        internal: aiResult?.logResultInternalRatio ?? 50
     };
 
     // 3. Patterns & Habits Data

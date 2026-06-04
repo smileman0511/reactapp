@@ -30,8 +30,8 @@ const LogActionPlanContainer = () => {
     const changePlans = logActionPlans ? logActionPlans.filter(p => p.logActionPlanType === 'CHANGE') : [];
 
     const factorImpact = {
-        external: aiResult.logResultExternalRatio || 50,
-        internal: aiResult.logResultInternalRatio || 50
+        external: aiResult?.logResultExternalRatio ?? 50,
+        internal: aiResult?.logResultInternalRatio ?? 50
     };
 
     const higherImpactFactor = factorImpact.internal > factorImpact.external 
