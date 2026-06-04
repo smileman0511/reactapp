@@ -36,7 +36,13 @@ const ProjectCard = ({ project, index }) => {
                 <S.AccentBar $color={accentColor} />
                 <S.CardContent>
                     <S.CardTop>
-                        <S.OwnerRow>
+                        <S.OwnerRow 
+                            onClick={(e) => { 
+                                e.stopPropagation(); 
+                                navigate(`/profile/${project.memberId}`); 
+                            }} 
+                            style={{ cursor: 'pointer', zIndex: 10, position: 'relative' }}
+                        >
                             <S.OwnerAvatar>
                                 <img
                                     src={project.memberProfileImageUrl || '/default-profile.png'}

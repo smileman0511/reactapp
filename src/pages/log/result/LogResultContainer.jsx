@@ -228,9 +228,15 @@ const LogResultContainer = () => {
                           <S.RelatedTitle>{log.logTitle}</S.RelatedTitle>
                           <S.RelatedSub>{log.visionTitle}</S.RelatedSub>
                           <S.RelatedFooter>
-                            <S.RelatedAuthor>
+                            <S.RelatedAuthor 
+                                onClick={(e) => { 
+                                    e.stopPropagation(); 
+                                    navigate(`/profile/${log.memberId}`); 
+                                }} 
+                                style={{ cursor: 'pointer', zIndex: 10, position: 'relative' }}
+                            >
                               <img src={log.memberProfileImageUrl || defaultProfile} alt="프로필" style={{ width: 24, height: 24, borderRadius: '50%', marginRight: 8, objectFit: 'cover' }} />
-                              {log.memberNickname || "익명"}
+                              <span style={{ textDecoration: 'underline' }}>{log.memberNickname || "익명"}</span>
                             </S.RelatedAuthor>
                             <S.RelatedStats>
                               <span><img src={viewIcon} alt="views" width="12" style={{ marginRight: 4 }} />{log.logReadCount || 0}</span>
