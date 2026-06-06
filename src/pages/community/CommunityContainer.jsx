@@ -95,7 +95,7 @@ const CommunityContainer = () => {
                 <S.Wrapper margintop={"55px"}>
                     <myStyle.PostListAndAiRecommandPostWrapper>
                         <CommunityListContainer initialPostList={postListMapped} initialMaxPage={initialMaxPage} />
-                        <AiPostListContainer />
+                        <AiPostListContainer memberId={memberId} />
                     </myStyle.PostListAndAiRecommandPostWrapper>
                 </S.Wrapper>
             </myStyle.ListBgWrap>

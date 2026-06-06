@@ -1,46 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import S, { boxShadow, colorCSS } from '../../style';
 import AiPost from './AiPost';
 import aiImage from '../../resources/ai_image.svg';
 
-const posts = [
-  {
-    id: 3,
-    date: "2026년 03월 03일",
-    category: 3,
-    title: "다이어트 1년, 요요 세 번 반복한 기록",
-    profile: null,
-    author: "개복치 1단계",
-    views: 1240,
-    likes: 35,
-    comments: 6,
-  },
-  {
-    id: 16,
-    date: "2026년 03월 03일",
-    category: 0,
-    title: "대학원 중퇴, 그 선택이 옳았는가",
-    profile: null,
-    author: "개복치 1단계",
-    views: 45,
-    likes: 35,
-    comments: 6,
-  },
-  {
-    id: 20,
-    date: "2026년 03월 03일",
-    category: 0,
-    title: "자격증 시험 4번 불합격, 5번째에 붙은 방법",
-    profile: null,
-    author: "개복치 1단계",
-    views: 45,
-    likes: 35,
-    comments: 6,
-  },
-];
+const formatDate = (dateStr) => {
+  if (!dateStr) return '';
+  return dateStr.slice(0, 10).replace(/-/g, '.');
+};
 
-const AiPostListContainer = () => {
+const AiPostListContainer = ({ memberId }) => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchAiPosts = async () => {
+      const res = await fetch(`http://localhost:10000/api/posts/aiPost/main?memberId=${memberId}`, { method: 'POST' });
+      if (!res.ok) return;
+      const json = await res.json();
+      if (!json.success) return;
+      setPosts(json.data.map(p => ({
+        id: p.id,
+        date: formatDate(p.postCreatedAt),
+        category: p.categoryId - 1,
+        title: p.postTitle,
+        profile: p.memberProfileImageUrl,
+        author: p.memberNickname,
+        views: p.postReadCount,
+        likes: p.likeCount,
+        comments: p.replyCount,
+      })));
+    };
+    fetchAiPosts();
+  }, [memberId]);
+
   return (
     <Wrapper>
       <Header>
