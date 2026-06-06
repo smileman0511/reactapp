@@ -129,6 +129,10 @@ const CommunityPopularPostContainer = ({ posts }) => {
     return () => clearInterval(timerRef.current);
   }, [slide]);
 
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultProfile;
+  }
+
   return (
     <myStyle.containerWrap>
       <myStyle.headerWrap>
@@ -187,7 +191,7 @@ const CommunityPopularPostContainer = ({ posts }) => {
                     <myStyle.CardDivider />
                     <myStyle.CardFooter>
                       <myStyle.AuthorInfo>
-                        <myStyle.AuthorAvatar src={post.profile || defaultProfile} />
+                        <myStyle.AuthorAvatar src={post.profile || defaultProfile} onError={handledOnErrorImg} />
                         <S.Span size="h9Regular" color="faillog_gray9">{post.author}</S.Span>
                       </myStyle.AuthorInfo>
                       <myStyle.Stats>

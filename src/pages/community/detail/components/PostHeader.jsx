@@ -7,9 +7,14 @@ import { flexCenterRow } from '../../../../styles/common';
 import eye from '../../resources/eye.svg';
 import callendar from '../../resources/callendar.svg';
 import clock from '../../resources/clock.svg';
+import defaultImage from '../../resources/default.png'
 
 const PostHeader = ({ category, title, profile, author, views, date, timeAgo }) => {
   const { name, textColor, bgColor } = getCategoryInfo(category);
+
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultImage;
+  }
 
   return (
     <Wrapper>
@@ -22,7 +27,7 @@ const PostHeader = ({ category, title, profile, author, views, date, timeAgo }) 
 
       <BottomRow>
         <AuthorWrap>
-          <PorileImg src={profile} alt={author} />
+          <PorileImg src={profile} onError={handledOnErrorImg} alt={author} />
           <S.Span size="h9Regular" color="faillog_gray9">{author}</S.Span>
         </AuthorWrap>
         <MetaWrap>

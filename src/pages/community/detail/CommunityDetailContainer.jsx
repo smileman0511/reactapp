@@ -176,7 +176,7 @@ const CommunityDetailContainer = () => {
                 nextId={afterPost?.id}
             />
 
-            <AiPostContainer memberId={memberId} postId={post.id} />
+            {/* <AiPostContainer memberId={memberId} postId={post.id} /> */}
         </Wrapper>
     </Container>
     {reportState && (

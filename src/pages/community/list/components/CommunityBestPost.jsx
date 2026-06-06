@@ -41,6 +41,10 @@ const CommunityBestPost = ({
 
   const myStyle = CommunityBestPostStyle;
 
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultProfile;
+  }
+
   return (
     <div>
         <myStyle.BestPostWrap>
@@ -64,7 +68,7 @@ const CommunityBestPost = ({
                         <myStyle.BestPostMainHr></myStyle.BestPostMainHr>
                         <myStyle.BestPostMainInfo>
                           <myStyle.UserInfo>
-                            <myStyle.UserImg src={profile || defaultProfile}></myStyle.UserImg>
+                            <myStyle.UserImg src={profile || defaultProfile} onError={handledOnErrorImg}></myStyle.UserImg>
                             <S.Span size={"h9Regular"} color={"faillog_black"}>{author}</S.Span>
                             <myStyle.PostInfo>
                               <myStyle.infoElement>

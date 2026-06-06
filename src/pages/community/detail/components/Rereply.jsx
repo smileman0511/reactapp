@@ -7,6 +7,7 @@ import { flexBetweenRow, flexCenterRow } from '../../../../styles/common.js';
 import { useMenuContext } from './MenuContext.js';
 import { useReportContext } from './ReportContext.js';
 import PopupComponent from '../../../../components/commons/PopupComponent';
+import defaultImage from '../../resources/default.png'
 
 //삭제예정
 const EXAMPLE = {
@@ -85,6 +86,10 @@ const Rereply = ({
   const isOverflow = currentContent.length > LIMIT;
   const displayText = isOverflow && !expanded ? currentContent.slice(0, LIMIT) : currentContent;
 
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultImage;
+  }
+
   return (
     <>
     <PopupComponent
@@ -96,7 +101,7 @@ const Rereply = ({
     <Wrapper>
       <TopRow>
         <ProfileGroup>
-          {profileImg && <ProfileImg src={profileImg} alt="프로필" />}
+          {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt="프로필" />}
           <S.Span size="h8Bold">{author}</S.Span>
           <S.Span size="h10Regular" color="faillog_gray9">{createdAt}</S.Span>
         </ProfileGroup>

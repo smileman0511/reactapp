@@ -16,6 +16,10 @@ const AiPost = ({ postId, date, category, title, profile, author, views, likes, 
   const navigate = useNavigate();
   const {name, textColor ,bgColor} = getCategoryInfo(category)
 
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultProfile;
+  }
+
   return (
     <Card onClick={() => navigate(`/community/detail/${postId}`)}>
       <TopRow>
@@ -31,7 +35,7 @@ const AiPost = ({ postId, date, category, title, profile, author, views, likes, 
 
       <BottomRow>
         <AuthorWrap>
-          <AuthorImg src={profile || defaultProfile} alt={author} />
+          <AuthorImg src={profile || defaultProfile} onError={handledOnErrorImg} alt={author} />
           <S.Span size="h9Regular" color="faillog-black">{author}</S.Span>
         </AuthorWrap>
         <Stats>

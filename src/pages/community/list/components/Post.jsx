@@ -149,6 +149,10 @@ const Post = ({
   const navigate = useNavigate();
   const {name, textColor ,bgColor} = getCategoryInfo(category)
 
+  const handledOnErrorImg = (e) => {
+    e.target.src = defaultProfile;
+  }
+
   return (
     <div>
       <Wrapper onClick={() => navigate(`/community/detail/${id}`)}>
@@ -169,7 +173,7 @@ const Post = ({
             <S.Span2 size={"h8Bold"} color={"faillog_gray9"}>{content}</S.Span2>
             <BottomRow>
               <AuthorWrap>
-                <AuthorImg src={profile || defaultProfile} alt={author} />
+                <AuthorImg src={profile || defaultProfile} onError={handledOnErrorImg} alt={author} />
                 <S.Span size="h10Regular">{author}</S.Span> 
               </AuthorWrap>
               <Stats>
