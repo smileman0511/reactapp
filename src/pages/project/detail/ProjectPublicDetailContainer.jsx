@@ -210,38 +210,94 @@ const ProjectPublicDetailContainer = () => {
         if (projectId) fetchProject();
     }, [projectId]);
 
-    const getProgressDay = (startDate) => {
-        if (!startDate) return 'D+0';
-        const start = new Date(startDate);
-        start.setHours(0, 0, 0, 0);
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const diff = Math.round((today - start) / (1000 * 60 * 60 * 24));
-        
-        if (diff < 0) return `D${diff}`;
-        return `D+${diff}`;
-    };
-
-    const getProgressPercent = (startDate, endDate) => {
-        if (!startDate || !endDate) return 0;
-        const start = new Date(startDate);
-        start.setHours(0, 0, 0, 0);
+    // ── D- (종료일까지 남은 날) ──
+    const getDDay = (endDate) => {
+        if (!endDate) return 'D-0';
         const end = new Date(endDate);
         end.setHours(0, 0, 0, 0);
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
-        const total = end - start;
-        const elapsed = today - start;
-        if (total <= 0) return 100;
-        return Math.min(100, Math.max(0, Math.round((elapsed / total) * 100)));
+        const diff = Math.round((end - today) / (1000 * 60 * 60 * 24));
+        if (diff > 0) return `D-${diff}`;
+        if (diff === 0) return 'D-0';
+        return `D+${Math.abs(diff)}`;
+    };
+
+    // ── 달성률 계산 (체크리스트 완료 비율) ──
+    const getChecklistPercent = (items) => {
+        if (!items || items.length === 0) return 0;
+        const completed = items.filter(i => i.checklistCompleted === 'Y').length;
+        return Math.round((completed / items.length) * 100);
     };
 
     if (isLoading) return <S.PageWrapper><S.Inner><p>불러오는 중...</p></S.Inner></S.PageWrapper>;
     if (error)     return <S.PageWrapper><S.Inner><p>{error}</p></S.Inner></S.PageWrapper>;
     if (!project)  return null;
 
-    const progressPercent = getProgressPercent(project.projectStartDate, project.projectEndDate);
+    const checklistPercent = getChecklistPercent(checklist);
+    const completedCount   = checklist.filter(i => i.checklistCompleted === 'Y').length;
+
+    const MILESTONES = [
+        { pct: 0,   main: '시작',   sub: '0%' },
+        { pct: 25,  main: '25%',   sub: '달성' },
+        { pct: 50,  main: '절반',   sub: '50%' },
+        { pct: 75,  main: '후반부', sub: '75%' },
+        { pct: 100, main: '100%',  sub: '완료', trophy: true },
+    ];
+    const onFixed = MILESTONES.some(m => m.pct === checklistPercent);
+
+    const MilestoneBar = () => (
+        <S.MilestoneWrap>
+            <S.MilestoneTrackLine>
+                <S.MilestoneFill $percent={checklistPercent} />
+
+                {MILESTONES.map(m => {
+                    const done    = m.pct < checklistPercent;
+                    const current = m.pct === checklistPercent;
+                    const active  = done || current;
+                    return (
+                        <S.MilestoneNode key={m.pct} $left={m.pct}>
+                            <S.MilestoneCircle $done={done} $current={current}>
+                                {done ? (
+                                    <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                                        <path d="M1 5.5L5.5 10L13 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                ) : m.trophy ? (
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                                        <path d="M8 21h8M12 17v4M5 3H3v5c0 2.2 1.8 4 4 4M19 3h2v5c0 2.2-1.8 4-4 4M12 17c-3.3 0-6-2.7-6-6V3h12v8c0 3.3-2.7 6-6 6z"
+                                            stroke={current ? theme.PALETTE.third.main : theme.GRAYSCALE[5]}
+                                            strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                ) : (
+                                    <span>{m.pct}%</span>
+                                )}
+                            </S.MilestoneCircle>
+                            <S.MilestoneNodeLabel>
+                                <S.MilestoneLabelMain $active={active}>
+                                    {current && !m.trophy ? '진행 중' : m.main}
+                                </S.MilestoneLabelMain>
+                                <S.MilestoneLabelSub $active={active}>
+                                    {current && !m.trophy ? '' : m.sub}
+                                </S.MilestoneLabelSub>
+                            </S.MilestoneNodeLabel>
+                        </S.MilestoneNode>
+                    );
+                })}
+
+                {!onFixed && checklistPercent > 0 && checklistPercent < 100 && (
+                    <S.MilestoneNode $left={checklistPercent} $zIndex={10}>
+                        <S.MilestoneCircle $current>
+                            <span>{checklistPercent}%</span>
+                        </S.MilestoneCircle>
+                        <S.MilestoneNodeLabel>
+                            <S.MilestoneLabelMain $active>진행 중</S.MilestoneLabelMain>
+                            <S.MilestoneLabelSub $active> </S.MilestoneLabelSub>
+                        </S.MilestoneNodeLabel>
+                    </S.MilestoneNode>
+                )}
+            </S.MilestoneTrackLine>
+        </S.MilestoneWrap>
+    );
 
     return (
         <S.PageWrapper>
@@ -276,19 +332,20 @@ const ProjectPublicDetailContainer = () => {
                 <S.ProjectCard>
                     <S.ProjectCardInner>
                         <S.ProjectCardMeta>
-                            <S.AiRecommendLabel><AiBadge /> AI 추천 프로젝트</S.AiRecommendLabel>
+                            <S.ProjectTypeBadge>AI 추천 프로젝트</S.ProjectTypeBadge>
                         </S.ProjectCardMeta>
                         <S.ProjectName>{project.projectTitle}</S.ProjectName>
                         <S.ProjectDateRange>
                             {project.projectStartDate} ~ {project.projectEndDate}
                         </S.ProjectDateRange>
-                        <S.ProjectGoal>{project.projectContent}</S.ProjectGoal>
-                        <S.ProgressRow>
-                            <S.ProgressBar>
-                                <S.ProgressFill $percent={progressPercent} />
-                            </S.ProgressBar>
-                            <S.DDay>{getProgressDay(project.projectStartDate)}</S.DDay>
-                        </S.ProgressRow>
+                        <S.AchievementRow>
+                            <S.AchievementText>
+                                달성률 <S.AchievementHighlight>{checklistPercent}%</S.AchievementHighlight>
+                                {' · '}체크리스트 <S.AchievementHighlight>{completedCount} / {checklist.length}</S.AchievementHighlight>
+                            </S.AchievementText>
+                            <S.DDay>{getDDay(project.projectEndDate)}</S.DDay>
+                        </S.AchievementRow>
+                        <MilestoneBar />
                     </S.ProjectCardInner>
                     <LS.AddProjectBtn onClick={handleCopyClick}>
                         + 내 프로젝트 추가
