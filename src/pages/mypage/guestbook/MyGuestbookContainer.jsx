@@ -39,6 +39,7 @@ const mapGuestbook = (item) => ({
       content: rr.guestbookRereplyContent || '',
       createdAt: rr.guestbookRereplyCreatedAt || '',
       likes: rr.likeCount || 0,
+      liked: rr.isLike === 1,
     })),
   })),
 });
@@ -235,7 +236,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
     }).then(refetchList).catch(console.error);
   };
 
-  const handleToggleLike = (commentId, replyId = null) => {
+  const handleToggleLike = (commentId, replyId = null, rereplyId = null) => {
     setComments((prev) =>
       prev.map((comment) => {
         if (comment.id !== commentId) return comment;
@@ -243,12 +244,27 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
           const liked = !comment.liked;
           return { ...comment, liked, likes: comment.likes + (liked ? 1 : -1) };
         }
+        if (rereplyId == null) {
+          return {
+            ...comment,
+            replies: comment.replies.map((reply) =>
+              reply.id === replyId
+                ? { ...reply, liked: !reply.liked, likes: reply.likes + (reply.liked ? -1 : 1) }
+                : reply,
+            ),
+          };
+        }
         return {
           ...comment,
           replies: comment.replies.map((reply) =>
-            reply.id === replyId
-              ? { ...reply, liked: !reply.liked, likes: reply.likes + (reply.liked ? -1 : 1) }
-              : reply,
+            reply.id !== replyId ? reply : {
+              ...reply,
+              rereplies: (reply.rereplies || []).map((rereply) =>
+                rereply.id === rereplyId
+                  ? { ...rereply, liked: !rereply.liked, likes: rereply.likes + (rereply.liked ? -1 : 1) }
+                  : rereply,
+              ),
+            },
           ),
         };
       }),
