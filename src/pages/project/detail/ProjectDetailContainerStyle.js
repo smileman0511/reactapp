@@ -123,6 +123,15 @@ S.ProjectCardMeta = styled.div`
 	margin-bottom: 16px;
 `;
 
+S.ProjectTypeBadge = styled.span`
+	${h9Bold}
+	padding: 5px 14px;
+	border-radius: 20px;
+	background: ${theme.PALETTE.primary.light};
+	border: 1px solid rgba(2, 125, 240, 0.25);
+	color: ${theme.PALETTE.primary.main};
+`;
+
 S.AiRecommendLabel = styled.span`
 	${flexStartRow}
 	gap: 6px;
@@ -130,17 +139,17 @@ S.AiRecommendLabel = styled.span`
 	color: ${theme.PALETTE.black};
 `;
 
+S.ProjectName = styled.h3`
+	${h5Bold}
+	color: ${theme.PALETTE.black};
+	margin-bottom: 10px;
+`;
+
 S.ProjectDateRange = styled.span`
 	${h10Bold}
 	color: ${theme.GRAYSCALE[10]};
 	display: block;
-	margin-bottom: 20px;
-`;
-
-S.ProjectName = styled.h3`
-	${h5Bold}
-	color: ${theme.PALETTE.black};
-	margin-bottom: 20px;
+	margin-bottom: 14px;
 `;
 
 S.ProjectGoal = styled.p`
@@ -149,6 +158,138 @@ S.ProjectGoal = styled.p`
 	margin-bottom: 16px;
 `;
 
+S.AchievementRow = styled.div`
+	${flexBetweenRow}
+	align-items: center;
+	margin-bottom: 28px;
+`;
+
+S.AchievementText = styled.p`
+	${h9Regular}
+	color: ${theme.GRAYSCALE[10]};
+`;
+
+S.AchievementHighlight = styled.span`
+	${h9Bold}
+	color: ${theme.PALETTE.black};
+`;
+
+S.DDay = styled.span`
+	${h8Bold}
+	padding: 6px 18px;
+	border-radius: 10px;
+	background: rgba(245, 49, 2, 0.08);
+	border: 1px solid rgba(245, 49, 2, 0.25);
+	color: ${theme.PALETTE.fourth.main};
+	white-space: nowrap;
+`;
+
+S.ProjectEditBtn = styled.button`
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: 32px;
+	height: 32px;
+	border-radius: 8px;
+	border: 1px solid ${theme.GRAYSCALE[3]};
+	background: ${theme.PALETTE.white};
+	${flexCenter}
+	transition: all 0.15s;
+	&:hover { background: ${theme.GRAYSCALE[1]}; }
+`;
+
+/* ── Milestone Bar ── */
+S.MilestoneWrap = styled.div`
+	position: relative;
+	height: 90px;
+`;
+
+/* 트랙은 좌우 18px(원 반지름) 안으로 inset → 0%·100% 노드가 카드 안에 정확히 들어옴 */
+S.MilestoneTrackLine = styled.div`
+	position: absolute;
+	top: 18px;
+	left: 18px;
+	right: 18px;
+	height: 3px;
+	background: ${theme.GRAYSCALE[2]};
+	border-radius: 2px;
+	overflow: visible;
+`;
+
+S.MilestoneFill = styled.div`
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: ${({ $percent }) => $percent ?? 0}%;
+	background: linear-gradient(90deg, ${theme.PALETTE.primary.main}, ${theme.PALETTE.third.main});
+	border-radius: 2px;
+	transition: width 0.6s ease;
+`;
+
+/* 노드는 MilestoneTrackLine 자식 → left %가 트랙 기준으로 계산됨 */
+S.MilestoneNode = styled.div`
+	position: absolute;
+	top: 50%;
+	left: ${({ $left }) => $left}%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	z-index: ${({ $zIndex }) => $zIndex || 1};
+`;
+
+S.MilestoneCircle = styled.div`
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	font-size: 10px;
+	font-weight: 700;
+	background: ${({ $done }) =>
+		$done
+			? `linear-gradient(135deg, ${theme.PALETTE.primary.main}, ${theme.PALETTE.third.main})`
+			: theme.PALETTE.white};
+	border: ${({ $done, $current }) =>
+		$done
+			? 'none'
+			: $current
+			? `2px solid ${theme.PALETTE.third.main}`
+			: `2px solid ${theme.GRAYSCALE[3]}`};
+	color: ${({ $done, $current }) =>
+		$done ? '#fff' : $current ? theme.PALETTE.third.main : theme.GRAYSCALE[7]};
+	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+`;
+
+S.MilestoneNodeLabel = styled.div`
+	position: absolute;
+	top: calc(100% + 8px);
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	white-space: nowrap;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+`;
+
+S.MilestoneLabelMain = styled.span`
+	font-size: 11px;
+	font-weight: ${({ $active }) => ($active ? '700' : '400')};
+	color: ${({ $active }) => ($active ? theme.PALETTE.black : theme.GRAYSCALE[7])};
+`;
+
+S.MilestoneLabelSub = styled.span`
+	font-size: 10px;
+	font-weight: 400;
+	color: ${({ $active }) => ($active ? theme.GRAYSCALE[10] : theme.GRAYSCALE[5])};
+`;
+
+/* ── 구 ProgressRow 유지 (PublicDetail 등에서 사용) ── */
 S.ProgressRow = styled.div`
 	${flexBetweenRow}
 	gap: 16px;
@@ -169,26 +310,6 @@ S.ProgressFill = styled.div`
 	background: linear-gradient(90deg, ${theme.PALETTE.primary.main}, ${theme.PALETTE.third.main});
 	border-radius: 5px;
 	transition: width 0.6s ease;
-`;
-
-S.DDay = styled.span`
-	${h6Bold}
-	color: ${theme.PALETTE.black};
-	white-space: nowrap;
-`;
-
-S.ProjectEditBtn = styled.button`
-	position: absolute;
-	top: 20px;
-	right: 20px;
-	width: 32px;
-	height: 32px;
-	border-radius: 8px;
-	border: 1px solid ${theme.GRAYSCALE[3]};
-	background: ${theme.PALETTE.white};
-	${flexCenter}
-	transition: all 0.15s;
-	&:hover { background: ${theme.GRAYSCALE[1]}; }
 `;
 
 /* ── Action Grid ── */
