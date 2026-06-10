@@ -61,6 +61,7 @@ const ChatbotContainer = () => {
                         id: Date.now() + 1,
                         role: 'bot',
                         text: FIXED_ANSWERS[msg],
+                        quickReplies: QUICK_REPLIES,
                         time: getTime(),
                     },
                 ]);
@@ -86,6 +87,7 @@ const ChatbotContainer = () => {
                     id: Date.now() + 1,
                     role: 'bot',
                     text: data.aiChatContent,
+                    quickReplies: QUICK_REPLIES,
                     time: getTime(),
                 },
             ]);
@@ -97,6 +99,7 @@ const ChatbotContainer = () => {
                     id: Date.now() + 1,
                     role: 'bot',
                     text: '죄송합니다. 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.',
+                    quickReplies: QUICK_REPLIES,
                     time: getTime(),
                 },
             ]);
