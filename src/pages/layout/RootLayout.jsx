@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
-import './RootLayout.css';
+import S from './RootLayoutStyle';
+import ChatbotContainer from '../main/ChatbotContainer';
 
 const RootLayout = () => {
   const { isAuthenticated, setUser, setIsAuthenticated } = useAuthStore();
@@ -39,58 +40,54 @@ const RootLayout = () => {
 
   return (
     <div>
-      <header className="root-header">
+      <S.Header>
 
-        {/* 로고 */}
-        <div className="root-header-logo">
-          <Link to="/">
-            <img src="/assets\picture\logo.png" alt="FailLog" />
-          </Link>
-        </div>
+        <S.LogoLink to="/">
+          <S.LogoImg src="/assets\picture\logo.png" alt="FailLog" />
+        </S.LogoLink>
 
-        {/* 네비게이션 */}
-        <nav className="root-header-nav">
-            <Link to="/fail-logs">페일로그</Link>
-            <Link to="/projects">프로젝트</Link>
-            <Link to="/chronology">성장연대기</Link>
-            <Link to="/community">커뮤니티</Link>
-            <Link to="/my-page/profile">마이페이지</Link>
-        </nav>
+        <S.Nav>
+          <S.NavLink to="/fail-logs">페일로그</S.NavLink>
+          <S.NavLink to="/projects">프로젝트</S.NavLink>
+          <S.NavLink to="/chronology">성장연대기</S.NavLink>
+          <S.NavLink to="/community">커뮤니티</S.NavLink>
+          <S.NavLink to="/my-page/profile">마이페이지</S.NavLink>
+        </S.Nav>
 
-        {/* 버튼 */}
-        <div className="root-header-actions">
+        <S.Actions>
           {isAuthenticated ? (
-            <button className="root-header-btn" onClick={handleLogout}>로그아웃</button>
+            <S.Btn onClick={handleLogout}>로그아웃</S.Btn>
           ) : (
-            <Link to="/login" className="root-header-btn">로그인</Link>
+            <S.Btn as={Link} to="/login">로그인</S.Btn>
           )}
-        </div>
+        </S.Actions>
 
-      </header>
-
+      </S.Header>
 
       <main>
         <Outlet />
       </main>
 
-        <footer className="root-footer">
-            <div className="root-footer-inner">
-                <p className="root-footer-logo">
-                <span className="root-footer-logo-fail">Fail</span>
-                <span className="root-footer-logo-log">Log</span>
-                </p>
-            <div className="root-footer-nav">
-                <Link to="/terms">이용약관</Link>
-                <Link to="/privacy">개인정보처리방침</Link>
-                <Link to="/support">고객센터</Link>
-            </div>
-            <div className="root-footer-info">
-                <p>법인명 : FailLog | 대표자 : 000 | 사업자 등록번호 : 000-00-00000 | 사업 소재지 : 서울 강남구 테헤란로 146</p>
-                <p>이메일 : FailLog@FailLog.co.kr | 팩스 : 02-538-0021</p>
-            </div>
-                <p className="root-footer-copy">© 2026 FailLog. All rights reserved.</p>
-            </div>
-        </footer>
+      <ChatbotContainer />
+
+      <S.Footer>
+        <S.FooterInner>
+          <S.FooterLogo>
+            <S.FooterLogoFail>Fail</S.FooterLogoFail>
+            <S.FooterLogoLog>Log</S.FooterLogoLog>
+          </S.FooterLogo>
+          <S.FooterNav>
+            <S.FooterNavLink to="/terms">이용약관</S.FooterNavLink>
+            <S.FooterNavLink to="/privacy">개인정보처리방침</S.FooterNavLink>
+            <S.FooterNavLink to="/support">고객센터</S.FooterNavLink>
+          </S.FooterNav>
+          <S.FooterInfo>
+            <p>법인명 : FailLog | 대표자 : 000 | 사업자 등록번호 : 000-00-00000 | 사업 소재지 : 서울 강남구 테헤란로 146</p>
+            <p>이메일 : FailLog@FailLog.co.kr | 팩스 : 02-538-0021</p>
+          </S.FooterInfo>
+          <S.FooterCopy>© 2026 FailLog. All rights reserved.</S.FooterCopy>
+        </S.FooterInner>
+      </S.Footer>
     </div>
   );
 };
