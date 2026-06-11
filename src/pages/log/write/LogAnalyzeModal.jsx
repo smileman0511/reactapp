@@ -63,12 +63,14 @@ const LogAnalyzeModal = ({ onClose, logContent, draft }) => {
       try {
         const res = await axiosInstance.get('/api/logs/my-list');
         if (res.data?.success) {
-          const mappedLogs = res.data.data.map(log => ({
-            id: log.id,
-            category: log.categoryName,
-            title: log.logTitle,
-            date: log.logCreatedAt + ' 작성'
-          }));
+          const mappedLogs = res.data.data
+            .filter(log => log.logStatus !== 'DRAFT')
+            .map(log => ({
+              id: log.id,
+              category: log.categoryName,
+              title: log.logTitle,
+              date: log.logCreatedAt + ' 작성'
+            }));
           setPastLogs(mappedLogs);
         }
       } catch (err) {
@@ -91,6 +93,7 @@ const LogAnalyzeModal = ({ onClose, logContent, draft }) => {
         if (draft) {
           try {
             const payload = {
+              logId: draft.id || null,
               title: draft.logTitle,
               vision: draft.visionTitle,
               categoryId: draft.categoryId,
