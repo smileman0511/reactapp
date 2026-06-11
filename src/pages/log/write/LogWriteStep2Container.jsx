@@ -54,6 +54,7 @@ const LogWriteStep2Container = () => {
     if (!content.trim()) { alert("내용을 입력해주세요."); return; }
     setIsSaving(true);
     try {
+      const logProgress = Math.min(50, Math.floor(content.length / 20) * 5);
       const payload = {
         logTitle: draft.logTitle,
         visionTitle: draft.visionTitle,
@@ -61,7 +62,7 @@ const LogWriteStep2Container = () => {
         logThumbnailUrl: draft.logThumbnailUrl,
         logContent: content,
         logStatus: "DRAFT",
-        logProgress: 0,
+        logProgress,
       };
 
       const currentId = draft.id || draftId;
