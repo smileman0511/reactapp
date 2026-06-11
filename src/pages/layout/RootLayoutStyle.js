@@ -1,9 +1,11 @@
-/* ===== RootLayout.css ===== */
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-/* ══════════════════════════════
-   HEADER  (1920 × 100)
-══════════════════════════════ */
-.root-header {
+const S = {};
+
+// ── Header ──────────────────────────────────────────────────
+
+S.Header = styled.header`
   width: 100%;
   height: 100px;
   background-color: #ffffff;
@@ -13,45 +15,42 @@
   justify-content: space-between;
   padding: 0 60px;
   box-sizing: border-box;
-}
+`;
 
-/* 로고 */
-.root-header-logo a {
+S.LogoLink = styled(Link)`
   display: flex;
   align-items: center;
-}
+`;
 
-.root-header-logo img {
+S.LogoImg = styled.img`
   height: 100px;
   width: auto;
-}
+`;
 
-/* 네비게이션 */
-.root-header-nav {
+S.Nav = styled.nav`
   display: flex;
   align-items: center;
   gap: 40px;
-}
+`;
 
-.root-header-nav a {
-  font-size: 16px;
+S.NavLink = styled(Link)`
+  font-size: 18px;
   font-weight: 700;
   color: #333333;
   text-decoration: none;
   transition: color 0.18s;
-}
 
-.root-header-nav a:hover {
-  color: #027df0;
-}
+  &:hover {
+    color: #027df0;
+  }
+`;
 
-/* 로그인 버튼 */
-.root-header-actions {
+S.Actions = styled.div`
   display: flex;
   align-items: center;
-}
+`;
 
-.root-header-btn {
+S.Btn = styled.button`
   width: 88px;
   height: 36px;
   border-radius: 10px;
@@ -67,16 +66,15 @@
   background-size: 200% 100%;
   background-position: 0% 50%;
   transition: background-position 0.6s ease;
-}
 
-.root-header-btn:hover {
-  background-position: 100% 50%;
-}
+  &:hover {
+    background-position: 100% 50%;
+  }
+`;
 
-/* ══════════════════════════════
-   FOOTER  (1920 × 300)
-══════════════════════════════ */
-.root-footer {
+// ── Footer ──────────────────────────────────────────────────
+
+S.Footer = styled.footer`
   width: 100%;
   height: 300px;
   background-color: #1a2150;
@@ -85,43 +83,45 @@
   justify-content: flex-start;
   box-sizing: border-box;
   padding: 0 240px;
-}
+`;
 
-.root-footer-inner {
+S.FooterInner = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
+`;
 
-/* 로고 */
-.root-footer-logo {
+S.FooterLogo = styled.p`
   font-size: 20px;
   font-weight: 400;
   margin: 0;
-}
+`;
 
-.root-footer-logo-fail { color: #ffffff; }
-.root-footer-logo-log  { color: #F53102; }
+S.FooterLogoFail = styled.span`
+  color: #ffffff;
+`;
 
-/* 이용약관 줄 */
-.root-footer-nav {
+S.FooterLogoLog = styled.span`
+  color: #f53102;
+`;
+
+S.FooterNav = styled.div`
   display: flex;
   gap: 28px;
   font-size: 14px;
   font-weight: 400;
-}
+`;
 
-.root-footer-nav a {
+S.FooterNavLink = styled(Link)`
   color: #ffffff;
   text-decoration: none;
-}
 
-.root-footer-nav a:hover {
-  color: #ffffff;
-}
+  &:hover {
+    color: #ffffff;
+  }
+`;
 
-/* 사업자 정보 */
-.root-footer-info {
+S.FooterInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -129,14 +129,17 @@
   font-weight: 400;
   color: #ffffff;
   line-height: 1.6;
-}
 
-.root-footer-info p { margin: 0; }
+  p {
+    margin: 0;
+  }
+`;
 
-/* 저작권 */
-.root-footer-copy {
+S.FooterCopy = styled.p`
   font-size: 12px;
   font-weight: 400;
   color: #ffffff;
   margin: 0;
-}
+`;
+
+export default S;
