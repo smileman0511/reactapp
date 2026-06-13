@@ -54,6 +54,7 @@ const GuestbookCommentItemComponent = ({
   onRereplySubmit,
   onEditRereply,
   onDeleteRereply,
+  onReport,
 }) => {
   const navigate = useNavigate();
   const isMyComment = comment.author === currentUser;
@@ -133,11 +134,11 @@ const GuestbookCommentItemComponent = ({
               </>
             ) : isPageOwner ? (
               <>
-                <S.MenuItem type="button" onClick={onCloseMenu}>신고하기</S.MenuItem>
+                <S.MenuItem type="button" onClick={() => { onReport('방명록', comment.id, comment.profileImg, comment.author, comment.content); onCloseMenu(); }}>신고하기</S.MenuItem>
                 <S.MenuItem type="button" onClick={() => { onDelete(comment.id); onCloseMenu(); }}>삭제하기</S.MenuItem>
               </>
             ) : (
-              <S.MenuItem type="button" onClick={onCloseMenu}>신고하기</S.MenuItem>
+              <S.MenuItem type="button" onClick={() => { onReport('방명록', comment.id, comment.profileImg, comment.author, comment.content); onCloseMenu(); }}>신고하기</S.MenuItem>
             )}
           </S.MenuDropdown>
         )}
@@ -219,11 +220,11 @@ const GuestbookCommentItemComponent = ({
                         </>
                       ) : isPageOwner ? (
                         <>
-                          <S.MenuItem type="button" onClick={onCloseMenu}>신고하기</S.MenuItem>
+                          <S.MenuItem type="button" onClick={() => { onReport('방명록 답글', reply.id, reply.profileImg, reply.author, reply.content); onCloseMenu(); }}>신고하기</S.MenuItem>
                           <S.MenuItem type="button" onClick={() => { onDeleteReply(comment.id, reply.id); onCloseMenu(); }}>삭제하기</S.MenuItem>
                         </>
                       ) : (
-                        <S.MenuItem type="button" onClick={onCloseMenu}>신고하기</S.MenuItem>
+                        <S.MenuItem type="button" onClick={() => { onReport('방명록 답글', reply.id, reply.profileImg, reply.author, reply.content); onCloseMenu(); }}>신고하기</S.MenuItem>
                       )}
                     </S.MenuDropdown>
                   )}
@@ -307,11 +308,11 @@ const GuestbookCommentItemComponent = ({
                                   </>
                                 ) : isPageOwner ? (
                                   <>
-                                    <S.MenuItem type="button" onClick={onCloseMenu}>신고하기</S.MenuItem>
+                                    <S.MenuItem type="button" onClick={() => { onReport('방명록 대댓글', rereply.id, rereply.profileImg, rereply.author, rereply.content); onCloseMenu(); }}>신고하기</S.MenuItem>
                                     <S.MenuItem type="button" onClick={() => { onDeleteRereply(comment.id, reply.id, rereply.id); onCloseMenu(); }}>삭제하기</S.MenuItem>
                                   </>
                                 ) : (
-                                  <S.MenuItem type="button" onClick={onCloseMenu}>신고하기</S.MenuItem>
+                                  <S.MenuItem type="button" onClick={() => { onReport('방명록 대댓글', rereply.id, rereply.profileImg, rereply.author, rereply.content); onCloseMenu(); }}>신고하기</S.MenuItem>
                                 )}
                               </S.MenuDropdown>
                             )}

@@ -10,6 +10,7 @@ import GuestbookInputComponent from './components/GuestbookInputComponent';
 import GuestbookCommentItemComponent from './components/GuestbookCommentItemComponent';
 import axiosInstance from '../../../api/axiosInstance';
 import PopupComponent from '../../../components/commons/PopupComponent';
+import ReportPopup from '../../community/detail/components/ReportPopup';
 
 const mapGuestbook = (item) => ({
   id: item.id,
@@ -77,7 +78,18 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [visibleCount, setVisibleCount] = useState(4);
   const [activeMenuId, setActiveMenuId] = useState(null);
+  const [reportState, setReportState] = useState(null);
   const sentinelRef = useRef(null);
+
+  const openReport = (type, reportId, profileImg, author, content) => {
+    if (!loggedInMemberId) {
+      setLoginPopup(true);
+      return;
+    }
+    setReportState({ type, id: reportId, profileImg, author, content });
+  };
+
+  const closeReport = () => setReportState(null);
 
   // 로그인 유저 정보 + ownerMemberId 결정
   useEffect(() => {
@@ -468,12 +480,25 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
                 onRereplySubmit={handleRereplySubmit}
                 onEditRereply={handleEditRereply}
                 onDeleteRereply={handleDeleteRereply}
+                onReport={openReport}
               />
             ))}
             <div ref={sentinelRef} />
           </S.CommentList>
         )}
       </S.GuestbookSection>
+
+      {reportState && (
+        <ReportPopup
+          type={reportState.type}
+          id={reportState.id}
+          memberId={loggedInMemberId}
+          profileImg={reportState.profileImg}
+          author={reportState.author}
+          content={reportState.content}
+          onClose={closeReport}
+        />
+      )}
     </PageS.MainWrapper>
   );
 };

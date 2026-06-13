@@ -49,6 +49,7 @@ const MyProfileContainer = () => {
   const [showPhoneVerifyPopup, setShowPhoneVerifyPopup] = useState(false);
   const [showNameInfoPopup, setShowNameInfoPopup] = useState(false);
 
+  // 1. 내 프로필일 때 정보 조회
   useEffect(() => {
     if (!isPageOwner) return;
     axiosInstance.get('/private/member/me')
@@ -70,8 +71,36 @@ const MyProfileContainer = () => {
         }
       })
       .catch(console.error);
+  }, [isPageOwner]);
 
-    axiosInstance.get('/api/logs/my-list')
+  // 2. 남의 프로필 방문 시: 공개 회원 정보 조회 + 방문 기록
+  useEffect(() => {
+    if (isPageOwner || !handle) return;
+    axiosInstance.get(`/api/members/handle/${handle}`)
+      .then((res) => {
+        if (res.data?.success) {
+          const d = res.data.data;
+          setMemberInfo((prev) => ({
+            ...prev,
+            memberId: d.memberId, 
+            memberNickname: d.memberNickname || '',
+            memberProfileImageUrl: d.memberProfileImageUrl || null,
+          }));
+          if (d.memberId) {
+            axiosInstance.post(`/private/profile/${d.memberId}/visit`).catch(console.error);
+          }
+        }
+      })
+      .catch(console.error);
+  }, [isPageOwner, handle]);
+
+  // 3. 로그 리스트 조회 
+  useEffect(() => {
+    if (!isPageOwner && !memberInfo.memberId) return;
+
+    const url = isPageOwner ? '/api/logs/my-list' : `/api/logs/list?memberId=${memberInfo.memberId}`; 
+    
+    axiosInstance.get(isPageOwner ? '/api/logs/my-list' : '/api/logs/my-list', { params: { memberId: memberInfo.memberId } })
       .then((res) => {
         if (res.data?.success && Array.isArray(res.data.data)) {
           const completedLogs = res.data.data.filter((item) => item.logStatus !== 'DRAFT');
@@ -87,42 +116,20 @@ const MyProfileContainer = () => {
         }
       })
       .catch(console.error);
-
-  }, [isPageOwner]);
+  }, [isPageOwner, memberInfo.memberId]);
 
   const { data: myPostsTotal } = useQuery({
     queryKey: ['myPostsTotal', memberInfo.memberId],
     queryFn: () =>
       axiosInstance.get('/api/posts/my-posts', { params: { memberId: memberInfo.memberId } })
         .then((res) => (res.data?.success ? res.data.data?.total ?? 0 : 0)),
-    enabled: isPageOwner && !!memberInfo.memberId,
+    enabled: !!memberInfo.memberId,
     staleTime: 0,
   });
 
   useEffect(() => {
     if (myPostsTotal != null) setStats((prev) => ({ ...prev, communityCount: myPostsTotal }));
   }, [myPostsTotal]);
-
-  // 남의 프로필 방문 시: 공개 회원 정보 조회 + 방문 기록
-  useEffect(() => {
-    if (isPageOwner || !handle) return;
-    axiosInstance.get(`/api/members/handle/${handle}`)
-      .then((res) => {
-        if (res.data?.success) {
-          const d = res.data.data;
-          setMemberInfo((prev) => ({
-            ...prev,
-            memberId: d.memberId,
-            memberNickname: d.memberNickname || '',
-            memberProfileImageUrl: d.memberProfileImageUrl || null,
-          }));
-          if (d.memberId) {
-            axiosInstance.post(`/private/profile/${d.memberId}/visit`).catch(console.error);
-          }
-        }
-      })
-      .catch(console.error);
-  }, [isPageOwner, handle]);
 
   // 내 프로필에서 오늘 방문자 수 조회
   useEffect(() => {
