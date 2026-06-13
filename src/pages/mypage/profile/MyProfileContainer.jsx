@@ -13,6 +13,7 @@ import ProfileChartCardComponent from './components/ProfileChartCardComponent';
 import ProfileStreakCardComponent from './components/ProfileStreakCardComponent';
 import AccountDataComponent from './components/AccountDataComponent';
 import PhoneVerifyPopup from './components/PhoneVerifyPopup';
+import NameInfoChangePopup from './components/NameInfoChangePopup';
 import MyCommunityContainer from './components/MyCommunityContainer';
 import HeroRotationComponent from '../heroSection/HeroRotationComponents';
 import { getHeroContent } from '../heroSection/HeroData';
@@ -20,9 +21,10 @@ import { getHeroContent } from '../heroSection/HeroData';
 const MyProfileContainer = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { userId } = useParams();
-  const currentUserId = useAuthStore((state) => state.user?.id);
-  const isPageOwner = !userId || Number(userId) === currentUserId;
+  const { handle } = useParams();
+  const currentUserEmail = useAuthStore((state) => state.user?.memberEmail);
+  const currentUserHandle = currentUserEmail ? currentUserEmail.split('@')[0] : null;
+  const isPageOwner = !handle || handle === currentUserHandle;
   const { mainContent, quickMenus } = getHeroContent(pathname);
 
   const [memberInfo, setMemberInfo] = useState({
@@ -45,6 +47,7 @@ const MyProfileContainer = () => {
 
   const [chartLogs, setChartLogs] = useState([]);
   const [showPhoneVerifyPopup, setShowPhoneVerifyPopup] = useState(false);
+  const [showNameInfoPopup, setShowNameInfoPopup] = useState(false);
 
   useEffect(() => {
     if (!isPageOwner) return;
@@ -102,20 +105,24 @@ const MyProfileContainer = () => {
 
   // 남의 프로필 방문 시: 공개 회원 정보 조회 + 방문 기록
   useEffect(() => {
-    if (isPageOwner || !userId) return;
-    axiosInstance.get(`/api/members/${userId}`)
+    if (isPageOwner || !handle) return;
+    axiosInstance.get(`/api/members/handle/${handle}`)
       .then((res) => {
         if (res.data?.success) {
+          const d = res.data.data;
           setMemberInfo((prev) => ({
             ...prev,
-            memberNickname: res.data.data.memberNickname || '',
-            memberProfileImageUrl: res.data.data.memberProfileImageUrl || null,
+            memberId: d.memberId,
+            memberNickname: d.memberNickname || '',
+            memberProfileImageUrl: d.memberProfileImageUrl || null,
           }));
+          if (d.memberId) {
+            axiosInstance.post(`/private/profile/${d.memberId}/visit`).catch(console.error);
+          }
         }
       })
       .catch(console.error);
-    axiosInstance.post(`/private/profile/${userId}/visit`).catch(console.error);
-  }, [isPageOwner, userId]);
+  }, [isPageOwner, handle]);
 
   // 내 프로필에서 오늘 방문자 수 조회
   useEffect(() => {
@@ -175,6 +182,19 @@ const MyProfileContainer = () => {
     return axiosInstance.put('/private/member/password', { currentPassword: currentPw, newPassword: newPw });
   };
 
+  const handleVerifyPassword = (password) => {
+    return axiosInstance.post('/private/member/verify-password', { password });
+  };
+
+  const handleNameInfoSubmit = ({ memberName, memberPhone }) => {
+    return axiosInstance.put('/private/member', { memberName, memberPhone, verifyPhone: true })
+      .then((res) => {
+        if (res.data?.success) {
+          setMemberInfo((prev) => ({ ...prev, memberName, memberPhone, memberPhoneVerified: 1 }));
+        }
+      });
+  };
+
   const handlePhoneVerifySubmit = (phone) => {
     axiosInstance.put('/private/member', { memberPhone: phone, verifyPhone: true })
       .then((res) => {
@@ -186,7 +206,7 @@ const MyProfileContainer = () => {
       .finally(() => setShowPhoneVerifyPopup(false));
   };
 
-  const displayNickname = memberInfo.memberNickname || (!isPageOwner ? userId : '');
+  const displayNickname = memberInfo.memberNickname || (!isPageOwner ? handle : '');
 
   return (
     <>
@@ -196,8 +216,17 @@ const MyProfileContainer = () => {
       onClose={() => setShowPhoneVerifyPopup(false)}
       onSubmit={handlePhoneVerifySubmit}
     />
+    <NameInfoChangePopup
+      isOpen={showNameInfoPopup}
+      memberNickname={memberInfo.memberNickname}
+      memberName={memberInfo.memberName}
+      memberPhone={memberInfo.memberPhone}
+      onClose={() => setShowNameInfoPopup(false)}
+      onVerifyPassword={handleVerifyPassword}
+      onSubmit={handleNameInfoSubmit}
+    />
     <PageS.MainWrapper>
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} userId={userId} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} />
 
       <InfoS.InfoManagementSection>
         <div className="info-header">
@@ -239,6 +268,7 @@ const MyProfileContainer = () => {
               onEmailSubmit={handleEmailChange}
               onPasswordSubmit={handlePasswordChange}
               onPhoneVerify={() => setShowPhoneVerifyPopup(true)}
+              onNameInfoEdit={() => setShowNameInfoPopup(true)}
               onUnregister={handleUnregister}
               isSocialLogin={isSocialLogin}
             />

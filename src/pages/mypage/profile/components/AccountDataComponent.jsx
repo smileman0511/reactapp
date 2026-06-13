@@ -11,6 +11,7 @@ const AccountDataComponent = ({
   memberPhone,
   memberPhoneVerified,
   onPhoneVerify,
+  onNameInfoEdit,
   onUnregister,
   onPasswordSubmit,
   onEmailSubmit,
@@ -96,7 +97,7 @@ const AccountDataComponent = ({
               )}
               <p className="SubNotice">• 본인 명의 휴대폰 번호를 변경하려면, 다시 본인인증을 진행하셔야 합니다.</p>
             </div>
-            <button className="ItemBtn" onClick={onPhoneVerify}>
+            <button className="ItemBtn" onClick={memberPhoneVerified === 1 ? onNameInfoEdit : onPhoneVerify}>
               {memberPhoneVerified === 1 ? '실명수정' : '인증하기'}
             </button>
           </S.AccountItem>

@@ -6,6 +6,7 @@ import likeIcon from '../../../../components/resources/like.svg';
 import likeFillIcon from '../../../../components/resources/like-fill2.svg';
 import defaultProfile from '../../../../components/resources/default-profile.svg';
 import { formatRelativeTime } from '../../../../utils/relativeTime';
+import { goToMemberProfile } from '../../../../utils/profileNavigation';
 
 const ClampedText = ({ content }) => {
   const [expanded, setExpanded] = useState(false);
@@ -58,7 +59,7 @@ const GuestbookCommentItemComponent = ({
   const isMyComment = comment.author === currentUser;
 
   const navigateToProfile = (authorId) => {
-    navigate(`/user/${authorId}/profile`);
+    goToMemberProfile(navigate, authorId);
   };
 
   const [editMode, setEditMode] = useState(false);

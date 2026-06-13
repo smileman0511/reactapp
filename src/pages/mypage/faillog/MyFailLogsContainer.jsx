@@ -35,7 +35,7 @@ const mapLog = (item) => ({
 const MyFailLogsContainer = ({ isPageOwner = true }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { userId } = useParams();
+  const { handle } = useParams();
   const { mainContent, quickMenus } = getHeroContent(pathname);
   const { content, setContent, setPage } = useSearchStore();
   
@@ -58,13 +58,13 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
   const [ownerNickname, setOwnerNickname] = useState('');
 
   useEffect(() => {
-    if (isPageOwner || !userId) return;
-    axiosInstance.get(`/api/members/${userId}`)
+    if (isPageOwner || !handle) return;
+    axiosInstance.get(`/api/members/handle/${handle}`)
       .then((res) => {
         if (res.data?.success) setOwnerNickname(res.data.data.memberNickname || '');
       })
       .catch(console.error);
-  }, [isPageOwner, userId]);
+  }, [isPageOwner, handle]);
 
   useEffect(() => {
     if (!isPageOwner) return;
@@ -222,7 +222,7 @@ const MyFailLogsContainer = ({ isPageOwner = true }) => {
       onCancel={popup?.onCancel}
     />
     <PageS.MainWrapper>
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} userId={userId} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} />
       {isPageOwner && <DraftLogsComponent draftLogs={draftLogs.slice(0, 3)} />}
 
       {hasNoCards ? (

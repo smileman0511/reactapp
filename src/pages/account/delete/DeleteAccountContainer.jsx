@@ -41,7 +41,7 @@ const DeleteAccountContainer = () => {
     <>
       <PopupComponent
         isOpen={showPopup}
-        message="그리울거에요"
+        message="지금까지 Fail Log를 이용해주셔서 감사합니다."
         onConfirm={handleConfirmDelete}
         onCancel={() => setShowPopup(false)}
         confirmText="네"
