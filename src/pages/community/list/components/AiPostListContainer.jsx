@@ -12,28 +12,28 @@ const formatDate = (dateStr) => {
 const AiPostListContainer = ({ memberId }) => {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    if (!memberId) return;
-    const fetchAiPosts = async () => {
-      const res = await fetch(`http://localhost:10000/api/posts/aiPost/main?memberId=${memberId}`, { method: 'POST' });
-      if (!res.ok) return;
-      const json = await res.json();
-      if (!json.success) return;
-      setPosts(json.data.map(p => ({
-        id: p.id,
-        memberId: p.memberId,
-        date: formatDate(p.postCreatedAt),
-        category: p.categoryId - 1,
-        title: p.postTitle,
-        profile: p.memberProfileImageUrl,
-        author: p.memberNickname,
-        views: p.postReadCount,
-        likes: p.likeCount,
-        comments: p.replyCount,
-      })));
-    };
-    fetchAiPosts();
-  }, [memberId]);
+  // useEffect(() => {
+  //   if (!memberId) return;
+  //   const fetchAiPosts = async () => {
+  //     const res = await fetch(`http://localhost:10000/api/posts/aiPost/main?memberId=${memberId}`, { method: 'POST' });
+  //     if (!res.ok) return;
+  //     const json = await res.json();
+  //     if (!json.success) return;
+  //     setPosts(json.data.map(p => ({
+  //       id: p.id,
+  //       memberId: p.memberId,
+  //       date: formatDate(p.postCreatedAt),
+  //       category: p.categoryId - 1,
+  //       title: p.postTitle,
+  //       profile: p.memberProfileImageUrl,
+  //       author: p.memberNickname,
+  //       views: p.postReadCount,
+  //       likes: p.likeCount,
+  //       comments: p.replyCount,
+  //     })));
+  //   };
+  //   fetchAiPosts();
+  // }, [memberId]);
 
   return (
     <Wrapper>
