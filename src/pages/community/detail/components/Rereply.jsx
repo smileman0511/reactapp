@@ -113,7 +113,7 @@ const Rereply = ({
       <TopRow>
         <ProfileGroup>
           {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt="프로필" />}
-          <AuthorName onClick={() => goToMemberProfile(navigate, memberId)}>{author}</AuthorName>
+          <AuthorName onClick={() => goToMemberProfile(navigate, memberId)}>{currentAuthor}</AuthorName>
           <S.Span size="h10Regular" color="faillog_gray9">{createdAt}</S.Span>
         </ProfileGroup>
 
