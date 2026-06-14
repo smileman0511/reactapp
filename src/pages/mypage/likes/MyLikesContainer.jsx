@@ -12,6 +12,10 @@ import EmptyStateComponent from '../commons/EmptyStateComponent';
 import CommS from '../profile/styles/CommunityStyles';
 import axiosInstance from '../../../api/axiosInstance';
 
+const CARDS_PER_ROW = 4;
+const ROWS_PER_PAGE = 4;
+const PAGE_SIZE = CARDS_PER_ROW * ROWS_PER_PAGE;
+
 const MyLikesContainer = ({ isPageOwner = true }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -77,8 +81,10 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
       });
     }
     setFilteredLogs(filtered);
-    setTotalPages(Math.ceil(filtered.length / 4) || 1);
+    setTotalPages(Math.ceil(filtered.length / PAGE_SIZE) || 1);
   }, [allLogs, content, searchOption]);
+
+  const pagedLogs = filteredLogs.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   const handleSearchSubmit = (val) => {
     setContent(val);
@@ -115,6 +121,7 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
           setSearchOption={setSearchOption}
           handleSearchSubmit={handleSearchSubmit}
           filteredLogs={filteredLogs}
+          pagedLogs={pagedLogs}
           currentPage={currentPage}
           totalPages={totalPages}
           handlePageChange={(page) => setCurrentPage(page)}
