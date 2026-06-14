@@ -74,7 +74,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
   const [newComment, setNewComment] = useState('');
   const [replyTextMap, setReplyTextMap] = useState({});
   const [replyOpenId, setReplyOpenId] = useState(null);
-  const [searchType, setSearchType] = useState('제목+내용');
+  const [searchType, setSearchType] = useState('내용');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [visibleCount, setVisibleCount] = useState(4);
   const [activeMenuId, setActiveMenuId] = useState(null);
@@ -130,17 +130,17 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
     if (!keyword) return comments;
 
     return comments.filter((comment) => {
-      const title = comment.title.toLowerCase();
-      const content = comment.content.toLowerCase();
-      const author = comment.author.toLowerCase();
-      const replyTexts = comment.replies.map((r) => r.content.toLowerCase()).join(' ');
+      const replies = comment.replies || [];
+      const rereplies = replies.flatMap((r) => r.rereplies || []);
 
-      if (searchType === '제목') return title.includes(keyword);
-      if (searchType === '내용') return content.includes(keyword);
-      if (searchType === '제목+내용') return `${title} ${content}`.includes(keyword);
-      if (searchType === '작성자') return author.includes(keyword);
-      if (searchType === '댓글') return content.includes(keyword) || replyTexts.includes(keyword);
-      return false;
+      if (searchType === '작성자') {
+        const authors = [comment.author, ...replies.map((r) => r.author), ...rereplies.map((rr) => rr.author)];
+        return authors.some((a) => a.toLowerCase().includes(keyword));
+      }
+
+      // 내용 (기본값)
+      const contents = [comment.content, ...replies.map((r) => r.content), ...rereplies.map((rr) => rr.content)];
+      return contents.some((c) => c.toLowerCase().includes(keyword));
     });
   }, [comments, searchKeyword, searchType]);
 
@@ -447,6 +447,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
           onOptionChange={setSearchType}
           onSearchSubmit={setSearchKeyword}
           placeholder="방명록 검색..."
+          options={['내용', '작성자']}
         />
 
         {filteredComments.length === 0 ? (
