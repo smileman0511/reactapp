@@ -139,11 +139,11 @@ const CommunityPopularPostContainer = ({ posts }) => {
       <myStyle.headerWrap>
         <myStyle.header>
           <myStyle.headerTestOneDiv>
-            <img src={trumpet} width={80} height={80}></img>
-            <S.Span size="h2-bold" color="faillog-black">실시간 인기글</S.Span>
+            <img src={trumpet} width={60} height={60}></img>
+            <S.Span size="h3Bold" color="faillog-black">실시간 인기글</S.Span>
           </myStyle.headerTestOneDiv>
           <myStyle.headerTextTwoDiv>
-            <S.Span size="h8-regular" color="faillog_gray9">
+            <S.Span size="h7-regular" color="faillog_gray9">
               많이 공감받은 복기 글을 한눈에 확인해보세요.
             </S.Span>
           </myStyle.headerTextTwoDiv>

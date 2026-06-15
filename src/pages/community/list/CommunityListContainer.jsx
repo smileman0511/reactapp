@@ -14,9 +14,12 @@ myStyle.wrapper = styled.div`
 `
 
 myStyle.pageWrapper = styled.div`
-    width: 100%;
+    width: 1320px;
     height: 136px;
-    ${flexCenterRow}
+    margin-bottom: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 //api에서 받은 content는 html태그로되어있다.

@@ -199,6 +199,7 @@ S.PaginationWrap = styled.div`
   margin-top: 36px;
   ${flexCenterRow}
   gap: 15px;
+  padding-bottom: 0px;
 `
 
 S.PageLine = styled.div`

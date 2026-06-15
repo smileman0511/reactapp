@@ -22,6 +22,7 @@ const AiPostListContainer = ({ memberId }) => {
         if (!res.ok) return;
         const json = await res.json();
         if (!json.success) return;
+
         setPosts(json.data.map(p => ({
           id: p.id,
           memberId: p.memberId,
@@ -91,10 +92,10 @@ const AiPostListContainer = ({ memberId }) => {
 
 const Wrapper = styled.div`
   width: 312px;
-  height: 552px;
   background-color: ${colorCSS["faillog_white"]};
   border-radius: 15px;
   padding: 6px;
+  padding-bottom: 6px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -124,10 +125,11 @@ const PostList = styled.div`
 `;
 
 const LoginRequired = styled.div`
-  flex: 1;
   display: flex;
+  height: 206px;
   align-items: center;
   justify-content: center;
+  padding: 24px 0;
 `;
 
 export default AiPostListContainer;

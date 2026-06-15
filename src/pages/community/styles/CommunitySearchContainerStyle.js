@@ -10,7 +10,7 @@ communityStyle.wrap = styled.div`
 `
 
 communityStyle.headerWrap = styled.div`
-  padding-top: 93px;
+  padding-top: 180px;
   ${flexCenterRow}
 `
 
