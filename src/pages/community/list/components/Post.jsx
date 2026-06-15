@@ -28,27 +28,25 @@ const Wrapper = styled.div`
 const Card = styled.div`
   display: flex;
   gap: 27px;
-  align-items: flex-start;
+  align-items: stretch;
 `;
 
 const ThumbnailWrapper = styled.div`
   width: 324px;
-  height: 184px;
-  /* object-fit: cover; */
+  align-self: stretch;
   border-radius: 15px 0px 15px 0px;
-  /* background-color: ${colorCSS["faillog_gray9"]}; */
   overflow: hidden;
-  ${flexCenterRow}
-  /* flex-shrink: 0; */
+  flex-shrink: 0;
+  position: relative;
+  min-height: 150px;
 `;
 
 const Thumbnail = styled.img`
-  width: 324px;
-  height: auto;
-  /* object-fit: cover; */
-  border-radius: 15px 0px 15px 0px
-
-  /* flex-shrink: 0; */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const Info = styled.div`
@@ -138,6 +136,19 @@ const Divider = styled.hr`
   border-top: 1px solid ${({ theme }) => theme.GRAYSCALE?.[2] || '#E6E6E6'};
 `;
 
+const ContentText = styled.span`
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 30px;
+  letter-spacing: -0.03em;
+  color: #8D8D8D;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: ${({lineclamp}) => lineclamp ? lineclamp : 2};
+  overflow: ${({isvisible}) => isvisible ? "visible" : "hidden"};
+  text-overflow: ellipsis;
+`
+
 //게시글 리스트의 게시글 단위 컴포넌트
 const Post = ({
   id,
@@ -180,7 +191,7 @@ const Post = ({
               <S.Span size={"h9Regular"} color={"faillog_gray9"}>{date}</S.Span>
             </TopRow>
             <S.Span2 size={"h7Extrabold"} color={"faillog-black"} lineclamp={1}>{title}</S.Span2>
-            <S.Span2 size={"h8-regular"} color={"faillog_gray9"}>{content}</S.Span2>
+            <ContentText>{content}</ContentText>
             <BottomRow>
               <AuthorWrap onClick={(e) => { e.stopPropagation(); goToMemberProfile(navigate, memberId); }}>
                 <AuthorImg src={profile || defaultProfile} onError={handledOnErrorImg} alt={author} />

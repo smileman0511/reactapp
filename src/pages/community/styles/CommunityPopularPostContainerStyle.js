@@ -134,6 +134,19 @@ S.CardContent = styled.div`
   overflow: hidden;
 `
 
+S.ContentText = styled.span`
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 30px;
+  letter-spacing: -0.03em;
+  color: #8D8D8D;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: ${({isvisible}) => isvisible ? "visible" : "hidden"};
+  text-overflow: ellipsis;
+`
+
 S.CardDivider = styled.hr`
   width: 100%;
   border: none;

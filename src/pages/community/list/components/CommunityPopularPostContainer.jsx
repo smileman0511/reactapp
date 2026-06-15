@@ -180,14 +180,17 @@ const CommunityPopularPostContainer = ({ posts }) => {
                       <S.Span size="h8Regular" color="faillog_gray9">{post.date}</S.Span>
                     </myStyle.CardMeta>
                     <myStyle.CardTitle>
-                      <S.Span2 size="h6Bold" color="faillog-black" lineclamp={2}>
+                      <S.Span2 size="h6Bold" color="faillog-black" lineclamp={1}>
                         {post.title}
                       </S.Span2>
                     </myStyle.CardTitle>
                     <myStyle.CardContent>
-                      <S.Span2 size="h8-regular" color="faillog_gray9" lineclamp={3}>
+                      <myStyle.ContentText>
                         {post.content}
-                      </S.Span2>
+                      </myStyle.ContentText>
+                      {/* <S.Span2 size="h8-regular" color="faillog_gray9" lineclamp={3}>
+                        {post.content}
+                      </S.Span2> */}
                     </myStyle.CardContent>
                     <myStyle.CardDivider />
                     <myStyle.CardFooter>
