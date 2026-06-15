@@ -117,10 +117,15 @@ S.AuthorName = styled.span`
 `;
 
 S.ProfileImg = styled.img`
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   object-fit: cover;
+`;
+
+S.DateText = styled.span`
+  ${sizeCSS['h10-regular']}
+  color: ${colorCSS['faillog_gray9']};
 `;
 
 S.MenuContainer = styled.div`

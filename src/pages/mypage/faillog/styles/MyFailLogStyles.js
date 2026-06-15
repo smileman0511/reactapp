@@ -14,8 +14,8 @@ S.SectionHeader = styled.div`
   align-items: center;
 
   h2 {
-    font-size: 32px;
-    font-weight: 900;
+    font-size: 45px;
+    font-weight: 800;
     color: #1e293b;
 
     span {
@@ -23,6 +23,12 @@ S.SectionHeader = styled.div`
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+  }
+
+  p {
+    font-size: 20px;
+    color: #64748b;
+    margin-top: 10px;
   }
 `;
 
@@ -37,55 +43,82 @@ S.FeaturedContainer = styled.section`
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   margin-bottom: 80px;
   border: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  height: 380px;
+
+  &:hover {
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
 
   @media (max-width: 1024px) {
     flex-direction: column;
+    height: auto;
   }
 `;
 
-S.FeaturedListArea = styled.div`
+S.FeaturedMainImage = styled.div`
+  flex: 0.9;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 1024px) {
+    height: 280px;
+  }
+`;
+
+S.FeaturedInfoArea = styled.div`
   flex: 1.1;
-  padding: 60px 50px;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-  .TitleBox {
-    margin-bottom: 50px;
-    h3 {
-      font-size: 32px;
-      font-weight: 800;
-      color: #1E293B;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
-    }
-    p {
-      font-size: 16px;
-      color: #64748B;
-      line-height: 1.7;
-      font-weight: 400;
-      margin: 0;
-    }
-  }
-`;
-
-S.FeaturedItem = styled.div`
-  margin-bottom: 45px;
-  cursor: pointer;
-
-  h4 {
-    font-size: 18px;
+  .Badge {
+    align-self: flex-start;
+    font-size: 13px;
     font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 10px;
+    color: #6366f1;
+    background: #eef2ff;
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1E293B;
+    margin: 0 0 16px 0;
     line-height: 1.4;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    &:hover { color: #6366f1; }
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    font-size: 16px;
+    color: #64748B;
+    line-height: 1.7;
+    font-weight: 400;
+    margin: 0 0 30px 0;
+    word-break: keep-all;
   }
 
   .Meta {
     display: flex;
     align-items: center;
     gap: 15px;
-    
+
     .User {
       display: flex;
       align-items: center;
@@ -100,54 +133,14 @@ S.FeaturedItem = styled.div`
       gap: 12px;
       font-size: 14px;
       color: #94a3b8;
+      margin-left: auto;
       span { display: flex; align-items: center; gap: 4px; }
       img { width: 16px; height: 16px; }
     }
   }
-`;
 
-S.FeaturedMainImage = styled.div`
-  flex: 0.9;
-  position: relative;
-  min-height: 500px;
-  cursor: pointer;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #1e1b1a;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  .BlackOverlay {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background: #332f2e; 
-    padding: 35px;
-    color: white;
-
-    p {
-      font-size: 18px;
-      line-height: 1.6;
-      font-weight: 600;
-      margin-bottom: 20px;
-      word-break: keep-all;
-    }
-
-    .AuthorInfo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      justify-content: flex-end;
-      font-size: 14px;
-      font-weight: 500;
-      img { width: 18px; height: 18px; border-radius: 50%; object-fit: cover; }
-    }
+  @media (max-width: 1024px) {
+    padding: 30px;
   }
 `;
 
@@ -383,6 +376,8 @@ S.PaginationWrapper = styled.div`
   position: relative;
   width: 100%;
   margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #E2E8F0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -392,6 +387,21 @@ S.ControlBarAbsolute = styled.div`
   position: absolute;
   right: 0;
   bottom: -10px;
+`;
+
+S.EditModeBar = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+`;
+
+S.EditModeGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
 `;
 
 S.TrashToggleWrapper = styled.div`
@@ -433,11 +443,11 @@ S.TrashPaginationWrapper = styled.div`
   position: relative;
   width: 100%;
   margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #E2E8F0;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: ${(props) => (props.$active ? 1 : 0.5)};
-  pointer-events: ${(props) => (props.$active ? 'auto' : 'none')};
 `;
 
 export default S;

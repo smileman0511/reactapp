@@ -2,6 +2,7 @@ import mainImg from '../heroSection/resources/fail-logs.png';
 import mylogImg from '../heroSection/resources/my-fail-log.png';
 import likesImg from '../heroSection/resources/likes.png';
 import guestbookImg from '../heroSection/resources/guestbook.png';
+import profileImg from '../heroSection/resources/my-profile.png';
 
 export const heroData = [
   { id: "info",
@@ -10,9 +11,14 @@ export const heroData = [
     title: "내 정보 관리",
     description: "내 정보를 확인하고 관리해보세요.",
     bgColor: "#EAE4FF",
-    img: null,
+    img: profileImg,
     align: "left",
-    icon: { width: "160px", height: "160px", right: "0px", bottom: "0px" }
+    icon: { width: "140px", height: "160px", right: "0px", bottom: "0px" },
+    other: {
+      subTitle: (nickname) => `${nickname}님을 위한 공간`,
+      title: (nickname) => `${nickname}님의 정보`,
+      description: (nickname) => `${nickname}님의 프로필을 확인해보세요.`,
+    }
   },
 
   { id: "my-fail-log",
@@ -23,7 +29,12 @@ export const heroData = [
     bgColor: "#DDE1FF",
     img: mylogImg,
     align: "left",
-    icon: { width: "160px", height: "160px", right: "0px", bottom: "0px" }
+    icon: { width: "160px", height: "160px", right: "0px", bottom: "0px" },
+    other: {
+      subTitle: (nickname) => `${nickname}님이 작성한 로그를 보고 싶다면`,
+      title: (nickname) => `${nickname}님의 페일로그`,
+      description: (nickname) => `${nickname}님이 작성한 로그를 볼 수 있어요.`,
+    }
   },
 
   { id: "likes",
@@ -44,7 +55,12 @@ export const heroData = [
     bgColor: "#D9EFFF",
     img: guestbookImg,
     align: "left",
-    icon: { width: "120px", height: "120px", right: "0px", bottom: "0px" }
+    icon: { width: "120px", height: "120px", right: "0px", bottom: "0px" },
+    other: {
+      subTitle: () => "소통의 흔적을 남겨보세요",
+      title: (nickname) => `${nickname}님의 방명록`,
+      description: (nickname) => `${nickname}님에게 메시지를 남겨보세요.`,
+    }
    },
 
   { id: "fail-logs",

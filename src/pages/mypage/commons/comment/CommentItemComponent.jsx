@@ -50,7 +50,7 @@ const CommentItemComponent = ({
             style={{ cursor: onProfileClick ? 'pointer' : 'default' }}
           />
           <S.AuthorName onClick={onProfileClick}>{author}</S.AuthorName>
-          <span>{createdAt}</span>
+          <S.DateText>{createdAt}</S.DateText>
         </S.ProfileGroup>
 
         {menuItems.length > 0 && (

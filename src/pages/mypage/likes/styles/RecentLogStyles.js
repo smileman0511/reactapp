@@ -12,8 +12,10 @@ S.RecentSection = styled.section`
 
   h2 {
     ${sizeCSS["h3_2Bold"]}
+    font-size: 45px;
+    font-weight: 800;
     margin-bottom: 30px;
-    color: ${colorCSS["faillog-black"]};
+    color: #1E293B;
     span {
       ${gradientText}
     }

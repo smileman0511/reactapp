@@ -40,13 +40,12 @@ S.Panel = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  cursor: ${props => props.$disabled ? 'not-allowed' : 'pointer'};
-  opacity: ${props => props.$disabled ? 0.5 : 1};
+  cursor: pointer;
   transition: flex 0.4s ease, box-shadow 0.2s ease, transform 0.2s ease;
 
   &:hover {
-    flex: ${props => props.$disabled ? 1 : 2.6};
-    box-shadow: ${props => props.$disabled ? 'none' : '0 12px 30px rgba(0, 0, 0, 0.12)'};
+    flex: 2.6;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
   }
 
   @media (max-width: 850px) {

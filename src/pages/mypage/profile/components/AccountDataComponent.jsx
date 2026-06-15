@@ -65,7 +65,7 @@ const AccountDataComponent = ({
             <div className="ItemContent">
               <span className="EmailText">{memberEmail || 'test@example.com'}</span>
               <p className="SubNotice">
-                • 소셜 계정으로 가입된 유저의 경우, 이메일은 별도로 변경 안됨을 알려드립니다.
+                • 현재 가입된 아이디입니다. 소셜 계정으로 가입된 유저의 경우, 아이디는 가입 시 사용한 이메일로  표시됩니다.
               </p>
             </div>
           </S.AccountItem>

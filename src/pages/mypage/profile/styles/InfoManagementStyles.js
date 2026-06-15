@@ -19,7 +19,7 @@ S.InfoManagementSection = styled.section`
     }
     
     p {
-      font-size: 24px;
+      font-size: 20px;
       color: #64748B;
       font-weight: 400;
     }
@@ -194,6 +194,12 @@ S.StreakStat = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: #E2E8F0;
+  }
 
   strong {
     display: block;

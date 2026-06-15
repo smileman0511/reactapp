@@ -20,7 +20,9 @@ S.GuestbookHeader = styled.div`
 
   h2 {
     ${sizeCSS['h3_2Bold']}
-    color: ${colorCSS['faillog-black']};
+    font-size: 45px;
+    font-weight: 800;
+    color: #1E293B;
     margin: 0 0 10px 0;
     span {
       ${gradientText}
@@ -29,7 +31,8 @@ S.GuestbookHeader = styled.div`
 
   p {
     ${sizeCSS['h9-regular']}
-    color: ${colorCSS['faillog_gray9']};
+    font-size: 20px;
+    color: #64748B;
     margin: 0;
   }
 `;
@@ -43,6 +46,8 @@ S.SearchRowWrapper = styled.div`
 S.PaginationWrapper = styled.div`
   width: 100%;
   margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #E2E8F0;
   display: flex;
   justify-content: center;
   align-items: center;

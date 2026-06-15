@@ -8,6 +8,8 @@ import PageS from './styles/MyPageWrapper';
 import InfoS from './styles/InfoManagementStyles';
 import CommS from './styles/CommunityStyles';
 
+import MyInfoHeaderComponent from './components/MyInfoHeaderComponent';
+import OthersInfoHeaderComponent from './components/OthersInfoHeaderComponent';
 import ProfileCardComponent from './components/ProfileCardComponent';
 import ProfileChartCardComponent from './components/ProfileChartCardComponent';
 import ProfileStreakCardComponent from './components/ProfileStreakCardComponent';
@@ -249,19 +251,14 @@ const MyProfileContainer = () => {
       onSubmit={handleNameInfoSubmit}
     />
     <PageS.MainWrapper>
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} nickname={displayNickname} />
 
       <InfoS.InfoManagementSection>
-        <div className="info-header">
-          {isPageOwner ? (
-            <>
-              <h2>내 정보 관리</h2>
-              <p>내 정보의 수정 및 회원 서비스를 관리할 수 있습니다.</p>
-            </>
-          ) : (
-            <h2>{displayNickname || '회원'}의 페이지입니다.</h2>
-          )}
-        </div>
+        {isPageOwner ? (
+          <MyInfoHeaderComponent />
+        ) : (
+          <OthersInfoHeaderComponent memberNickname={displayNickname} />
+        )}
 
         <InfoS.TopCardGrid>
           <ProfileCardComponent
@@ -298,7 +295,7 @@ const MyProfileContainer = () => {
         )}
       </InfoS.InfoManagementSection>
 
-      <CommS.CommunitySection>
+      <CommS.CommunitySection id="my-community-section">
         <MyCommunityContainer isPageOwner={isPageOwner} memberNickname={displayNickname} memberId={memberInfo.memberId} />
       </CommS.CommunitySection>
     </PageS.MainWrapper>

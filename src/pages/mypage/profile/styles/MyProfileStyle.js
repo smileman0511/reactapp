@@ -241,12 +241,30 @@ S.ProfileCard = styled.div`
     position: relative;
     margin-bottom: 20px;
 
+    .profileImageBackground {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      > img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
     .profileImageCircle {
+      position: relative;
       width: 120px;
       height: 120px;
       border-radius: 50%;
       overflow: hidden;
-      border: 2px solid #F0F3FF;
       img { width: 100%; height: 100%; object-fit: cover; }
     }
 
@@ -360,20 +378,20 @@ S.CommunitySection = styled.div`
 // 5. My Community Post Card (Grid & Card Item)
 S.PostGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-top: 20px;
 `;
 
 S.CardWrapper = styled.div`
-  border: 1px solid ${props => props.isSelected ? '#8b5cf6' : '#eee'};
+  border: 1px solid ${props => props.$isSelected ? '#FDA4AF' : '#eee'};
   border-radius: 12px;
   overflow: hidden;
-  background: #fff;
+  background: ${props => props.$isSelected ? (colorCSS['faillog_light_red'] || '#FFE4E6') : '#fff'};
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
-  box-shadow: ${props => props.isSelected ? '0 4px 12px rgba(139, 92, 246, 0.15)' : 'none'};
+  box-shadow: ${props => props.$isSelected ? '0 4px 12px rgba(253, 164, 164, 0.25)' : 'none'};
 
   &:hover {
     transform: translateY(-4px);
@@ -392,20 +410,6 @@ S.Thumbnail = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`;
-
-S.CheckboxOverlay = styled.div`
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 2;
-  
-  input {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    accent-color: #8b5cf6; /* 체크박스 포인트 컬러 */
-  }
 `;
 
 S.TagLabel = styled.div`
@@ -505,6 +509,7 @@ S.StatItem = styled.span`
   display: flex;
   align-items: center;
   gap: 4px;
+  cursor: ${(props) => (props.$clickable ? 'pointer' : 'default')};
 
   img {
     width: 14px;
@@ -518,6 +523,8 @@ S.StatItem = styled.span`
 S.CommunityContainer = styled.div`
   width: 100%;
   margin-top: 60px;
+  padding: 0 20px;
+  box-sizing: border-box;
 `;
 
 S.HeaderSection = styled.div`
@@ -528,12 +535,15 @@ S.HeaderSection = styled.div`
 
   h3 {
     ${sizeCSS["h4Bold"]};
-    color: ${colorCSS["faillog-black"]};
+    font-size: 45px;
+    font-weight: 800;
+    color: #1E293B;
     margin-bottom: 12px;
   }
   p {
     ${sizeCSS["h8Regular"]};
-    color: ${colorCSS["faillog_gray9"]};
+    font-size: 20px;
+    color: #64748B;
   }
 `;
 
@@ -630,6 +640,8 @@ S.PaginationWrapper = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 40px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid #E2E8F0;
   display: flex;
   justify-content: center;
   align-items: center;

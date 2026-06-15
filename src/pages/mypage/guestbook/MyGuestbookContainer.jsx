@@ -421,7 +421,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
         message="방명록은 로그인 된 사용자만 이용하실 수 있습니다."
         onConfirm={() => setLoginPopup(false)}
       />
-      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} />
+      <HeroRotationComponent mainContent={mainContent} quickMenus={quickMenus} isPageOwner={isPageOwner} handle={handle} nickname={ownerNickname} />
 
       <S.GuestbookSection>
         <S.GuestbookHeader>

@@ -8,8 +8,6 @@ S.Container = styled.div`
   justify-content: space-between;
   gap: 20px;
   padding: 10px 0;
-  border-top: 1px solid #E2E8F0;
-  margin-top: 20px;
   font-family: inherit;
 `;
 
