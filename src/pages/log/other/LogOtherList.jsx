@@ -125,7 +125,18 @@ const LogOtherList = ({ keyword, category, sort }) => {
                 const newLogs = data.data;
 
                 if (newLogs.length < SIZE) setHasMore(false);
-                setLogs((prev) => [...prev, ...newLogs]);
+                
+                // 페이지가 0이면 덮어쓰기, 아니면 이어붙이기 (useEffect 경쟁 상태 방지)
+                if (page === 0) {
+                    setLogs(newLogs);
+                } else {
+                    setLogs((prev) => {
+                        // 중복 제거 방어로직 추가
+                        const existingIds = new Set(prev.map(log => log.id));
+                        const filteredNewLogs = newLogs.filter(log => !existingIds.has(log.id));
+                        return [...prev, ...filteredNewLogs];
+                    });
+                }
             } catch (err) {
                 console.error('로그 목록 조회 실패:', err);
             } finally {
