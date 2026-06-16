@@ -34,14 +34,11 @@ import th_diary       from '../../log/other/otherLog_thumbNail/write_diary 1.png
 import th_youtube     from '../../log/other/otherLog_thumbNail/youtube 1.png';
 
 const categoryStyleMap = {
-  공부:    { textColor: 'faillog_blue',    bgColor: 'faillog_light_blue' },
-  취업:    { textColor: 'faillog_blue',    bgColor: 'faillog_light_blue' },
-  사업:    { textColor: 'faillog_purple',  bgColor: 'faillog_light_purple' },
-  창업:    { textColor: 'faillog_purple',  bgColor: 'faillog_light_purple' },
-  인간관계: { textColor: 'faillog-red',    bgColor: 'faillog_light_red' },
-  건강:    { textColor: 'faillog_green',   bgColor: 'faillog_light_green' },
-  루틴:    { textColor: 'faillog_green',   bgColor: 'faillog_light_green' },
-  기타:    { textColor: 'faillog-black',   bgColor: 'faillog_gray2' },
+  '공부/취업': { textColor: 'faillog_blue',   bgColor: 'faillog_light_blue' },
+  '사업/창업': { textColor: 'faillog_purple', bgColor: 'faillog_light_purple' },
+  '인간관계':  { textColor: 'faillog-red',    bgColor: 'faillog_light_red' },
+  '건강/루틴': { textColor: 'faillog_green',  bgColor: 'faillog_light_green' },
+  '기타':      { textColor: 'faillog-black',  bgColor: 'faillog_gray2' },
 };
 
 const getCategoryStyle = (category) =>
@@ -126,7 +123,7 @@ const getMatchedThumbnail = (log) => {
   return allPool[((log.id || 0) % allPool.length + allPool.length) % allPool.length];
 };
 
-const FailLogPostCardComponent = ({ log = {}, isSelected = false, isEditMode = false, onSelect, onNavigate, onToggleLike }) => {
+const FailLogPostCardComponent = ({ log = {}, isSelected = false, isEditMode = false, onSelect, onNavigate, onToggleLike, compact = false }) => {
   const handleClick = () => {
     if (isEditMode) {
       onSelect?.();
@@ -145,7 +142,7 @@ const FailLogPostCardComponent = ({ log = {}, isSelected = false, isEditMode = f
 
   return (
     <S.CardWrapper $isSelected={isSelected} $isEditMode={isEditMode} onClick={handleClick}>
-      <S.ImageSection>
+      <S.ImageSection $height={compact ? '130px' : undefined}>
         <S.Thumbnail
           src={thumbnailSrc}
           alt={log.title}
@@ -153,7 +150,7 @@ const FailLogPostCardComponent = ({ log = {}, isSelected = false, isEditMode = f
         />
         {catStyle && (
           <S.TagLabel>
-            <S.CategoryBadge bgcolor={catStyle.bgColor}>
+            <S.CategoryBadge $bgcolor={catStyle.bgColor}>
               <S.Span size="h11Bold" color={catStyle.textColor}>{log.category}</S.Span>
             </S.CategoryBadge>
           </S.TagLabel>

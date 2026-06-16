@@ -62,6 +62,7 @@ const DraftLogsComponent = ({
               isEditMode={isEditMode}
               onSelect={() => onSelectOne?.(log.id)}
               onNavigate={() => navigate(`/logs/new/step1/${log.id}`)}
+              compact
             />
           </S.DraftCardWrapper>
         ))}

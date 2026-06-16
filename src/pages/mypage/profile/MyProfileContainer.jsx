@@ -273,7 +273,7 @@ const MyProfileContainer = () => {
             onImageChange={handleImageChange}
             isPageOwner={isPageOwner}
           />
-          <ProfileChartCardComponent logs={chartLogs} />
+          <ProfileChartCardComponent logs={chartLogs} isPageOwner={isPageOwner} nickname={displayNickname} />
           <ProfileStreakCardComponent
             communityCount={stats.communityCount}
             logCount={stats.logCount}

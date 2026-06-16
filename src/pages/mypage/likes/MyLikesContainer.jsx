@@ -42,6 +42,7 @@ const MyLikesContainer = ({ isPageOwner = true }) => {
             return {
               ...entry,
               thumbnailUrl: info.logThumbnailUrl || null,
+              category: info.categoryName || entry.category || '',
               likeCount: info.likeCount ?? entry.likeCount,
               isLiked: info.isLiked ?? entry.isLiked ?? false,
             };
