@@ -37,7 +37,7 @@ S.Card = styled.div`
     flex-direction: column;
     overflow: hidden;
     transition: transform 0.2s, box-shadow 0.2s, border 0.2s;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     box-sizing: border-box;
     cursor: pointer;
 
