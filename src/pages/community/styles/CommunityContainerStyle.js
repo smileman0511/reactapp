@@ -7,6 +7,7 @@ const S = {}
 S.PostListAndAiRecommandPostWrapper = styled.div`
     width: 1320px;
     display: flex;
+    align-items: flex-start;
     gap: 24px;
 `
 

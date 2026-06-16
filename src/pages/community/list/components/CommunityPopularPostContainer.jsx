@@ -139,11 +139,11 @@ const CommunityPopularPostContainer = ({ posts }) => {
       <myStyle.headerWrap>
         <myStyle.header>
           <myStyle.headerTestOneDiv>
-            <img src={trumpet} width={80} height={80}></img>
-            <S.Span size="h2-bold" color="faillog-black">실시간 인기글</S.Span>
+            <img src={trumpet} width={60} height={60}></img>
+            <S.Span size="h3Bold" color="faillog-black">실시간 인기글</S.Span>
           </myStyle.headerTestOneDiv>
           <myStyle.headerTextTwoDiv>
-            <S.Span size="h8-regular" color="faillog_gray9">
+            <S.Span size="h7-regular" color="faillog_gray9">
               많이 공감받은 복기 글을 한눈에 확인해보세요.
             </S.Span>
           </myStyle.headerTextTwoDiv>
@@ -180,20 +180,25 @@ const CommunityPopularPostContainer = ({ posts }) => {
                       <S.Span size="h8Regular" color="faillog_gray9">{post.date}</S.Span>
                     </myStyle.CardMeta>
                     <myStyle.CardTitle>
-                      <S.Span2 size="h6Bold" color="faillog-black" lineclamp={2}>
+                      <S.Span2 size="h6Bold" color="faillog-black" lineclamp={1}>
                         {post.title}
                       </S.Span2>
                     </myStyle.CardTitle>
                     <myStyle.CardContent>
-                      <S.Span2 size="h8-regular" color="faillog_gray9" lineclamp={3}>
+                      <myStyle.ContentText>
                         {post.content}
-                      </S.Span2>
+                      </myStyle.ContentText>
+                      {/* <S.Span2 size="h8-regular" color="faillog_gray9" lineclamp={3}>
+                        {post.content}
+                      </S.Span2> */}
                     </myStyle.CardContent>
                     <myStyle.CardDivider />
                     <myStyle.CardFooter>
                       <myStyle.AuthorInfo onClick={(e) => { e.stopPropagation(); goToMemberProfile(navigate, post.memberId); }}>
-                        <myStyle.AuthorAvatar src={post.profile || defaultProfile} onError={handledOnErrorImg} />
-                        <S.Span size="h8Regular" color="faillog-black">{post.author}</S.Span>
+                        <myStyle.AvatarWrap>
+                          <myStyle.AuthorAvatar src={post.profile || defaultProfile} onError={handledOnErrorImg} />
+                        </myStyle.AvatarWrap>
+                        <S.Span size="h8Bold" color="faillog-black">{post.author}</S.Span>
                       </myStyle.AuthorInfo>
                       <myStyle.Stats>
                         <myStyle.postInfo>
