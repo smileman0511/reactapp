@@ -134,6 +134,19 @@ S.CardContent = styled.div`
   overflow: hidden;
 `
 
+S.ContentText = styled.span`
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 30px;
+  letter-spacing: -0.03em;
+  color: #8D8D8D;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: ${({isvisible}) => isvisible ? "visible" : "hidden"};
+  text-overflow: ellipsis;
+`
+
 S.CardDivider = styled.hr`
   width: 100%;
   border: none;
@@ -149,17 +162,28 @@ S.CardFooter = styled.div`
 S.AuthorInfo = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   cursor: pointer;
   &:hover span { text-decoration: underline; }
+`
+
+S.AvatarWrap = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #4359FC, #AB47FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 `
 
 S.AuthorAvatar = styled.img`
   width: 28px;
   height: 28px;
-  /* border-radius: 50%; */
-  /* background-color: ${colorCSS["faillog_gray1"]};
-  border: 1px solid #e0e0e0; */
+  border-radius: 50%;
+  object-fit: cover;
 `
 
 S.Stats = styled.div`
@@ -186,6 +210,7 @@ S.PaginationWrap = styled.div`
   margin-top: 36px;
   ${flexCenterRow}
   gap: 15px;
+  padding-bottom: 0px;
 `
 
 S.PageLine = styled.div`

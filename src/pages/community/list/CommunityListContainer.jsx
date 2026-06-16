@@ -6,6 +6,7 @@ import { colorCSS } from '../style';
 import { flexCenterRow } from '../../../styles/common';
 import useSearchStore from './useSearchStore';
 import useAuthStore from '../../../store/authStore';
+import { formatRelativeTime } from '../../../utils/relativeTime';
 
 const myStyle = {}
 
@@ -14,9 +15,12 @@ myStyle.wrapper = styled.div`
 `
 
 myStyle.pageWrapper = styled.div`
-    width: 100%;
+    width: 1320px;
     height: 136px;
-    ${flexCenterRow}
+    margin-bottom: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 //api에서 받은 content는 html태그로되어있다.
@@ -40,7 +44,7 @@ const formatDate = (dateStr) => {
     return dateStr.slice(0, 10).replace(/-/g, '.');
 };
 
-const CommunityListContainer = ({ initialPostList = [], initialMaxPage = 1 }) => {
+const CommunityListContainer = ({ initialPostList = [], initialMaxPage = 1, onPostsHeightChange }) => {
 
     const {order1, order2, category, page, content, setPage, resetSearch} = useSearchStore();
     const [postList, setPostList] = useState(initialPostList);
@@ -62,7 +66,7 @@ const CommunityListContainer = ({ initialPostList = [], initialMaxPage = 1 }) =>
             category: p.categoryId - 1,
             title: p.postTitle,
             content: stripHtml(p.postContent),
-            date: formatDate(p.postCreatedAt),
+            date: formatRelativeTime(p.postCreatedAt),
             profile: p.memberProfileImageUrl,
             author: p.memberNickname,
             views: p.postReadCount,
@@ -94,7 +98,7 @@ const CommunityListContainer = ({ initialPostList = [], initialMaxPage = 1 }) =>
 
     return (
         <myStyle.wrapper>
-            <Posts postData={postList} search={content} />
+            <Posts postData={postList} search={content} onHeightChange={onPostsHeightChange} />
             <myStyle.pageWrapper>
                 <Page minPage={1} maxPage={maxPage} onPageChange={handleChange} page={page}/>
             </myStyle.pageWrapper>

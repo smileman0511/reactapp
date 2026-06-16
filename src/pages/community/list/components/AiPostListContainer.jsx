@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import S, { boxShadow, colorCSS } from '../../style';
 import AiPost from './AiPost';
 import aiImage from '../../resources/ai_image.svg';
+import {formatRelativeTime} from '../../../../utils/relativeTime'
 
 const formatDate = (dateStr) => {
   if (!dateStr) return '';
   return dateStr.slice(0, 10).replace(/-/g, '.');
 };
 
-const AiPostListContainer = ({ memberId }) => {
+const AiPostListContainer = ({ memberId, maxHeight }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -22,10 +23,11 @@ const AiPostListContainer = ({ memberId }) => {
         if (!res.ok) return;
         const json = await res.json();
         if (!json.success) return;
+
         setPosts(json.data.map(p => ({
           id: p.id,
           memberId: p.memberId,
-          date: formatDate(p.postCreatedAt),
+          date: formatRelativeTime(p.postCreatedAt),
           category: p.categoryId - 1,
           title: p.postTitle,
           profile: p.memberProfileImageUrl,
@@ -42,6 +44,7 @@ const AiPostListContainer = ({ memberId }) => {
   }, [memberId]);
 
   return (
+    <Column height={maxHeight}>
     <Wrapper>
       <Header>
         <TitleRow>
@@ -86,15 +89,22 @@ const AiPostListContainer = ({ memberId }) => {
         </LoginRequired>
       )}
     </Wrapper>
+    </Column>
   );
 };
 
+const Column = styled.div`
+  height: ${({ height }) => (height ? `${height}px` : 'auto')};
+`;
+
 const Wrapper = styled.div`
+  position: sticky;
+  top: 24px;
   width: 312px;
-  height: 552px;
   background-color: ${colorCSS["faillog_white"]};
   border-radius: 15px;
   padding: 6px;
+  padding-bottom: 6px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -124,10 +134,11 @@ const PostList = styled.div`
 `;
 
 const LoginRequired = styled.div`
-  flex: 1;
   display: flex;
+  height: 206px;
   align-items: center;
   justify-content: center;
+  padding: 24px 0;
 `;
 
 export default AiPostListContainer;

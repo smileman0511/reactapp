@@ -39,7 +39,7 @@ const Overlay = styled.div`
 `
 
 const Popup = styled.div`
-  width: 1370px;
+  width: 1320px;
   max-height: 85vh;
   background: ${colorCSS["faillog_white"]};
   border-radius: 15px;
@@ -76,9 +76,11 @@ const Divider = styled.hr`
 `
 
 const ContentArea = styled.div`
-  flex: 1;
+  /* flex: 1; */
   overflow-y: auto;
-  padding: 32px;
+  padding: 25px;
+  min-height: 700px;
+  width: 1320px;
 `
 
 export default Preview;

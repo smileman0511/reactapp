@@ -87,7 +87,7 @@ const ReplyContainer = ({ replyList = [], postId, loginId }) => {
       </TitleRow>
 
       <ReplySubmitBox>
-        <ReplySubmit onSubmit={handleSubmit} />
+        <ReplySubmit onSubmit={handleSubmit} textAreaSize={1236} />
       </ReplySubmitBox>
 
       {currentReplyList.length > 0 && (

@@ -45,8 +45,8 @@ CommunityMainHeaderStyle.MainHeaderLeftTextTopDiv = styled.div`
 `
 
 CommunityMainHeaderStyle.headerImg = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
 `
 
 CommunityMainHeaderStyle.MainHeaderLeftTextBottomDiv = styled.div`
