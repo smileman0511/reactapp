@@ -273,7 +273,7 @@ const Reply = ({
             {currentRereplyList.map((item) => (
               <Rereply key={item.rereplyId} {...item} onReplyAdded={refreshReply} />
             ))}
-            {replyOpen && <ReplySubmit subject={"답글"} onSubmit={handleRereplySubmit} />}
+            {replyOpen && <ReplySubmit subject={"답글"} onSubmit={handleRereplySubmit} textAreaSize={1218}  />}
           </RereplyListArea>
         </SectionArea>
       )}

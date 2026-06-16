@@ -52,7 +52,7 @@ const Wrapper = styled.div`
 `
 
 const TextArea = styled.textarea`
-  width: ${({size}) => size};
+  width: ${({size}) => size}px;
   height: 112px;
   padding: 14px 16px;
   background: ${colorCSS["faillog-sector-gray"]};
