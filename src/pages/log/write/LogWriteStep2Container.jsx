@@ -72,6 +72,8 @@ const LogWriteStep2Container = () => {
         if (res.data?.success) {
           sessionStorage.setItem('logDraft', JSON.stringify({ ...draft, id: currentId, logContent: content }));
           alert("임시저장 덮어쓰기가 완료되었습니다.");
+        } else {
+          alert(res.data?.message || "임시저장에 실패했습니다.");
         }
       } else {
         // 새로 생성 (POST)
@@ -83,6 +85,8 @@ const LogWriteStep2Container = () => {
           // URL 업데이트하여 중복 생성 방지
           navigate(`/logs/new/step2/${newId}`, { replace: true });
           alert("임시저장 되었습니다.");
+        } else {
+          alert(res.data?.message || "임시저장에 실패했습니다.");
         }
       }
     } catch (err) {
