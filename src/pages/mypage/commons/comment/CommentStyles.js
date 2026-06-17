@@ -114,6 +114,8 @@ S.IndentCard = styled.div`
   background: ${colorCSS['faillog-sector-gray']};
   border-radius: 15px;
   box-sizing: border-box;
+  border-left: 3px solid ${colorCSS['faillog_purple']};
+  margin-left: ${({ $depth }) => ($depth && $depth > 1) ? `${($depth - 1) * 24}px` : '0'};
 `;
 
 S.TopRow = styled.div`
@@ -313,6 +315,28 @@ S.SaveEditBtn = styled.button`
   cursor: pointer;
   ${sizeCSS['h10Bold']}
   color: ${colorCSS['faillog_white']};
+`;
+
+S.ReplyToText = styled.span`
+  font-size: 13px;
+  font-weight: 500;
+  color: ${colorCSS['faillog_purple']};
+`;
+
+S.ContentReplyTo = styled.span`
+  font-weight: 700;
+  color: ${colorCSS['faillog_purple']};
+  margin-right: 6px;
+`;
+
+S.TypeBadge = styled.span`
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: ${colorCSS['faillog_light_purple'] || '#EDE9FE'};
+  color: ${colorCSS['faillog_purple']};
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
 `;
 
 S.DeletedText = styled.p`

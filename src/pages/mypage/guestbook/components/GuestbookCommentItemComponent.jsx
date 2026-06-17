@@ -33,64 +33,62 @@ const GuestbookCommentItemComponent = ({
 }) => {
   const navigate = useNavigate();
   const isMyComment = comment.author === currentUser;
-
-  const navigateToProfile = (authorId) => {
-    goToMemberProfile(navigate, authorId);
-  };
+  const navigateToProfile = (authorId) => goToMemberProfile(navigate, authorId);
 
   const [editMode, setEditMode] = useState(false);
   const [editContent, setEditContent] = useState(comment.content);
+  const [editingItemId, setEditingItemId] = useState(null);
+  const [editItemContent, setEditItemContent] = useState('');
+  const [inlineReplyOpenId, setInlineReplyOpenId] = useState(null);
+  const [inlineReplyText, setInlineReplyText] = useState('');
 
-  const [editingReplyId, setEditingReplyId] = useState(null);
-  const [editReplyContent, setEditReplyContent] = useState('');
+  const handleStartEdit = () => { setEditContent(comment.content); setEditMode(true); onCloseMenu(); };
+  const handleSaveEdit = () => { if (editContent.trim()) onEdit(comment.id, editContent.trim()); setEditMode(false); };
 
-  const [rereplyOpenReplyId, setRereplyOpenReplyId] = useState(null);
-  const [rereplyTextMap, setRereplyTextMap] = useState({});
-  const [editingRereplyId, setEditingRereplyId] = useState(null);
-  const [editRereplyContent, setEditRereplyContent] = useState('');
-
-  const handleStartEdit = () => {
-    setEditContent(comment.content);
-    setEditMode(true);
-    onCloseMenu();
-  };
-
-  const handleSaveEdit = () => {
-    if (editContent.trim()) {
-      onEdit(comment.id, editContent.trim());
+  const handleStartItemEdit = (item) => { setEditingItemId(item.id); setEditItemContent(item.content); onCloseMenu(); };
+  const handleSaveItemEdit = (item) => {
+    if (editItemContent.trim()) {
+      if (item._type === 'reply') onEditReply(comment.id, item.id, editItemContent.trim());
+      else onEditRereply(comment.id, item._parentReplyId, item.id, editItemContent.trim());
     }
-    setEditMode(false);
-  };
-
-  const handleStartReplyEdit = (reply) => {
-    setEditingReplyId(reply.id);
-    setEditReplyContent(reply.content);
-    onCloseMenu();
-  };
-
-  const handleSaveReplyEdit = (replyId) => {
-    if (editReplyContent.trim()) {
-      onEditReply(comment.id, replyId, editReplyContent.trim());
-    }
-    setEditingReplyId(null);
+    setEditingItemId(null);
   };
 
   const buildMenuItems = (type, { isMine, reportArgs, onDeleteClick, onEditClick }) => {
-    if (isMine) {
-      return [
-        { label: '수정하기', onClick: onEditClick },
-        { label: '삭제하기', onClick: onDeleteClick },
-      ];
+    if (isMine) return [{ label: '수정하기', onClick: onEditClick }, { label: '삭제하기', onClick: onDeleteClick }];
+    if (isPageOwner) return [{ label: '신고하기', onClick: () => { onReport(...reportArgs); onCloseMenu(); } }, { label: '삭제하기', onClick: onDeleteClick }];
+    return [{ label: '신고하기', onClick: () => { onReport(...reportArgs); onCloseMenu(); } }];
+  };
+
+  const flatReplies = comment.replies.flatMap((reply) => [
+    { ...reply, _type: 'reply', _parentReplyId: null, _replyTo: comment.author, _depth: 1 },
+    ...(reply.rereplies || []).map((rr) => ({
+      ...rr, _type: 'rereply', _parentReplyId: reply.id, _replyTo: reply.author, _depth: 2,
+    })),
+  ]);
+
+  const totalReplyCount = flatReplies.length;
+
+  const handleInlineReplyToggle = (itemKey) => {
+    if (inlineReplyOpenId === itemKey) {
+      setInlineReplyOpenId(null);
+      setInlineReplyText('');
+    } else {
+      setInlineReplyOpenId(itemKey);
+      setInlineReplyText('');
     }
-    if (isPageOwner) {
-      return [
-        { label: '신고하기', onClick: () => { onReport(...reportArgs); onCloseMenu(); } },
-        { label: '삭제하기', onClick: onDeleteClick },
-      ];
+  };
+
+  const handleInlineReplySubmit = (item) => {
+    const text = inlineReplyText.trim();
+    if (!text) return;
+    if (item._type === 'reply') {
+      onRereplySubmit(comment.id, item.id, text);
+    } else {
+      onRereplySubmit(comment.id, item._parentReplyId, text);
     }
-    return [
-      { label: '신고하기', onClick: () => { onReport(...reportArgs); onCloseMenu(); } },
-    ];
+    setInlineReplyOpenId(null);
+    setInlineReplyText('');
   };
 
   return (
@@ -121,110 +119,78 @@ const GuestbookCommentItemComponent = ({
       })}
       showReplyButton
       replyLabel="답글"
-      replyCount={comment.replies.length}
+      replyCount={totalReplyCount}
       onReplyToggle={() => onReplyToggle(comment.id)}
       deleted={comment.deleted}
     >
-      {(comment.replies.length > 0 || replyOpen) && (
+      {(flatReplies.length > 0 || replyOpen) && (
         <>
-          {comment.replies.map((reply) => {
-            const isMyReply = reply.author === currentUser;
-            const isEditingThisReply = editingReplyId === reply.id;
+          {flatReplies.map((item) => {
+            const isMyItem = item.author === currentUser;
+            const isEditing = editingItemId === item.id;
+            const menuKey = item._type === 'reply' ? `reply-${item.id}` : `rereply-${item.id}`;
+            const itemKey = `${item._type}-${item.id}`;
+            const reportType = item._type === 'reply' ? '방명록 답글' : '방명록 대댓글';
+
+            const handleDelete = () => {
+              if (item._type === 'reply') onDeleteReply(comment.id, item.id);
+              else onDeleteRereply(comment.id, item._parentReplyId, item.id);
+              onCloseMenu();
+            };
+
+            const handleLike = () => {
+              if (item._type === 'reply') onLike(comment.id, item.id);
+              else onLike(comment.id, item._parentReplyId, item.id);
+            };
 
             return (
-              <CommentItemComponent
-                key={reply.id}
-                indent
-                profileImg={reply.profileImg}
-                defaultProfileImg={defaultProfile}
-                author={reply.author}
-                createdAt={formatRelativeTime(reply.createdAt)}
-                content={reply.content}
-                liked={reply.liked}
-                likeCount={reply.likes}
-                likeIcon={likeIcon}
-                likeFillIcon={likeFillIcon}
-                onLike={() => onLike(comment.id, reply.id)}
-                onProfileClick={() => navigateToProfile(reply.authorId)}
-                editMode={isEditingThisReply}
-                editContent={editReplyContent}
-                onEditChange={setEditReplyContent}
-                onEditSave={() => handleSaveReplyEdit(reply.id)}
-                onEditCancel={() => setEditingReplyId(null)}
-                menuOpen={activeMenuId === `reply-${reply.id}`}
-                onMenuToggle={(e) => onMenuToggle(`reply-${reply.id}`, e)}
-                menuItems={buildMenuItems('reply', {
-                  isMine: isMyReply,
-                  reportArgs: ['방명록 답글', reply.id, reply.profileImg, reply.author, reply.content],
-                  onDeleteClick: () => { onDeleteReply(comment.id, reply.id); onCloseMenu(); },
-                  onEditClick: () => handleStartReplyEdit(reply),
-                })}
-                showReplyButton
-                replyLabel="답글"
-                replyCount={(reply.rereplies || []).length}
-                onReplyToggle={() => setRereplyOpenReplyId((prev) => prev === reply.id ? null : reply.id)}
-                deleted={reply.deleted}
-              >
-                {((reply.rereplies || []).length > 0 || rereplyOpenReplyId === reply.id) && (
-                  <>
-                    {(reply.rereplies || []).map((rereply) => {
-                      const isMyRereply = rereply.author === currentUser;
-                      const isEditingThisRereply = editingRereplyId === rereply.id;
-
-                      return (
-                        <CommentItemComponent
-                          key={rereply.id}
-                          indent
-                          profileImg={rereply.profileImg}
-                          defaultProfileImg={defaultProfile}
-                          author={rereply.author}
-                          createdAt={formatRelativeTime(rereply.createdAt)}
-                          content={rereply.content}
-                          liked={rereply.liked}
-                          likeCount={rereply.likes}
-                          likeIcon={likeIcon}
-                          likeFillIcon={likeFillIcon}
-                          onLike={() => onLike(comment.id, reply.id, rereply.id)}
-                          onProfileClick={() => navigateToProfile(rereply.authorId)}
-                          editMode={isEditingThisRereply}
-                          editContent={editRereplyContent}
-                          onEditChange={setEditRereplyContent}
-                          onEditSave={() => {
-                            if (editRereplyContent.trim()) onEditRereply(comment.id, reply.id, rereply.id, editRereplyContent.trim());
-                            setEditingRereplyId(null);
-                          }}
-                          onEditCancel={() => setEditingRereplyId(null)}
-                          menuOpen={activeMenuId === `rereply-${rereply.id}`}
-                          onMenuToggle={(e) => onMenuToggle(`rereply-${rereply.id}`, e)}
-                          menuItems={buildMenuItems('rereply', {
-                            isMine: isMyRereply,
-                            reportArgs: ['방명록 대댓글', rereply.id, rereply.profileImg, rereply.author, rereply.content],
-                            onDeleteClick: () => { onDeleteRereply(comment.id, reply.id, rereply.id); onCloseMenu(); },
-                            onEditClick: () => { setEditingRereplyId(rereply.id); setEditRereplyContent(rereply.content); onCloseMenu(); },
-                          })}
-                          deleted={rereply.deleted}
-                        />
-                      );
-                    })}
-
-                    {rereplyOpenReplyId === reply.id && (
-                      <CommentInputComponent
-                        value={rereplyTextMap[reply.id] || ''}
-                        onChange={(val) => setRereplyTextMap((prev) => ({ ...prev, [reply.id]: val }))}
-                        onSubmit={() => {
-                          const text = (rereplyTextMap[reply.id] || '').trim();
-                          if (!text) return;
-                          onRereplySubmit(comment.id, reply.id, text);
-                          setRereplyTextMap((prev) => ({ ...prev, [reply.id]: '' }));
-                          setRereplyOpenReplyId(null);
-                        }}
-                        subject="대댓글"
-                        placeholder="대댓글을 남겨볼까요?"
-                      />
-                    )}
-                  </>
+              <React.Fragment key={itemKey}>
+                <CommentItemComponent
+                  indent
+                  depth={item._depth}
+                  profileImg={item.profileImg}
+                  defaultProfileImg={defaultProfile}
+                  author={item.author}
+                  createdAt={formatRelativeTime(item.createdAt)}
+                  content={item.content}
+                  liked={item.liked}
+                  likeCount={item.likes}
+                  likeIcon={likeIcon}
+                  likeFillIcon={likeFillIcon}
+                  onLike={handleLike}
+                  onProfileClick={() => navigateToProfile(item.authorId)}
+                  editMode={isEditing}
+                  editContent={editItemContent}
+                  onEditChange={setEditItemContent}
+                  onEditSave={() => handleSaveItemEdit(item)}
+                  onEditCancel={() => setEditingItemId(null)}
+                  menuOpen={activeMenuId === menuKey}
+                  onMenuToggle={(e) => onMenuToggle(menuKey, e)}
+                  menuItems={buildMenuItems(item._type, {
+                    isMine: isMyItem,
+                    reportArgs: [reportType, item.id, item.profileImg, item.author, item.content],
+                    onDeleteClick: handleDelete,
+                    onEditClick: () => handleStartItemEdit(item),
+                  })}
+                  deleted={item.deleted}
+                  replyTo={item._replyTo}
+                  showReplyButton
+                  replyLabel="답글"
+                  replyCount={0}
+                  onReplyToggle={() => handleInlineReplyToggle(itemKey)}
+                />
+                {inlineReplyOpenId === itemKey && (
+                  <div style={{ marginLeft: `${item._depth * 24}px` }}>
+                    <CommentInputComponent
+                      value={inlineReplyText}
+                      onChange={setInlineReplyText}
+                      onSubmit={() => handleInlineReplySubmit(item)}
+                      subject="답글"
+                      placeholder={`${item.author}님에게 답글 남기기`}
+                    />
+                  </div>
                 )}
-              </CommentItemComponent>
+              </React.Fragment>
             );
           })}
 

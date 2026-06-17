@@ -17,6 +17,23 @@ import CommentS from '../commons/comment/CommentStyles';
 
 const PAGE_SIZE = 5;
 
+const cleanupDeletedItems = (comments) => {
+  return comments
+    .map((comment) => ({
+      ...comment,
+      replies: (comment.replies || [])
+        .map((reply) => ({
+          ...reply,
+          rereplies: (reply.rereplies || []).filter((rr) => !rr.deleted),
+        }))
+        .filter((reply) => !reply.deleted || reply.rereplies.length > 0),
+    }))
+    .filter((comment) => {
+      if (!comment.deleted) return true;
+      return (comment.replies || []).length > 0;
+    });
+};
+
 const mapGuestbook = (item) => ({
   id: item.id,
   ownerNickname: item.ownerNickname || '',
@@ -28,6 +45,7 @@ const mapGuestbook = (item) => ({
   createdAt: item.guestbookCreatedAt || '',
   likes: item.likeCount || 0,
   liked: item.isLike === 1,
+  deleted: item.guestbookContent?.includes('삭제된 댓글'),
   replies: (item.replies || []).map((r) => ({
     id: r.id,
     author: r.writerNickname || '익명',
@@ -37,6 +55,7 @@ const mapGuestbook = (item) => ({
     createdAt: r.guestbookReplyCreatedAt || '',
     likes: r.likeCount || 0,
     liked: r.isLike === 1,
+    deleted: r.guestbookReplyContent?.includes('삭제된 댓글'),
     rereplies: (r.rereplies || []).map((rr) => ({
       id: rr.id,
       author: rr.writerNickname || '익명',
@@ -46,6 +65,7 @@ const mapGuestbook = (item) => ({
       createdAt: rr.guestbookRereplyCreatedAt || '',
       likes: rr.likeCount || 0,
       liked: rr.isLike === 1,
+      deleted: rr.guestbookRereplyContent?.includes('삭제된 댓글'),
     })),
   })),
 });
@@ -124,7 +144,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
     axiosInstance.get('/api/guestbook/list', { params: { ownerMemberId: ownerId } })
       .then((res) => {
         if (res.data?.success && Array.isArray(res.data.data)) {
-          const mapped = res.data.data.map(mapGuestbook);
+          const mapped = cleanupDeletedItems(res.data.data.map(mapGuestbook));
           setComments(mapped);
           if (!isPageOwner && mapped.length > 0 && mapped[0].ownerNickname) {
             setOwnerNickname(mapped[0].ownerNickname);
@@ -223,7 +243,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
           const fresh = res.data.data.map(mapGuestbook);
           setComments((prev) => {
             const prevMap = new Map(prev.map((c) => [c.id, c]));
-            return fresh.map((c) => {
+            const merged = fresh.map((c) => {
               const p = prevMap.get(c.id);
               if (!p) return c;
               const prevReplyMap = new Map((p.replies || []).map((r) => [r.id, r]));
@@ -249,6 +269,7 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
                 }),
               };
             });
+            return cleanupDeletedItems(merged);
           });
         }
       })
@@ -334,23 +355,6 @@ const MyGuestbookContainer = ({ isPageOwner = true }) => {
         setComments((prev) => prev.map((c) => c.id === commentId ? { ...c, content: newContent } : c));
       })
       .catch(console.error);
-  };
-
-  const cleanupDeletedItems = (comments) => {
-    return comments
-      .map((comment) => ({
-        ...comment,
-        replies: (comment.replies || [])
-          .map((reply) => ({
-            ...reply,
-            rereplies: (reply.rereplies || []).filter((rr) => !rr.deleted),
-          }))
-          .filter((reply) => !reply.deleted || reply.rereplies.length > 0),
-      }))
-      .filter((comment) => {
-        if (!comment.deleted) return true;
-        return (comment.replies || []).length > 0;
-      });
   };
 
   const handleDeleteComment = (commentId) => {
