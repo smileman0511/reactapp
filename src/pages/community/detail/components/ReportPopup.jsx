@@ -89,7 +89,11 @@ const ReportPopup = ({ type = '댓글', id, memberId, profileImg, author, conten
         </SubTitle>
 
         <ProfileBox>
-          {profileImg && <ProfileImg src={profileImg} onError={handledOnErrorImg} alt={author} />}
+          {profileImg && (
+            <AvatarWrap>
+              <ProfileImg src={profileImg} onError={handledOnErrorImg} alt={author} />
+            </AvatarWrap>
+          )}
           <ProfileRight>
             <S.Span size="h9Bold">{author}</S.Span>
             <S.Span2 size="h9Regular" color="faillog_gray9" lineclamp={2}>{content}</S.Span2>
@@ -198,12 +202,23 @@ const ProfileBox = styled.div`
   overflow: hidden;
 `
 
+const AvatarWrap = styled.div`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #4359FC, #AB47FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`
+
 const ProfileImg = styled.img`
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   object-fit: cover;
-  flex-shrink: 0;
 `
 
 const ProfileRight = styled.div`
