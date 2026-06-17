@@ -71,12 +71,12 @@ const GuestbookReportPopup = ({ type = '방명록', id, memberId, profileImg, au
     <Overlay>
       <Popup>
         <Header>
-          <S.Span size="h6Bold">{type} 신고하기</S.Span>
+          <S.Span size="h6Bold">신고하기</S.Span>
           <CloseBtn onClick={onClose}>✕</CloseBtn>
         </Header>
 
         <SubTitle>
-          <S.Span size="h8Regular">부적절한 {type} 사유를 선택해주세요.</S.Span>
+          <S.Span size="h8Regular">신고 사유를 선택해주세요.</S.Span>
         </SubTitle>
 
         <ProfileBox>
