@@ -77,10 +77,25 @@ const Divider = styled.hr`
 
 const ContentArea = styled.div`
   /* flex: 1; */
+  overflow-x: hidden;
   overflow-y: auto;
   padding: 25px;
   min-height: 700px;
   width: 1320px;
+  box-sizing: border-box;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${colorCSS["faillog_gray3"]};
+    border-radius: 2px;
+  }
+  scrollbar-width: thin;
+  scrollbar-color: ${colorCSS["faillog_gray3"]} transparent;
 `
 
 export default Preview;
