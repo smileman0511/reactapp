@@ -29,7 +29,10 @@ const CommentItemComponent = ({
   replyCount,
   onReplyToggle,
   indent,
+  depth = 0,
   deleted,
+  typeLabel,
+  replyTo,
   children,
 }) => {
   const [expanded, setExpanded] = useState(false);
@@ -52,6 +55,7 @@ const CommentItemComponent = ({
               />
             </S.AvatarWrap>
           )}
+          {typeLabel && <S.TypeBadge>{typeLabel}</S.TypeBadge>}
           <S.AuthorName onClick={onProfileClick}>{author}</S.AuthorName>
           <S.DateText>{createdAt}</S.DateText>
         </S.ProfileGroup>
@@ -93,6 +97,7 @@ const CommentItemComponent = ({
         <>
           <S.ContentArea>
             <S.ContentText>
+              {replyTo && <S.ContentReplyTo>@{replyTo}</S.ContentReplyTo>}
               {displayText}
               {isOverflow && !expanded && '... '}
               {isOverflow && (
@@ -121,9 +126,9 @@ const CommentItemComponent = ({
 
   if (deleted) {
     return (
-      <S.ItemWrapper $indent={indent}>
+      <S.ItemWrapper $indent={indent} $depth={depth}>
         {indent ? (
-          <S.IndentCard>
+          <S.IndentCard $depth={depth}>
             <S.DeletedText>삭제된 댓글입니다.</S.DeletedText>
           </S.IndentCard>
         ) : (
@@ -131,7 +136,6 @@ const CommentItemComponent = ({
         )}
         {children && (
           <S.SectionArea>
-            <S.Divider />
             <S.ChildListArea>{children}</S.ChildListArea>
           </S.SectionArea>
         )}
@@ -140,16 +144,15 @@ const CommentItemComponent = ({
   }
 
   return (
-    <S.ItemWrapper $indent={indent}>
+    <S.ItemWrapper $indent={indent} $depth={depth}>
       {indent ? (
-        <S.IndentCard>{cardBody}</S.IndentCard>
+        <S.IndentCard $depth={depth}>{cardBody}</S.IndentCard>
       ) : (
         cardBody
       )}
 
       {children && (
         <S.SectionArea>
-          <S.Divider />
           <S.ChildListArea>
             {children}
           </S.ChildListArea>
